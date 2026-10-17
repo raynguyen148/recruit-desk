@@ -47,13 +47,13 @@ test("starts empty and adds fictional data only after opt-in", async ({
 }) => {
   await open(page);
   await expect(
-    page.getByRole("heading", { name: "Build your talent network" }),
+    page.getByRole("heading", { name: "No candidates yet" }),
   ).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Alex Morgan", exact: true }),
   ).toHaveCount(0);
   await page
-    .getByRole("button", { name: "Explore sample workspace", exact: true })
+    .getByRole("button", { name: "Try sample data", exact: true })
     .click();
   await expect(
     page.getByRole("button", { name: "Alex Morgan", exact: true }),
@@ -124,7 +124,7 @@ test("candidate creation, CPM uniqueness, autosave persistence, cross-tab update
     .getByRole("button", { name: "Delete permanently" })
     .click();
   await expect(
-    page.getByRole("heading", { name: "Build your talent network" }),
+    page.getByRole("heading", { name: "No candidates yet" }),
   ).toBeVisible();
 });
 
@@ -217,7 +217,7 @@ test("company, job, and application relationships persist with stage history", a
   await expect(page.getByRole("dialog")).toHaveCount(0);
   await navigate(page, "Applications");
   await expect(
-    page.getByRole("heading", { name: "Make the first connection" }),
+    page.getByRole("heading", { name: "No applications yet" }),
   ).toBeVisible();
 });
 
@@ -294,7 +294,7 @@ test("full backup restores into another isolated browser context", async ({
     const restored = await restoredContext.newPage();
     await restored.goto(new URL("/", page.url()).href);
     await expect(
-      restored.getByRole("heading", { name: "Build your talent network" }),
+      restored.getByRole("heading", { name: "No candidates yet" }),
     ).toBeVisible();
     await navigate(restored, "Settings & data");
     await restored
@@ -450,7 +450,7 @@ test("captures desktop, dark, mobile, and detail views without console errors or
   });
   await open(page);
   await page
-    .getByRole("button", { name: "Explore sample workspace", exact: true })
+    .getByRole("button", { name: "Try sample data", exact: true })
     .click();
   await expect(
     page.getByRole("button", { name: "Alex Morgan", exact: true }),

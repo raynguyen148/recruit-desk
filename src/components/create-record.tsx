@@ -85,8 +85,8 @@ export function CreateRecord({
       title={`New ${singular}`}
       description={
         kind === "applications"
-          ? "Connect one candidate with one job. Each pairing has its own hiring process."
-          : "Start with the essentials. Add the rest in the detail view."
+          ? "Link one candidate to one job."
+          : "Start with the essentials; add the rest later."
       }
     >
       <form onSubmit={submit}>

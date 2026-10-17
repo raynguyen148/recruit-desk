@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { candidateSearchText, countBy } from "../src/lib/search";
+import {
+  candidateSearchText,
+  countBy,
+  matchesTerms,
+  searchTerms,
+} from "../src/lib/search";
+import { initials } from "../src/lib/utils";
 import { newCandidate } from "../src/lib/types";
 
 describe("candidate profile search", () => {
@@ -85,5 +91,35 @@ describe("relationship counts", () => {
       ["two", 1],
     ]);
     expect(counts.get("none") ?? 0).toBe(0);
+  });
+});
+
+describe("query matching", () => {
+  const text = candidateSearchText({
+    ...newCandidate(),
+    name: "Nguyễn Văn An",
+    headline: "Senior React Engineer",
+    location: "Đà Nẵng",
+  });
+  it("requires every term but not in order or adjacent", () => {
+    expect(matchesTerms(text, searchTerms("engineer react"))).toBe(true);
+    expect(matchesTerms(text, searchTerms("react   senior"))).toBe(true);
+    expect(matchesTerms(text, searchTerms("react python"))).toBe(false);
+  });
+  it("ignores Vietnamese diacritics in both directions", () => {
+    expect(matchesTerms(text, searchTerms("nguyen van"))).toBe(true);
+    expect(matchesTerms(text, searchTerms("đà nẵng"))).toBe(true);
+    expect(matchesTerms(text, searchTerms("da nang"))).toBe(true);
+  });
+  it("treats an empty query as no filter", () => {
+    expect(searchTerms("   ")).toEqual([]);
+  });
+});
+
+describe("initials", () => {
+  it("uses the first and last word", () => {
+    expect(initials("Nguyễn Văn An")).toBe("NA");
+    expect(initials("Ada")).toBe("A");
+    expect(initials("  ")).toBe("?");
   });
 });

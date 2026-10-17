@@ -21,7 +21,12 @@ import {
 } from "../components/common";
 import { patchEntity } from "../lib/db";
 import { initials } from "../lib/utils";
-import { candidateSearchText, countBy } from "../lib/search";
+import {
+  candidateSearchText,
+  countBy,
+  matchesTerms,
+  searchTerms,
+} from "../lib/search";
 import type { Candidate, Dataset } from "../lib/types";
 import { candidateStatuses } from "../lib/types";
 const candidateCollator = new Intl.Collator(undefined, { numeric: true });
@@ -32,12 +37,14 @@ export default function Candidates({
   onCreate,
   onImport,
   onExport,
+  onSample,
 }: {
   data: Dataset;
   onOpen: (id: string) => void;
   onCreate: () => void;
   onImport: () => void;
   onExport: () => void;
+  onSample: () => void;
 }) {
   const [search, setSearch] = useState("");
   const query = useDeferredValue(search);
@@ -84,22 +91,27 @@ export default function Candidates({
     [data.applications],
   );
   const rows = useMemo(() => {
-    const q = query.toLowerCase().trim();
+    const terms = searchTerms(query);
     return data.candidates
       .filter(
         (c) =>
           (!status || c.status === status) &&
           (!location || c.location === location) &&
           (!skill || c.skills.includes(skill)) &&
-          (!q || searchText.get(c.id)?.includes(q)),
+          (!terms.length || matchesTerms(searchText.get(c.id) ?? "", terms)),
       )
-      .sort(
-        (a, b) =>
-          candidateCollator.compare(
-            String(a[sort.key as keyof Candidate] ?? ""),
-            String(b[sort.key as keyof Candidate] ?? ""),
-          ) * (sort.desc ? -1 : 1),
-      );
+      .sort((a, b) => {
+        // Status sorts by availability, most reachable first, not alphabetically.
+        const value = (x: Candidate) =>
+          sort.key === "status"
+            ? String(
+                (candidateStatuses as readonly string[]).indexOf(x.status),
+              ).padStart(2, "0")
+            : String(x[sort.key as keyof Candidate] ?? "");
+        return (
+          candidateCollator.compare(value(a), value(b)) * (sort.desc ? -1 : 1)
+        );
+      });
   }, [data.candidates, query, status, location, skill, sort, searchText]);
   useEffect(() => setPage(1), [query, status, location, skill]);
   useEffect(
@@ -120,13 +132,12 @@ export default function Candidates({
     (page - 1) * data.settings.pageSize,
     page * data.settings.pageSize,
   );
-  const counts = data.candidates.filter((c) => c.status === "Available").length;
+  const statusCounts = countBy(data.candidates, (c) => c.status);
   return (
     <>
       <PageHeading
         title="Candidates"
         count={data.candidates.length}
-        description="Your talent network, thoughtfully organized."
         actions={
           <>
             <Button variant="outline" onClick={onImport}>
@@ -146,21 +157,22 @@ export default function Candidates({
           aria-pressed={!status}
           onClick={() => void change(() => setStatus(""))}
         >
-          All candidates <span>{data.candidates.length}</span>
+          All
         </button>
         <button
           className={status === "Available" ? "active" : ""}
           aria-pressed={status === "Available"}
           onClick={() => void change(() => setStatus("Available"))}
         >
-          Available <span>{counts}</span>
+          Available <span>{statusCounts.get("Available") ?? 0}</span>
         </button>
         <button
           className={status === "Open to opportunities" ? "active" : ""}
           aria-pressed={status === "Open to opportunities"}
           onClick={() => void change(() => setStatus("Open to opportunities"))}
         >
-          Open to opportunities
+          Open to opportunities{" "}
+          <span>{statusCounts.get("Open to opportunities") ?? 0}</span>
         </button>
       </div>
       <div className="toolbar">
@@ -257,8 +269,8 @@ export default function Candidates({
         )}
       {data.candidates.length === 0 ? (
         <EmptyState
-          title="Build your talent network"
-          description="Bring in candidates from your vendor CSV, or add your first profile. Everything stays in this browser."
+          title="No candidates yet"
+          description="Import a vendor CSV or add your first profile."
           action={
             <div className="flex gap-2">
               <Button onClick={onImport}>
@@ -268,6 +280,9 @@ export default function Candidates({
               <Button variant="outline" onClick={onCreate}>
                 <Plus size={16} />
                 Add candidate
+              </Button>
+              <Button variant="ghost" onClick={onSample}>
+                Try sample data
               </Button>
             </div>
           }
@@ -291,9 +306,6 @@ export default function Candidates({
               </caption>
               <thead>
                 <tr>
-                  <th scope="col" className="index-cell">
-                    #
-                  </th>
                   <th scope="col" className="sticky-name">
                     <SortHeader
                       label="Candidate"
@@ -342,11 +354,8 @@ export default function Candidates({
                 </tr>
               </thead>
               <tbody>
-                {visible.map((c, i) => (
+                {visible.map((c) => (
                   <tr key={c.id}>
-                    <td className="index-cell">
-                      {(page - 1) * data.settings.pageSize + i + 1}
-                    </td>
                     <td className="sticky-name">
                       <div className="person-cell">
                         <button
@@ -530,13 +539,6 @@ export default function Candidates({
             total={rows.length}
             pageSize={data.settings.pageSize}
           />
-        </div>
-      )}
-      {rows.length > 0 && (
-        <div className="table-tip">
-          <span className="status-dot" />
-          Click a cell to edit. Changes save automatically. Open a name for the
-          full profile.
         </div>
       )}
     </>

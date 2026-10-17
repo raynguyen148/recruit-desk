@@ -1,4 +1,4 @@
-import { Component, useEffect, useState, type ReactNode } from "react";
+import { Component, useEffect, useRef, useState, type ReactNode } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { Toaster, toast } from "sonner";
 import {
@@ -7,14 +7,13 @@ import {
   Building2,
   GitPullRequestArrow,
   Settings2,
-  ShieldCheck,
-  ChevronRight,
   PanelLeftClose,
   PanelLeftOpen,
   Database,
   ArrowDownToLine,
   Sun,
   Moon,
+  Monitor,
   LoaderCircle,
 } from "lucide-react";
 import { getDataset, initializeDB, patchSettings } from "./lib/db";
@@ -35,6 +34,18 @@ import Candidates from "./pages/candidates";
 import { Jobs, Companies, Applications } from "./pages/records";
 import Settings from "./pages/settings";
 type Page = EntityKind | "settings";
+const pages: Page[] = [
+  "candidates",
+  "jobs",
+  "companies",
+  "applications",
+  "settings",
+];
+const pageFromHash = (hash: string) =>
+  pages.find((p) => p === hash.replace(/^#/, ""));
+const THEME_KEY = "recruitdesk-theme";
+const themeCycle = { system: "light", light: "dark", dark: "system" } as const;
+const BACKUP_STALE_DAYS = 14;
 type ImportKind = "vendor" | "workspace" | "candidates" | "jobs";
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -86,6 +97,10 @@ function Workspace() {
   const [importKind, setImportKind] = useState<ImportKind | null>(null);
   const [collapsed, setCollapsed] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const pageRef = useRef<Page>(page);
+  const defaultPageRef = useRef<Page>("candidates");
+  pageRef.current = page;
+  if (data) defaultPageRef.current = data.settings.defaultPage;
   const [sampleBusy, setSampleBusy] = useState(false);
   const { flush } = useAutosave();
   const pageContentRef = usePageMotion(page, ready && !!data);
@@ -96,21 +111,30 @@ function Workspace() {
   }, []);
   useEffect(() => {
     if (data && !navInitialized) {
-      const hash = location.hash.slice(1);
-      setPage(
-        [
-          "candidates",
-          "jobs",
-          "companies",
-          "applications",
-          "settings",
-        ].includes(hash)
-          ? (hash as Page)
-          : data.settings.defaultPage,
-      );
+      setPage(pageFromHash(location.hash) ?? data.settings.defaultPage);
       setNavInitialized(true);
     }
   }, [data, navInitialized]);
+  useEffect(() => {
+    if (!navInitialized) return;
+    // Browser Back/Forward moves between pages like in-app navigation does.
+    const onHistory = () => {
+      const next = pageFromHash(location.hash) ?? defaultPageRef.current;
+      if (next === pageRef.current) return;
+      void flush().then((saved) => {
+        if (saved) {
+          setSelected(null);
+          setPage(next);
+          window.scrollTo({ top: 0, behavior: "instant" });
+        } else {
+          history.replaceState(null, "", `#${pageRef.current}`);
+          toast.error("Resolve unsaved changes before leaving this page.");
+        }
+      });
+    };
+    window.addEventListener("popstate", onHistory);
+    return () => window.removeEventListener("popstate", onHistory);
+  }, [navInitialized, flush]);
   useEffect(() => {
     const media = matchMedia("(prefers-color-scheme: dark)");
     const apply = () => {
@@ -122,6 +146,13 @@ function Workspace() {
         .querySelector('meta[name="theme-color"]')
         ?.setAttribute("content", dark ? "#141d2a" : "#f7f9fc");
       setTheme(dark ? "dark" : "light");
+      if (data?.settings.theme) {
+        try {
+          localStorage.setItem(THEME_KEY, data.settings.theme);
+        } catch {
+          /* The pre-paint theme is a nicety; storage may be unavailable. */
+        }
+      }
     };
     apply();
     media.addEventListener("change", apply);
@@ -131,7 +162,7 @@ function Workspace() {
     if (await flush()) {
       setPage(next);
       if (next !== page) window.scrollTo({ top: 0, behavior: "instant" });
-      history.replaceState(null, "", `#${next}`);
+      if (location.hash !== `#${next}`) history.pushState(null, "", `#${next}`);
     } else toast.error("Resolve unsaved changes before leaving this page.");
   }
   async function open(kind: EntityKind, id: string) {
@@ -166,6 +197,7 @@ function Workspace() {
     }
   }
   async function sample() {
+    if (sampleBusy) return;
     setSampleBusy(true);
     try {
       await loadSample();
@@ -196,6 +228,13 @@ function Workspace() {
         <p>Opening your local workspace…</p>
       </div>
     );
+  const hasRecords =
+    data.candidates.length + data.jobs.length + data.companies.length > 0;
+  const lastBackup = Date.parse(data.settings.lastBackup);
+  const backupStale =
+    hasRecords &&
+    (Number.isNaN(lastBackup) ||
+      Date.now() - lastBackup > BACKUP_STALE_DAYS * 86_400_000);
   const links = [
     {
       key: "candidates" as const,
@@ -244,18 +283,8 @@ function Workspace() {
             <span className="brand-mark">
               r<span />
             </span>
-            <strong>
-              Recruitdesk<span>PERSONAL EDITION</span>
-            </strong>
+            <strong>Recruitdesk</strong>
           </button>
-          <div className="workspace-switch">
-            <span className="workspace-avatar">R</span>
-            <div>
-              <strong>{data.settings.workspaceName}</strong>
-              <small>Just you. Fully local.</small>
-            </div>
-          </div>
-          <div className="nav-label">WORKSPACE</div>
           <nav aria-label="Main navigation">
             {links.map(({ key, label, icon: Icon, count }) => (
               <button
@@ -283,16 +312,7 @@ function Workspace() {
               <Settings2 size={18} />
               <span>Settings & data</span>
             </button>
-            <div className="privacy-panel">
-              <ShieldCheck size={19} />
-              <strong>Private by design</strong>
-              <p>Your workspace lives in this browser. No account. No cloud.</p>
-              <button onClick={() => void download("workspace")}>
-                Back up workspace <ArrowDownToLine size={13} />
-              </button>
-            </div>
             <div className="sidebar-footer">
-              <span className="local-dot" /> <span>Offline workspace</span>
               <Button
                 variant="ghost"
                 size="icon"
@@ -313,8 +333,6 @@ function Workspace() {
         <div className="main-shell">
           <header className="topbar">
             <div className="breadcrumb">
-              <span>Workspace</span>
-              <ChevronRight size={13} />
               <strong>
                 {page === "settings"
                   ? "Settings & data"
@@ -322,22 +340,36 @@ function Workspace() {
               </strong>
             </div>
             <div className="topbar-right">
+              {backupStale && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => void download("workspace")}
+                >
+                  <ArrowDownToLine size={14} />
+                  Back up
+                </Button>
+              )}
               <SaveIndicator />
               <span className="top-divider" />
               <button
                 className="theme-toggle"
-                aria-label={`Theme: ${data.settings.theme}. Switch to ${theme === "dark" ? "light" : "dark"}`}
+                aria-label={`Theme: ${data.settings.theme}. Switch to ${themeCycle[data.settings.theme]}`}
+                title={`Theme: ${data.settings.theme}`}
                 onClick={() =>
                   void patchSettings({
-                    theme: theme === "dark" ? "light" : "dark",
+                    theme: themeCycle[data.settings.theme],
                   }).catch((e) => toast.error(e.message))
                 }
               >
-                {theme === "dark" ? <Moon size={17} /> : <Sun size={17} />}
+                {data.settings.theme === "system" ? (
+                  <Monitor size={17} />
+                ) : data.settings.theme === "dark" ? (
+                  <Moon size={17} />
+                ) : (
+                  <Sun size={17} />
+                )}
               </button>
-              <span className="user-avatar" aria-label="Personal workspace">
-                R
-              </span>
             </div>
           </header>
           <main id="main-content" tabIndex={-1}>
@@ -349,6 +381,7 @@ function Workspace() {
                   onCreate={() => setCreate({ kind: "candidates" })}
                   onImport={() => void showImport("vendor")}
                   onExport={() => void download("candidates")}
+                  onSample={() => void sample()}
                 />
               ) : page === "jobs" ? (
                 <Jobs
@@ -378,39 +411,7 @@ function Workspace() {
                   onSample={() => void sample()}
                 />
               )}
-              {data.candidates.length === 0 &&
-                data.jobs.length === 0 &&
-                data.companies.length === 0 &&
-                page === "candidates" && (
-                  <div className="sample-banner">
-                    <div>
-                      <strong>
-                        A blank workspace, ready for your way of working.
-                      </strong>
-                      <p>
-                        Want to explore first? Try a small, clearly labeled
-                        fictional dataset.
-                      </p>
-                    </div>
-                    <Button
-                      variant="outline"
-                      onClick={() => void sample()}
-                      disabled={sampleBusy}
-                    >
-                      {sampleBusy ? "Loading…" : "Explore sample workspace"}
-                    </Button>
-                  </div>
-                )}
             </div>
-            <footer className="main-footer">
-              <span>
-                Recruitdesk{" "}
-                <span className="muted">/ Personal recruiting workspace</span>
-              </span>
-              <span>
-                <ShieldCheck size={12} /> Stored on this device
-              </span>
-            </footer>
           </main>
         </div>
       </div>

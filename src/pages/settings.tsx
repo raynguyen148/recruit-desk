@@ -31,6 +31,8 @@ export default function Settings({
   onSample,
 }: Props) {
   const s = data.settings;
+  const workspaceEmpty =
+    !data.candidates.length && !data.jobs.length && !data.companies.length;
   const [saving, setSaving] = useState(false),
     [error, setError] = useState("");
   const [storage, setStorage] = useState<{
@@ -114,10 +116,7 @@ export default function Settings({
   }
   return (
     <>
-      <PageHeading
-        title="Settings"
-        description="Make this workspace yours. Keep a copy of what matters."
-      />
+      <PageHeading title="Settings & data" />
       <div className="settings-layout">
         <nav className="settings-nav" aria-label="Settings sections">
           <a
@@ -372,10 +371,15 @@ export default function Settings({
           </Section>
           <Section id="sample-records" title="Explore with sample records">
             <p className="text-sm muted mb-4">
-              Add a small fictional dataset to try the workflow. Sample records
-              are optional and are never added automatically.
+              {workspaceEmpty
+                ? "Add a small fictional dataset to try the workflow."
+                : "Sample records can only be added to an empty workspace."}
             </p>
-            <Button variant="outline" onClick={onSample}>
+            <Button
+              variant="outline"
+              onClick={onSample}
+              disabled={!workspaceEmpty}
+            >
               Add sample records
               <ArrowUpRight size={15} />
             </Button>

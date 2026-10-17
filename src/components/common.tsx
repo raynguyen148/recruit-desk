@@ -40,7 +40,7 @@ export function PageHeading({
 }: {
   title: string;
   count?: number;
-  description: string;
+  description?: string;
   actions?: ReactNode;
 }) {
   return (
@@ -52,7 +52,7 @@ export function PageHeading({
             <span className="count">{count.toLocaleString()}</span>
           )}
         </h1>
-        <p>{description}</p>
+        {description && <p>{description}</p>}
       </div>
       <div className="page-actions">{actions}</div>
     </div>
@@ -143,9 +143,11 @@ export function Pagination({
           : "0 records"}
       </span>
       <div>
-        <span>
-          Page {page} of {pages}
-        </span>
+        {pages > 1 && (
+          <span>
+            Page {page} of {pages}
+          </span>
+        )}
         <Button
           variant="outline"
           size="icon"

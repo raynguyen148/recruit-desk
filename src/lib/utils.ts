@@ -7,14 +7,17 @@ export const displayDate = (s: string) =>
   s
     ? new Date(s.length === 10 ? s + "T12:00:00" : s).toLocaleDateString(
         "en-GB",
-        { day: "numeric", month: "short", year: "numeric" },
+        { day: "2-digit", month: "2-digit", year: "numeric" },
       )
     : "—";
-export const initials = (s: string) =>
-  s
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((v) => v[0])
-    .join("")
-    .toUpperCase() || "?";
+/** First and last word, so "Nguyễn Văn An" reads "NA", not "NV". */
+export const initials = (s: string) => {
+  const words = s.split(/\s+/).filter(Boolean);
+  const picked = words.length > 1 ? [words[0], words[words.length - 1]] : words;
+  return (
+    picked
+      .map((v) => v[0])
+      .join("")
+      .toUpperCase() || "?"
+  );
+};

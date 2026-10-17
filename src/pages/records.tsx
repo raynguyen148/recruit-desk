@@ -1,4 +1,10 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import {
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 import { ArrowUpRight, Download, Plus, Upload, X } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Select } from "../components/ui/select";
@@ -13,7 +19,8 @@ import {
   TableViewport,
 } from "../components/common";
 import { patchEntity } from "../lib/db";
-import { countBy } from "../lib/search";
+import { countBy, matchesTerms, searchable, searchTerms } from "../lib/search";
+import { displayDate } from "../lib/utils";
 import { jobStatuses, stages, type Dataset } from "../lib/types";
 
 type Props = {
@@ -26,6 +33,9 @@ const recordCollator = new Intl.Collator(undefined, {
   sensitivity: "base",
 });
 const compare = (a: string, b: string) => recordCollator.compare(a, b);
+/** Sort by position in a pipeline instead of alphabetically. */
+const rank = (order: readonly string[], value: string) =>
+  String(order.indexOf(value)).padStart(2, "0");
 function useControls(pageSize: number) {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState({ key: "updatedAt", desc: true });
@@ -118,13 +128,6 @@ function RecordName({
     </div>
   );
 }
-const tip = (
-  <div className="table-tip">
-    <span className="status-dot" />
-    Click a cell to edit. Changes save automatically.
-  </div>
-);
-
 export function Jobs({
   data,
   onOpen,
@@ -136,6 +139,7 @@ export function Jobs({
   const [status, setStatus] = useState("");
   const [company, setCompany] = useState("");
   const [workMode, setWorkMode] = useState("");
+  const query = useDeferredValue(c.search);
   const companyNames = useMemo(
     () => new Map(data.companies.map((x) => [x.id, x.name])),
     [data.companies],
@@ -145,33 +149,35 @@ export function Jobs({
     [data.applications],
   );
   const rows = useMemo(() => {
-    const query = c.search.trim().toLowerCase();
+    const terms = searchTerms(query);
     return data.jobs
       .filter(
         (j) =>
           (!status || j.status === status) &&
           (!company || j.companyId === company) &&
           (!workMode || j.workMode === workMode) &&
-          (!query ||
-            [
-              j.title,
-              companyNames.get(j.companyId),
-              j.location,
-              j.description,
-              ...j.skills,
-            ]
-              .join(" ")
-              .toLowerCase()
-              .includes(query)),
+          (!terms.length ||
+            matchesTerms(
+              searchable([
+                j.title,
+                companyNames.get(j.companyId),
+                j.location,
+                j.description,
+                ...j.skills,
+              ]),
+              terms,
+            )),
       )
       .sort((a, b) => {
         const value = (job: typeof a) =>
           c.sort.key === "company"
             ? (companyNames.get(job.companyId) ?? "")
-            : String(job[c.sort.key as keyof typeof job] ?? "");
+            : c.sort.key === "status"
+              ? rank(jobStatuses, job.status)
+              : String(job[c.sort.key as keyof typeof job] ?? "");
         return compare(value(a), value(b)) * (c.sort.desc ? -1 : 1);
       });
-  }, [data.jobs, c.search, c.sort, status, company, workMode, companyNames]);
+  }, [data.jobs, query, c.sort, status, company, workMode, companyNames]);
   const reset = () => {
     void c.change(() => {
       c.setSearch("");
@@ -186,7 +192,6 @@ export function Jobs({
       <PageHeading
         title="Jobs"
         count={data.jobs.length}
-        description="Keep every opportunity and hiring conversation in view."
         actions={
           <>
             <Button variant="outline" onClick={onImport}>
@@ -251,8 +256,8 @@ export function Jobs({
       {!data.jobs.length ? (
         <EmptyState
           icon="jobs"
-          title="Make room for your next placement"
-          description="Add an open role, then connect the right candidates to it."
+          title="No jobs yet"
+          description="Add a role, then link candidates to it."
           action={
             <Button onClick={onCreate}>
               <Plus size={16} />
@@ -344,7 +349,7 @@ export function Jobs({
                   </td>
                   <td>
                     <time dateTime={j.updatedAt}>
-                      {new Date(j.updatedAt).toLocaleDateString()}
+                      {displayDate(j.updatedAt)}
                     </time>
                   </td>
                 </tr>
@@ -353,7 +358,6 @@ export function Jobs({
           </table>
         </ResultTable>
       )}
-      {data.jobs.length > 0 && tip}
     </>
   );
 }
@@ -364,16 +368,24 @@ export function Companies({ data, onOpen, onCreate }: Props) {
     () => countBy(data.jobs, (job) => job.companyId),
     [data.jobs],
   );
+  const query = useDeferredValue(c.search);
   const rows = useMemo(() => {
-    const query = c.search.trim().toLowerCase();
+    const terms = searchTerms(query);
     return data.companies
       .filter(
         (x) =>
-          !query ||
-          [x.name, x.location, x.industry, x.contactName, x.email, x.notes]
-            .join(" ")
-            .toLowerCase()
-            .includes(query),
+          !terms.length ||
+          matchesTerms(
+            searchable([
+              x.name,
+              x.location,
+              x.industry,
+              x.contactName,
+              x.email,
+              x.notes,
+            ]),
+            terms,
+          ),
       )
       .sort(
         (a, b) =>
@@ -382,14 +394,13 @@ export function Companies({ data, onOpen, onCreate }: Props) {
             String(b[c.sort.key as keyof typeof b] ?? ""),
           ) * (c.sort.desc ? -1 : 1),
       );
-  }, [data.companies, c.search, c.sort]);
+  }, [data.companies, query, c.sort]);
   const visible = rows.slice((c.page - 1) * c.pageSize, c.page * c.pageSize);
   return (
     <>
       <PageHeading
         title="Companies"
         count={data.companies.length}
-        description="The teams you hire for, and the people behind them."
         actions={
           <Button onClick={onCreate}>
             <Plus size={16} />
@@ -403,8 +414,8 @@ export function Companies({ data, onOpen, onCreate }: Props) {
       {!data.companies.length ? (
         <EmptyState
           icon="jobs"
-          title="Start with a company"
-          description="Keep client contacts, company notes, and their open roles together."
+          title="No companies yet"
+          description="Add a company to keep its contacts, notes, and roles together."
           action={
             <Button onClick={onCreate}>
               <Plus size={16} />
@@ -547,7 +558,6 @@ export function Companies({ data, onOpen, onCreate }: Props) {
           </table>
         </ResultTable>
       )}
-      {data.companies.length > 0 && tip}
     </>
   );
 }
@@ -565,6 +575,7 @@ export function Applications({ data, onOpen, onCreate }: Props) {
     () => new Map(data.jobs.map((x) => [x.id, x])),
     [data.jobs],
   );
+  const query = useDeferredValue(c.search);
   const companies = useMemo(
     () => new Map(data.companies.map((x) => [x.id, x.name])),
     [data.companies],
@@ -581,7 +592,7 @@ export function Applications({ data, onOpen, onCreate }: Props) {
         .filter((a) => {
           const person = candidates.get(a.candidateId),
             role = jobs.get(a.jobId),
-            query = c.search.trim().toLowerCase();
+            terms = searchTerms(query);
           return (
             (!stage || a.stage === stage) &&
             (!job || a.jobId === job) &&
@@ -591,32 +602,41 @@ export function Applications({ data, onOpen, onCreate }: Props) {
                 : followUp === "today"
                   ? a.followUp.slice(0, 10) === todayKey
                   : !a.followUp)) &&
-            (!query ||
-              [
-                person?.name,
-                person?.cpmID,
-                role?.title,
-                companies.get(role?.companyId ?? ""),
-                a.nextAction,
-                a.notes,
-              ]
-                .join(" ")
-                .toLowerCase()
-                .includes(query))
+            (!terms.length ||
+              matchesTerms(
+                searchable([
+                  person?.name,
+                  person?.cpmID,
+                  role?.title,
+                  companies.get(role?.companyId ?? ""),
+                  a.nextAction,
+                  a.notes,
+                ]),
+                terms,
+              ))
           );
         })
         .sort((a, b) => {
+          const direction = c.sort.desc ? -1 : 1;
+          if (c.sort.key === "followUp") {
+            // Applications without a follow-up always sort last.
+            if (!a.followUp || !b.followUp)
+              return a.followUp === b.followUp ? 0 : a.followUp ? -1 : 1;
+            return compare(a.followUp, b.followUp) * direction;
+          }
           const value = (x: typeof a) =>
             c.sort.key === "candidate"
               ? (candidates.get(x.candidateId)?.name ?? "")
               : c.sort.key === "job"
                 ? (jobs.get(x.jobId)?.title ?? "")
-                : String(x[c.sort.key as keyof typeof x] ?? "");
-          return compare(value(a), value(b)) * (c.sort.desc ? -1 : 1);
+                : c.sort.key === "stage"
+                  ? rank(stages, x.stage)
+                  : String(x[c.sort.key as keyof typeof x] ?? "");
+          return compare(value(a), value(b)) * direction;
         }),
     [
       data.applications,
-      c.search,
+      query,
       c.sort,
       stage,
       job,
@@ -641,7 +661,6 @@ export function Applications({ data, onOpen, onCreate }: Props) {
       <PageHeading
         title="Applications"
         count={data.applications.length}
-        description="Turn good introductions into your next placement."
         actions={
           <Button onClick={onCreate}>
             <Plus size={16} />
@@ -698,8 +717,8 @@ export function Applications({ data, onOpen, onCreate }: Props) {
       {!data.applications.length ? (
         <EmptyState
           icon="jobs"
-          title="Make the first connection"
-          description="Link a candidate to a job to track their progress, next action, and follow-up."
+          title="No applications yet"
+          description="Link a candidate to a job to track stage and follow-up."
           action={
             <Button onClick={onCreate}>
               <Plus size={16} />
@@ -791,28 +810,34 @@ export function Applications({ data, onOpen, onCreate }: Props) {
                       />
                     </td>
                     <td>
-                      <AutoField
-                        compact
-                        type="date"
-                        label={`Follow-up for ${label}`}
-                        value={a.followUp.slice(0, 10)}
-                        onSave={(v, e) =>
-                          patchEntity(
-                            "applications",
-                            a.id,
-                            { followUp: v },
-                            {
-                              followUp:
-                                a.followUp.slice(0, 10) === e ? a.followUp : e,
-                            },
-                          )
-                        }
-                      />
-                      {overdue(a) && <span className="badge red">Overdue</span>}
+                      <div className="followup-cell">
+                        <AutoField
+                          compact
+                          type="date"
+                          label={`Follow-up for ${label}`}
+                          value={a.followUp.slice(0, 10)}
+                          onSave={(v, e) =>
+                            patchEntity(
+                              "applications",
+                              a.id,
+                              { followUp: v },
+                              {
+                                followUp:
+                                  a.followUp.slice(0, 10) === e
+                                    ? a.followUp
+                                    : e,
+                              },
+                            )
+                          }
+                        />
+                        {overdue(a) && (
+                          <span className="badge red">Overdue</span>
+                        )}
+                      </div>
                     </td>
                     <td>
                       <time dateTime={a.updatedAt}>
-                        {new Date(a.updatedAt).toLocaleDateString()}
+                        {displayDate(a.updatedAt)}
                       </time>
                     </td>
                   </tr>
@@ -822,7 +847,6 @@ export function Applications({ data, onOpen, onCreate }: Props) {
           </table>
         </ResultTable>
       )}
-      {data.applications.length > 0 && tip}
     </>
   );
 }

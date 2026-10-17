@@ -100,8 +100,10 @@ export function Details({
           kind === "candidates"
             ? `Candidate profile · ${(record as Candidate).cpmID}`
             : kind === "applications"
-              ? "One candidate. One job. A dedicated hiring journey."
-              : `${kind === "jobs" ? "Job" : "Company"} details · Autosaved locally`
+              ? "Application"
+              : kind === "jobs"
+                ? "Job"
+                : "Company"
         }
       >
         <div className="detail-save-row">
@@ -757,7 +759,7 @@ function CompanyDetail({
                   name: "Company name",
                   industry: "Industry",
                   location: "Location",
-                  website: "Website (stored as text)",
+                  website: "Website",
                   contactName: "Primary contact",
                   email: "Contact email",
                   phone: "Contact phone",

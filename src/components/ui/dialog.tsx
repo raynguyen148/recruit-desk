@@ -43,14 +43,17 @@ export function Modal({
         <DialogPrimitive.Overlay className="dialog-overlay" />
         <DialogPrimitive.Content
           className={`dialog-content ${wide ? "wide" : ""}`}
+          {...(description ? {} : { "aria-describedby": undefined })}
           {...returnFocus}
         >
           <DialogPrimitive.Title className="dialog-title">
             {title}
           </DialogPrimitive.Title>
-          <DialogPrimitive.Description className="dialog-description">
-            {description || "Changes are stored only in this browser."}
-          </DialogPrimitive.Description>
+          {description && (
+            <DialogPrimitive.Description className="dialog-description">
+              {description}
+            </DialogPrimitive.Description>
+          )}
           <DialogPrimitive.Close
             className="close-button"
             aria-label="Close dialog"

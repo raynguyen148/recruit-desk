@@ -3,7 +3,7 @@ import { test, expect, type Page } from "@playwright/test";
 async function sample(page: Page) {
   await page.goto("/");
   await page
-    .getByRole("button", { name: "Explore sample workspace", exact: true })
+    .getByRole("button", { name: "Try sample data", exact: true })
     .click();
   await expect(
     page.getByRole("button", { name: "Alex Morgan", exact: true }),
