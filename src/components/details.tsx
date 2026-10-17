@@ -16,7 +16,7 @@ import { Select } from "./ui/select";
 import { Confirm } from "./ui/confirm";
 import { RemoveItem } from "./remove-item";
 import { AutoField, safeAction, useAutosave, SaveIndicator } from "./autosave";
-import { Badge, Field, Section, TextInput } from "./common";
+import { Badge, DetailTabs, Field, Section, TextInput } from "./common";
 import { patchEntity, removeEntity } from "../lib/db";
 import {
   candidateStatuses,
@@ -32,7 +32,7 @@ import {
   type ProfileEntry,
   type CustomField,
 } from "../lib/types";
-import { displayDate, initials } from "../lib/utils";
+import { avatarStyle, displayDate, initials } from "../lib/utils";
 export function Details({
   kind,
   id,
@@ -204,7 +204,9 @@ function CandidateDetail({
   return (
     <>
       <div className="profile-summary">
-        <div className="avatar large">{initials(c.name)}</div>
+        <div className="avatar large" style={avatarStyle(c.name)}>
+          {initials(c.name)}
+        </div>
         <div>
           <strong>{c.headline || "Add a professional headline"}</strong>
           <span>
@@ -215,7 +217,7 @@ function CandidateDetail({
         <Badge value={c.status} />
       </div>
       <GuardedTabs initial="profile">
-        <Tabs.List className="detail-tabs" aria-label="Candidate sections">
+        <DetailTabs label="Candidate sections">
           <Tabs.Trigger value="profile">Profile</Tabs.Trigger>
           <Tabs.Trigger value="applications">
             Applications <span>{apps.length}</span>
@@ -224,7 +226,7 @@ function CandidateDetail({
             Contact history <span>{c.contacts.length}</span>
           </Tabs.Trigger>
           <Tabs.Trigger value="source">Source</Tabs.Trigger>
-        </Tabs.List>
+        </DetailTabs>
         <Tabs.Content value="profile">
           <Section title="Basic information">
             <div className="form-grid">
@@ -579,12 +581,12 @@ function JobDetail({
   return (
     <>
       <GuardedTabs initial="overview">
-        <Tabs.List className="detail-tabs" aria-label="Job sections">
+        <DetailTabs label="Job sections">
           <Tabs.Trigger value="overview">Overview</Tabs.Trigger>
           <Tabs.Trigger value="candidates">
             Candidates <span>{apps.length}</span>
           </Tabs.Trigger>
-        </Tabs.List>
+        </DetailTabs>
         <Tabs.Content value="overview">
           <Section title="Job information">
             <div className="form-grid">
@@ -684,12 +686,16 @@ function JobDetail({
                   key={a.id}
                   onClick={() => onNavigate("applications", a.id)}
                 >
-                  <span className="avatar small">
-                    {initials(
+                  {(() => {
+                    const name =
                       data.candidates.find((c) => c.id === a.candidateId)
-                        ?.name || "",
-                    )}
-                  </span>
+                        ?.name || "";
+                    return (
+                      <span className="avatar small" style={avatarStyle(name)}>
+                        {initials(name)}
+                      </span>
+                    );
+                  })()}
                   <div>
                     <strong>
                       {
@@ -821,7 +827,9 @@ function ApplicationDetail({
     <>
       <div className="application-pair">
         <button onClick={() => onNavigate("candidates", a.candidateId)}>
-          <span className="avatar">{initials(candidate?.name || "")}</span>
+          <span className="avatar" style={avatarStyle(candidate?.name || "")}>
+            {initials(candidate?.name || "")}
+          </span>
           <div>
             <small>Candidate</small>
             <strong>{candidate?.name}</strong>

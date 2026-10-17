@@ -14,7 +14,6 @@ import {
   Sun,
   Moon,
   Monitor,
-  LoaderCircle,
 } from "lucide-react";
 import { getDataset, initializeDB, patchSettings } from "./lib/db";
 import { exportData } from "./lib/transfer";
@@ -223,9 +222,23 @@ function Workspace() {
     );
   if (!ready || !data)
     return (
-      <div className="startup">
-        <LoaderCircle className="spin" size={28} />
-        <p>Opening your local workspace…</p>
+      <div className="boot" role="status" aria-busy="true">
+        <span className="sr-only">Opening your local workspace…</span>
+        <aside className="boot-side" aria-hidden="true">
+          <i className="skeleton boot-logo" />
+          <i className="skeleton" />
+          <i className="skeleton" />
+          <i className="skeleton" />
+        </aside>
+        <div className="boot-main" aria-hidden="true">
+          <i className="skeleton boot-title" />
+          <i className="skeleton boot-bar" />
+          <div className="boot-card">
+            {Array.from({ length: 6 }, (_, i) => (
+              <i className="skeleton boot-row" key={i} />
+            ))}
+          </div>
+        </div>
       </div>
     );
   const hasRecords =

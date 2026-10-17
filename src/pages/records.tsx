@@ -17,6 +17,7 @@ import {
   SearchBox,
   SortHeader,
   TableViewport,
+  toneOf,
 } from "../components/common";
 import { patchEntity } from "../lib/db";
 import { countBy, matchesTerms, searchable, searchTerms } from "../lib/search";
@@ -297,22 +298,22 @@ export function Jobs({
             <tbody>
               {visible.map((j) => (
                 <tr key={j.id}>
-                  <td className="sticky-name">
+                  <td className="sticky-name" data-label="Job">
                     <RecordName
                       name={j.title}
                       subline={j.employmentType}
                       onOpen={() => onOpen(j.id)}
                     />
                   </td>
-                  <td>
+                  <td data-label="Company">
                     {companyNames.get(j.companyId) || (
                       <span className="muted">No company</span>
                     )}
                   </td>
-                  <td>
+                  <td data-label="Status">
                     <Badge value={j.status} />
                   </td>
-                  <td>
+                  <td data-label="Location">
                     <AutoField
                       compact
                       label={`Location for ${j.title}`}
@@ -327,8 +328,8 @@ export function Jobs({
                       }
                     />
                   </td>
-                  <td>{j.workMode}</td>
-                  <td>
+                  <td data-label="Work mode">{j.workMode}</td>
+                  <td data-label="Salary">
                     <AutoField
                       compact
                       label={`Salary for ${j.title}`}
@@ -338,7 +339,7 @@ export function Jobs({
                       }
                     />
                   </td>
-                  <td>
+                  <td data-label="Candidates">
                     <button
                       className="job-count"
                       aria-label={`View candidates for ${j.title}`}
@@ -347,7 +348,7 @@ export function Jobs({
                       {applicationCounts.get(j.id) ?? 0}
                     </button>
                   </td>
-                  <td>
+                  <td data-label="Updated">
                     <time dateTime={j.updatedAt}>
                       {displayDate(j.updatedAt)}
                     </time>
@@ -461,14 +462,14 @@ export function Companies({ data, onOpen, onCreate }: Props) {
             <tbody>
               {visible.map((x) => (
                 <tr key={x.id}>
-                  <td className="sticky-name">
+                  <td className="sticky-name" data-label="Company">
                     <RecordName
                       name={x.name}
                       subline={x.website}
                       onOpen={() => onOpen(x.id)}
                     />
                   </td>
-                  <td>
+                  <td data-label="Industry">
                     <AutoField
                       compact
                       label={`Industry for ${x.name}`}
@@ -483,7 +484,7 @@ export function Companies({ data, onOpen, onCreate }: Props) {
                       }
                     />
                   </td>
-                  <td>
+                  <td data-label="Location">
                     <AutoField
                       compact
                       label={`Location for ${x.name}`}
@@ -498,7 +499,7 @@ export function Companies({ data, onOpen, onCreate }: Props) {
                       }
                     />
                   </td>
-                  <td>
+                  <td data-label="Contact">
                     <AutoField
                       compact
                       label={`Contact for ${x.name}`}
@@ -513,7 +514,7 @@ export function Companies({ data, onOpen, onCreate }: Props) {
                       }
                     />
                   </td>
-                  <td>
+                  <td data-label="Email">
                     <AutoField
                       compact
                       label={`Email for ${x.name}`}
@@ -528,7 +529,7 @@ export function Companies({ data, onOpen, onCreate }: Props) {
                       }
                     />
                   </td>
-                  <td>
+                  <td data-label="Phone">
                     <AutoField
                       compact
                       label={`Phone for ${x.name}`}
@@ -543,7 +544,7 @@ export function Companies({ data, onOpen, onCreate }: Props) {
                       }
                     />
                   </td>
-                  <td>
+                  <td data-label="Jobs">
                     <button
                       className="job-count"
                       onClick={() => onOpen(x.id)}
@@ -761,39 +762,41 @@ export function Applications({ data, onOpen, onCreate }: Props) {
                   label = `${person?.name ?? "Candidate"} for ${role?.title ?? "job"}`;
                 return (
                   <tr key={a.id}>
-                    <td className="sticky-name">
+                    <td className="sticky-name" data-label="Candidate">
                       <RecordName
                         name={person?.name ?? "Missing candidate"}
                         subline={person?.cpmID}
                         onOpen={() => onOpen(a.id)}
                       />
                     </td>
-                    <td>
+                    <td data-label="Job">
                       <RecordName
                         name={role?.title ?? "Missing job"}
                         subline={companies.get(role?.companyId ?? "")}
                         onOpen={() => onOpen(a.id)}
                       />
                     </td>
-                    <td>
-                      <Select
-                        label={`Stage for ${label}`}
-                        value={a.stage}
-                        options={[...stages]}
-                        onChange={(value) => {
-                          void safeAction(async () => {
-                            if (await c.flush())
-                              await patchEntity(
-                                "applications",
-                                a.id,
-                                { stage: value },
-                                { stage: a.stage },
-                              );
-                          });
-                        }}
-                      />
+                    <td data-label="Stage">
+                      <div className="stage-cell" data-tone={toneOf(a.stage)}>
+                        <Select
+                          label={`Stage for ${label}`}
+                          value={a.stage}
+                          options={[...stages]}
+                          onChange={(value) => {
+                            void safeAction(async () => {
+                              if (await c.flush())
+                                await patchEntity(
+                                  "applications",
+                                  a.id,
+                                  { stage: value },
+                                  { stage: a.stage },
+                                );
+                            });
+                          }}
+                        />
+                      </div>
                     </td>
-                    <td>
+                    <td data-label="Next action">
                       <AutoField
                         compact
                         label={`Next action for ${label}`}
@@ -809,7 +812,7 @@ export function Applications({ data, onOpen, onCreate }: Props) {
                         }
                       />
                     </td>
-                    <td>
+                    <td data-label="Follow-up">
                       <div className="followup-cell">
                         <AutoField
                           compact
@@ -835,7 +838,7 @@ export function Applications({ data, onOpen, onCreate }: Props) {
                         )}
                       </div>
                     </td>
-                    <td>
+                    <td data-label="Updated">
                       <time dateTime={a.updatedAt}>
                         {displayDate(a.updatedAt)}
                       </time>

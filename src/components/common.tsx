@@ -14,9 +14,10 @@ import {
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Select } from "./ui/select";
+import * as Tabs from "@radix-ui/react-tabs";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-export function Badge({ value }: { value: string }) {
-  const tone = ["Available", "Open", "Hired"].includes(value)
+export const toneOf = (value: string) =>
+  ["Available", "Open", "Hired"].includes(value)
     ? "green"
     : ["Interview", "Offer", "Screening", "Submitted"].includes(value)
       ? "blue"
@@ -25,6 +26,8 @@ export function Badge({ value }: { value: string }) {
         : ["Rejected", "Do not contact"].includes(value)
           ? "red"
           : "neutral";
+export function Badge({ value }: { value: string }) {
+  const tone = toneOf(value);
   return (
     <span className={`badge ${tone}`}>
       <i />
@@ -314,5 +317,52 @@ export function TableViewport({
         </div>
       )}
     </>
+  );
+}
+
+/** Slides one underline between tabs by publishing the active tab's box as CSS variables. */
+export function useTabIndicator<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+    const update = () => {
+      const active = element.querySelector<HTMLElement>(
+        'button.active, button[data-state="active"]',
+      );
+      if (!active) return;
+      element.style.setProperty("--tab-x", `${active.offsetLeft}px`);
+      element.style.setProperty("--tab-w", `${active.offsetWidth}px`);
+      element.dataset.indicator = "ready";
+    };
+    update();
+    const resize = new ResizeObserver(update);
+    resize.observe(element);
+    element.querySelectorAll("button").forEach((tab) => resize.observe(tab));
+    const mutation = new MutationObserver(update);
+    mutation.observe(element, {
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["class", "data-state"],
+    });
+    return () => {
+      resize.disconnect();
+      mutation.disconnect();
+    };
+  }, []);
+  return ref;
+}
+export function DetailTabs({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) {
+  const ref = useTabIndicator<HTMLDivElement>();
+  return (
+    <Tabs.List ref={ref} className="detail-tabs" aria-label={label}>
+      {children}
+    </Tabs.List>
   );
 }

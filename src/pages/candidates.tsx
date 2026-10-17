@@ -18,9 +18,10 @@ import {
   SearchBox,
   SortHeader,
   TableViewport,
+  useTabIndicator,
 } from "../components/common";
 import { patchEntity } from "../lib/db";
-import { initials } from "../lib/utils";
+import { avatarStyle, initials } from "../lib/utils";
 import {
   candidateSearchText,
   countBy,
@@ -55,6 +56,7 @@ export default function Candidates({
   const [sort, setSort] = useState({ key: "name", desc: false });
   const [page, setPage] = useState(1);
   const { flush } = useAutosave();
+  const tabsRef = useTabIndicator<HTMLDivElement>();
   const change = async (action: () => void) => {
     if (await flush()) action();
   };
@@ -151,7 +153,7 @@ export default function Candidates({
           </>
         }
       />
-      <div className="list-tabs">
+      <div className="list-tabs" ref={tabsRef}>
         <button
           className={!status ? "active" : ""}
           aria-pressed={!status}
@@ -338,7 +340,7 @@ export default function Candidates({
                       onSort={changeSort}
                     />
                   </th>
-                  <th scope="col">
+                  <th scope="col" className="col-optional">
                     <SortHeader
                       label="Experience"
                       field="yearsExperience"
@@ -347,21 +349,23 @@ export default function Candidates({
                     />
                   </th>
                   <th scope="col">Skills</th>
-                  <th scope="col">Expected salary</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Phone</th>
+                  <th scope="col" className="col-optional">
+                    Expected salary
+                  </th>
+                  <th scope="col">Contact</th>
                   <th scope="col">Jobs</th>
                 </tr>
               </thead>
               <tbody>
                 {visible.map((c) => (
                   <tr key={c.id}>
-                    <td className="sticky-name">
+                    <td className="sticky-name" data-label="Candidate">
                       <div className="person-cell">
                         <button
                           className="avatar"
                           onClick={() => onOpen(c.id)}
                           aria-label={`Open ${c.name}`}
+                          style={avatarStyle(c.name)}
                         >
                           {initials(c.name)}
                         </button>
@@ -390,7 +394,7 @@ export default function Candidates({
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td data-label="CPM ID">
                       <AutoField
                         compact
                         label={`CPM ID for ${c.name}`}
@@ -406,7 +410,7 @@ export default function Candidates({
                         }
                       />
                     </td>
-                    <td>
+                    <td data-label="Status">
                       <div className="status-cell" data-status={c.status}>
                         <Select
                           label={`Availability for ${c.name}`}
@@ -426,7 +430,7 @@ export default function Candidates({
                         />
                       </div>
                     </td>
-                    <td>
+                    <td data-label="Location">
                       <AutoField
                         compact
                         label={`Location for ${c.name}`}
@@ -441,7 +445,7 @@ export default function Candidates({
                         }
                       />
                     </td>
-                    <td>
+                    <td className="col-optional" data-label="Experience">
                       <AutoField
                         compact
                         label={`Experience for ${c.name}`}
@@ -457,7 +461,7 @@ export default function Candidates({
                         }
                       />
                     </td>
-                    <td>
+                    <td data-label="Skills">
                       <div className="tags">
                         {c.skills.slice(0, 2).map((s) => (
                           <span className="tag" key={s}>
@@ -472,7 +476,7 @@ export default function Candidates({
                         {!c.skills.length && <span className="muted">—</span>}
                       </div>
                     </td>
-                    <td>
+                    <td className="col-optional" data-label="Expected salary">
                       <AutoField
                         compact
                         label={`Salary for ${c.name}`}
@@ -487,37 +491,37 @@ export default function Candidates({
                         }
                       />
                     </td>
-                    <td>
-                      <AutoField
-                        compact
-                        label={`Email for ${c.name}`}
-                        value={c.email}
-                        onSave={(v, e) =>
-                          patchEntity(
-                            "candidates",
-                            c.id,
-                            { email: v },
-                            { email: e },
-                          )
-                        }
-                      />
+                    <td data-label="Contact">
+                      <div className="stacked-cells">
+                        <AutoField
+                          compact
+                          label={`Email for ${c.name}`}
+                          value={c.email}
+                          onSave={(v, e) =>
+                            patchEntity(
+                              "candidates",
+                              c.id,
+                              { email: v },
+                              { email: e },
+                            )
+                          }
+                        />
+                        <AutoField
+                          compact
+                          label={`Phone for ${c.name}`}
+                          value={c.phone}
+                          onSave={(v, e) =>
+                            patchEntity(
+                              "candidates",
+                              c.id,
+                              { phone: v },
+                              { phone: e },
+                            )
+                          }
+                        />
+                      </div>
                     </td>
-                    <td>
-                      <AutoField
-                        compact
-                        label={`Phone for ${c.name}`}
-                        value={c.phone}
-                        onSave={(v, e) =>
-                          patchEntity(
-                            "candidates",
-                            c.id,
-                            { phone: v },
-                            { phone: e },
-                          )
-                        }
-                      />
-                    </td>
-                    <td>
+                    <td data-label="Jobs">
                       <button
                         className="job-count"
                         aria-label={`View jobs for ${c.name}`}

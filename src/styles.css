@@ -10,9 +10,9 @@
   --muted: #5f7087;
   --border: #dce5f0;
   --accent: #275f9c;
-  --primary: #b9dcff;
-  --primary-hover: #a5cff7;
-  --primary-foreground: #163e68;
+  --primary: #275f9c;
+  --primary-hover: #1d4e85;
+  --primary-foreground: #ffffff;
   --accent-hover: #1d4e85;
   --accent-soft: #e7f2ff;
   --sidebar: #edf4fc;
@@ -2729,4 +2729,291 @@ h3 {
 }
 .followup-cell .badge {
   flex: none;
+}
+
+/* Phase 2: stronger primary action, sliding tab indicator, quieter tables. */
+.btn-primary {
+  box-shadow:
+    0 1px 2px rgba(20, 52, 92, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+.btn-primary:hover {
+  box-shadow:
+    0 2px 6px rgba(20, 52, 92, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+.btn-primary:disabled {
+  box-shadow: none;
+}
+:root.dark .btn-primary,
+:root.dark .btn-primary:hover {
+  box-shadow: none;
+}
+
+.list-tabs,
+.detail-tabs {
+  position: relative;
+}
+.detail-tabs {
+  position: sticky;
+}
+.list-tabs button,
+.list-tabs button.active,
+.detail-tabs button,
+.detail-tabs button[data-state="active"] {
+  border-bottom-color: transparent;
+}
+.list-tabs::after,
+.detail-tabs::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: var(--tab-w, 0);
+  background: var(--accent);
+  border-radius: 2px 2px 0 0;
+  transform: translateX(var(--tab-x, 0));
+  opacity: 0;
+}
+.list-tabs[data-indicator="ready"]::after,
+.detail-tabs[data-indicator="ready"]::after {
+  opacity: 1;
+  transition:
+    transform 220ms var(--ease-interface),
+    width 220ms var(--ease-interface);
+}
+
+.avatar {
+  background: hsl(var(--avatar-hue, 210) 70% 92%);
+  color: hsl(var(--avatar-hue, 210) 45% 32%);
+}
+:root.dark .avatar {
+  background: hsl(var(--avatar-hue, 210) 35% 24%);
+  color: hsl(var(--avatar-hue, 210) 75% 82%);
+}
+
+.stage-cell {
+  min-width: 130px;
+}
+.stage-cell .select-trigger {
+  min-height: 28px;
+  font-size: var(--text-secondary);
+  padding: 4px 8px;
+  border-color: transparent;
+  background: var(--surface-hover);
+  color: var(--muted);
+}
+.stage-cell .select-trigger:hover,
+.stage-cell .select-trigger:focus-visible {
+  border-color: var(--border);
+}
+.stage-cell[data-tone="green"] .select-trigger {
+  background: var(--green-bg);
+  color: var(--green);
+}
+.stage-cell[data-tone="blue"] .select-trigger {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+.stage-cell[data-tone="amber"] .select-trigger {
+  background: var(--amber-bg);
+  color: var(--amber);
+}
+.stage-cell[data-tone="red"] .select-trigger {
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+.table-scroll {
+  max-height: max(360px, calc(100dvh - 340px));
+}
+.data-table td {
+  height: 56px;
+  padding-block: 7px;
+  transition: background-color var(--motion-fast) var(--ease-interface);
+}
+.stacked-cells {
+  display: grid;
+  gap: 2px;
+  min-width: 190px;
+}
+.stacked-cells .cell-input {
+  height: 24px;
+}
+@media (max-width: 1320px) {
+  .col-optional {
+    display: none;
+  }
+}
+
+.skeleton {
+  display: block;
+  border-radius: 8px;
+  background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--surface) 70%, transparent),
+      transparent
+    )
+    var(--surface-hover);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+.boot {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  background: var(--background);
+}
+.boot-side {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: 24px 18px;
+  background: var(--sidebar, var(--surface));
+  border-right: 1px solid var(--border);
+}
+.boot-side .skeleton {
+  height: 32px;
+}
+.boot-side .boot-logo {
+  height: 36px;
+  width: 140px;
+  margin-bottom: 18px;
+}
+.boot-main {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  padding: 40px;
+}
+.boot-title {
+  height: 34px;
+  width: 220px;
+}
+.boot-bar {
+  height: 40px;
+  width: min(420px, 100%);
+}
+.boot-card {
+  display: grid;
+  gap: 1px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--border);
+  overflow: hidden;
+}
+.boot-row {
+  height: 56px;
+  border-radius: 0;
+}
+@media (max-width: 760px) {
+  .boot {
+    grid-template-columns: 1fr;
+  }
+  .boot-side {
+    display: none;
+  }
+  .boot-main {
+    padding: 24px 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+  .list-tabs::after,
+  .detail-tabs::after {
+    transition: none !important;
+  }
+}
+
+/* Phone: each record becomes a card; sorting stays available on larger screens. */
+@media (max-width: 760px) {
+  .table-scroll {
+    max-height: none;
+    overflow: visible;
+  }
+  .table-scroll-hint {
+    display: none;
+  }
+  .data-table,
+  .data-table tbody {
+    display: block;
+    white-space: normal;
+  }
+  .data-table thead {
+    display: none;
+  }
+  .data-table tbody {
+    display: grid;
+    gap: 10px;
+    padding: 10px;
+  }
+  .data-table tbody tr {
+    display: block;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .data-table td,
+  .data-table td.col-optional {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    height: auto;
+    min-height: 44px;
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--border-quiet);
+  }
+  .data-table tr:last-child td {
+    border-bottom: 1px solid var(--border-quiet);
+  }
+  .data-table tbody tr td:last-child {
+    border-bottom: 0;
+  }
+  .data-table td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-size: var(--text-secondary);
+    font-weight: 500;
+  }
+  .data-table td:first-child {
+    display: block;
+    background: var(--surface-hover);
+  }
+  .data-table td:first-child::before {
+    display: none;
+  }
+  .data-table .sticky-name,
+  .candidate-table .sticky-name {
+    position: static;
+    min-width: 0;
+    border-right: 0;
+  }
+  .candidate-table .person-cell,
+  .record-identity {
+    width: auto;
+  }
+  .candidate-table .avatar {
+    display: inline-flex;
+  }
+  .stacked-cells {
+    min-width: 0;
+  }
+  .status-cell,
+  .stage-cell {
+    min-width: 0;
+  }
 }

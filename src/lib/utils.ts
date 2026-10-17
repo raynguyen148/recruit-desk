@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
@@ -20,4 +21,11 @@ export const initials = (s: string) => {
       .join("")
       .toUpperCase() || "?"
   );
+};
+
+/** A stable hue per name so people are easier to tell apart at a glance. */
+export const avatarStyle = (name: string): CSSProperties => {
+  let hash = 0;
+  for (const char of name) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+  return { ["--avatar-hue" as string]: hash % 360 };
 };
