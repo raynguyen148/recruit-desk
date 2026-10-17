@@ -34,7 +34,8 @@ test("hidden filters remain discoverable and removable, and clearing search keep
 test("wide tables scroll by keyboard and retain the identity column", async ({
   page,
 }) => {
-  await page.setViewportSize({ width: 375, height: 812 });
+  // Below 760px tables become cards, so use the narrowest width that still scrolls.
+  await page.setViewportSize({ width: 800, height: 900 });
   await sample(page);
   const region = page.getByRole("region", {
     name: "Candidates, scroll for more columns",

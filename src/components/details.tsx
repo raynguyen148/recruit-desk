@@ -6,8 +6,11 @@ import {
   ArrowUpRight,
   MapPin,
   Mail,
+  Phone,
+  Copy,
   BriefcaseBusiness,
   Clock3,
+  Linkedin,
 } from "lucide-react";
 import { toast } from "sonner";
 import { DetailModal, Modal } from "./ui/dialog";
@@ -17,10 +20,13 @@ import { Confirm } from "./ui/confirm";
 import { RemoveItem } from "./remove-item";
 import { AutoField, safeAction, useAutosave, SaveIndicator } from "./autosave";
 import { Badge, DetailTabs, Field, Section, TextInput } from "./common";
-import { patchEntity, removeEntity } from "../lib/db";
+import { createEntity, patchEntity, removeEntity } from "../lib/db";
 import {
   candidateStatuses,
+  closedCandidateStatuses,
+  type CandidateStatus,
   channels,
+  newApplication,
   jobStatuses,
   stages,
   type Dataset,
@@ -32,7 +38,7 @@ import {
   type ProfileEntry,
   type CustomField,
 } from "../lib/types";
-import { avatarStyle, displayDate, initials } from "../lib/utils";
+import { avatarStyle, displayDate, initials, linkedinHref } from "../lib/utils";
 export function Details({
   kind,
   id,
@@ -173,6 +179,98 @@ export function Details({
     </>
   );
 }
+/** Quick ways to reach someone from their saved (not in-progress) details. */
+function ContactActions({
+  email,
+  phone,
+  linkedin,
+}: {
+  email: string;
+  phone: string;
+  linkedin?: string;
+}) {
+  const copy = (value: string, what: string) =>
+    navigator.clipboard
+      .writeText(value)
+      .then(() => toast.success(`${what} copied`))
+      .catch(() => toast.error(`Could not copy the ${what.toLowerCase()}`));
+  const e = email.trim();
+  const p = phone.trim();
+  const l = linkedinHref(linkedin);
+  if (!e && !p && !l) return null;
+  return (
+    <div className="contact-actions" aria-label="Quick contact">
+      {e && (
+        <>
+          <a className="button-link" href={`mailto:${e}`}>
+            <Mail size={14} aria-hidden="true" />
+            Email
+          </a>
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => void copy(e, "Email")}
+          >
+            <Copy size={14} aria-hidden="true" />
+            Copy email
+          </Button>
+        </>
+      )}
+      {l && (
+        <a
+          className="button-link"
+          href={l}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Linkedin size={14} aria-hidden="true" />
+          LinkedIn
+        </a>
+      )}
+      {p && (
+        <>
+          <a className="button-link" href={`tel:${p.replace(/[^\d+]/g, "")}`}>
+            <Phone size={14} aria-hidden="true" />
+            Call
+          </a>
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => void copy(p, "Phone")}
+          >
+            <Copy size={14} aria-hidden="true" />
+            Copy phone
+          </Button>
+        </>
+      )}
+    </div>
+  );
+}
+/** Candidates not yet linked to the job, ranked by shared skills. */
+function suggestCandidates(job: Job, data: Dataset, limit = 5) {
+  const wanted = new Set(job.skills.map((s) => s.trim().toLowerCase()));
+  if (!wanted.size) return [];
+  const linked = new Set(
+    data.applications
+      .filter((a) => a.jobId === job.id)
+      .map((a) => a.candidateId),
+  );
+  return data.candidates
+    .filter(
+      (c) =>
+        !linked.has(c.id) &&
+        !closedCandidateStatuses.includes(c.status as CandidateStatus),
+    )
+    .map((candidate) => ({
+      candidate,
+      shared: candidate.skills.filter((s) =>
+        wanted.has(s.trim().toLowerCase()),
+      ),
+    }))
+    .filter((m) => m.shared.length)
+    .sort((a, b) => b.shared.length - a.shared.length)
+    .slice(0, limit);
+}
 function CandidateDetail({
   candidate: c,
   data,
@@ -233,9 +331,9 @@ function CandidateDetail({
               {text("name", "Full name")}
               {text("cpmID", "CPM ID")}
               {text("headline", "Headline")}
-              <Field label="Availability">
+              <Field label="Status">
                 <Select
-                  label="Availability"
+                  label="Status"
                   value={c.status}
                   options={[...candidateStatuses]}
                   onChange={(v) =>
@@ -252,9 +350,15 @@ function CandidateDetail({
               </Field>
               {text("email", "Email")}
               {text("phone", "Phone")}
+              {text("linkedinURL", "LinkedIn URL")}
               {text("location", "Location")}
               {text("yearsExperience", "Years of experience")}
             </div>
+            <ContactActions
+              email={c.email}
+              phone={c.phone}
+              linkedin={c.linkedinURL}
+            />
           </Section>
           <Section title="Skills & expectations">
             <AutoField
@@ -551,6 +655,12 @@ function JobDetail({
 }) {
   const [custom, setCustom] = useState(false);
   const apps = data.applications.filter((a) => a.jobId === j.id);
+  const suggestions = suggestCandidates(j, data);
+  const link = (candidateId: string) =>
+    safeAction(
+      () => createEntity("applications", newApplication(candidateId, j.id)),
+      "Candidate linked",
+    );
   const text = (key: keyof Job, label: string, multiline = false) => (
     <AutoField
       label={label}
@@ -715,6 +825,29 @@ function JobDetail({
               </p>
             )}
           </Section>
+          {suggestions.length > 0 && (
+            <Section title="Suggested candidates">
+              {suggestions.map(({ candidate: c, shared }) => (
+                <div className="linked-row suggestion" key={c.id}>
+                  <span className="avatar small" style={avatarStyle(c.name)}>
+                    {initials(c.name)}
+                  </span>
+                  <div>
+                    <strong>{c.name}</strong>
+                    <small>Matches {shared.join(", ")}</small>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    aria-label={`Link ${c.name}`}
+                    onClick={() => void link(c.id)}
+                  >
+                    Link
+                  </Button>
+                </div>
+              ))}
+            </Section>
+          )}
         </Tabs.Content>
       </GuardedTabs>
       {custom && (
@@ -779,6 +912,7 @@ function CompanyDetail({
             />
           ))}
         </div>
+        <ContactActions email={c.email} phone={c.phone} />
         <AutoField
           label="Private notes"
           multiline

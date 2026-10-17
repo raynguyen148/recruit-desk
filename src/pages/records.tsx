@@ -5,9 +5,20 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { ArrowUpRight, Download, Plus, Upload, X } from "lucide-react";
+import {
+  ArrowUpRight,
+  Download,
+  KanbanSquare,
+  List,
+  Plus,
+  Upload,
+  X,
+} from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Select } from "../components/ui/select";
+import { Board } from "./board";
+import { BulkActions } from "../components/bulk-actions";
+import { BulkBar, PageCheck, RowCheck } from "../components/bulk-bar";
 import { AutoField, safeAction, useAutosave } from "../components/autosave";
 import {
   Badge,
@@ -20,6 +31,7 @@ import {
   toneOf,
 } from "../components/common";
 import { patchEntity } from "../lib/db";
+import { useSelection } from "../lib/selection";
 import { countBy, matchesTerms, searchable, searchTerms } from "../lib/search";
 import { displayDate } from "../lib/utils";
 import { jobStatuses, stages, type Dataset } from "../lib/types";
@@ -82,11 +94,13 @@ function ResultTable({
   data,
   count,
   controls,
+  bar,
   children,
 }: {
   data: Dataset;
   count: number;
   controls: ReturnType<typeof useControls>;
+  bar?: ReactNode;
   children: ReactNode;
 }) {
   const { page, setPage, pageSize, flush } = controls;
@@ -96,6 +110,7 @@ function ResultTable({
   );
   return (
     <div className={`data-surface ${data.settings.density}`}>
+      {bar}
       <TableViewport label="Records, scroll for more columns">
         {children}
       </TableViewport>
@@ -188,6 +203,9 @@ export function Jobs({
     });
   };
   const visible = rows.slice((c.page - 1) * c.pageSize, c.page * c.pageSize);
+  const ids = useMemo(() => rows.map((j) => j.id), [rows]);
+  const selection = useSelection(ids);
+  const pageIds = visible.map((j) => j.id);
   return (
     <>
       <PageHeading
@@ -278,13 +296,44 @@ export function Jobs({
           }
         />
       ) : (
-        <ResultTable data={data} count={rows.length} controls={c}>
+        <ResultTable
+          data={data}
+          count={rows.length}
+          controls={c}
+          bar={
+            <BulkBar selection={selection} total={rows.length} noun="jobs">
+              <BulkActions
+                kind="jobs"
+                noun="jobs"
+                selection={selection}
+                records={data.jobs}
+                field="status"
+                fieldLabel="status"
+                options={jobStatuses}
+                csv={(j) => ({
+                  Title: j.title,
+                  Company: companyNames.get(j.companyId) ?? "",
+                  Status: j.status,
+                  Location: j.location,
+                  "Work mode": j.workMode,
+                  "Employment type": j.employmentType,
+                  Salary: j.salary,
+                  Skills: j.skills.join("; "),
+                  Priority: j.priority,
+                })}
+              />
+            </BulkBar>
+          }
+        >
           <table className="data-table">
             <caption className="sr-only">Jobs and hiring details</caption>
             <thead>
               <tr>
                 <th scope="col" className="sticky-name">
-                  {c.header("Job", "title")}
+                  <div className="name-head">
+                    <PageCheck pageIds={pageIds} selection={selection} />
+                    {c.header("Job", "title")}
+                  </div>
                 </th>
                 <th scope="col">{c.header("Company", "company")}</th>
                 <th scope="col">{c.header("Status", "status")}</th>
@@ -299,11 +348,18 @@ export function Jobs({
               {visible.map((j) => (
                 <tr key={j.id}>
                   <td className="sticky-name" data-label="Job">
-                    <RecordName
-                      name={j.title}
-                      subline={j.employmentType}
-                      onOpen={() => onOpen(j.id)}
-                    />
+                    <div className="name-with-check">
+                      <RowCheck
+                        checked={selection.selected.has(j.id)}
+                        label={`Select ${j.title}`}
+                        onChange={() => selection.toggle(j.id)}
+                      />
+                      <RecordName
+                        name={j.title}
+                        subline={j.employmentType}
+                        onOpen={() => onOpen(j.id)}
+                      />
+                    </div>
                   </td>
                   <td data-label="Company">
                     {companyNames.get(j.companyId) || (
@@ -563,11 +619,20 @@ export function Companies({ data, onOpen, onCreate }: Props) {
   );
 }
 
+const VIEW_KEY = "recruitdesk-applications-view";
+function readView(): "list" | "board" {
+  try {
+    return localStorage.getItem(VIEW_KEY) === "board" ? "board" : "list";
+  } catch {
+    return "list";
+  }
+}
 export function Applications({ data, onOpen, onCreate }: Props) {
   const c = useControls(data.settings.pageSize);
   const [stage, setStage] = useState("");
   const [job, setJob] = useState("");
   const [followUp, setFollowUp] = useState("");
+  const [view, setView] = useState<"list" | "board">(() => readView());
   const candidates = useMemo(
     () => new Map(data.candidates.map((x) => [x.id, x])),
     [data.candidates],
@@ -595,7 +660,7 @@ export function Applications({ data, onOpen, onCreate }: Props) {
             role = jobs.get(a.jobId),
             terms = searchTerms(query);
           return (
-            (!stage || a.stage === stage) &&
+            (view === "board" || !stage || a.stage === stage) &&
             (!job || a.jobId === job) &&
             (!followUp ||
               (followUp === "overdue"
@@ -640,6 +705,7 @@ export function Applications({ data, onOpen, onCreate }: Props) {
       query,
       c.sort,
       stage,
+      view,
       job,
       followUp,
       todayKey,
@@ -657,6 +723,9 @@ export function Applications({ data, onOpen, onCreate }: Props) {
     });
   };
   const visible = rows.slice((c.page - 1) * c.pageSize, c.page * c.pageSize);
+  const ids = useMemo(() => rows.map((a) => a.id), [rows]);
+  const selection = useSelection(ids);
+  const pageIds = visible.map((a) => a.id);
   return (
     <>
       <PageHeading
@@ -671,16 +740,46 @@ export function Applications({ data, onOpen, onCreate }: Props) {
       />
       <div className="toolbar">
         {c.searchBox("Search candidate, CPM ID, job, or company…")}
+        <div
+          className="view-toggle"
+          role="group"
+          aria-label="Applications view"
+        >
+          {(
+            [
+              ["list", "List", List],
+              ["board", "Board", KanbanSquare],
+            ] as const
+          ).map(([key, label, Icon]) => (
+            <button
+              key={key}
+              aria-pressed={view === key}
+              onClick={() => {
+                setView(key);
+                try {
+                  localStorage.setItem(VIEW_KEY, key);
+                } catch {
+                  /* The view choice is a convenience only. */
+                }
+              }}
+            >
+              <Icon size={14} aria-hidden="true" />
+              {label}
+            </button>
+          ))}
+        </div>
       </div>
       <div className="filters-row">
-        <Select
-          label="Application stage filter"
-          value={stage}
-          onChange={(v) => {
-            void c.change(() => setStage(v));
-          }}
-          options={[{ value: "", label: "All stages" }, ...stages]}
-        />
+        {view === "list" && (
+          <Select
+            label="Application stage filter"
+            value={stage}
+            onChange={(v) => {
+              void c.change(() => setStage(v));
+            }}
+            options={[{ value: "", label: "All stages" }, ...stages]}
+          />
+        )}
         <Select
           label="Application job filter"
           value={job}
@@ -708,7 +807,7 @@ export function Applications({ data, onOpen, onCreate }: Props) {
             { value: "none", label: "No follow-up" },
           ]}
         />
-        {(c.search || stage || job || followUp) && (
+        {(c.search || (view === "list" && stage) || job || followUp) && (
           <Button variant="ghost" onClick={reset}>
             <X size={14} />
             Reset
@@ -737,8 +836,64 @@ export function Applications({ data, onOpen, onCreate }: Props) {
             </Button>
           }
         />
+      ) : view === "board" ? (
+        <Board
+          cards={rows.map((a) => ({
+            application: a,
+            person: candidates.get(a.candidateId)?.name ?? "Missing candidate",
+            role: [
+              jobs.get(a.jobId)?.title ?? "Missing job",
+              companies.get(jobs.get(a.jobId)?.companyId ?? ""),
+            ]
+              .filter(Boolean)
+              .join(" · "),
+          }))}
+          onOpen={onOpen}
+          onMove={(a, next) =>
+            void safeAction(async () => {
+              if (await c.flush())
+                await patchEntity(
+                  "applications",
+                  a.id,
+                  { stage: next },
+                  { stage: a.stage },
+                );
+            })
+          }
+        />
       ) : (
-        <ResultTable data={data} count={rows.length} controls={c}>
+        <ResultTable
+          data={data}
+          count={rows.length}
+          controls={c}
+          bar={
+            <BulkBar
+              selection={selection}
+              total={rows.length}
+              noun="applications"
+            >
+              <BulkActions
+                kind="applications"
+                noun="applications"
+                selection={selection}
+                records={data.applications}
+                field="stage"
+                fieldLabel="stage"
+                options={stages}
+                csv={(a) => ({
+                  Candidate: candidates.get(a.candidateId)?.name ?? "",
+                  "CPM ID": candidates.get(a.candidateId)?.cpmID ?? "",
+                  Job: jobs.get(a.jobId)?.title ?? "",
+                  Company:
+                    companies.get(jobs.get(a.jobId)?.companyId ?? "") ?? "",
+                  Stage: a.stage,
+                  "Next action": a.nextAction,
+                  "Follow-up": a.followUp,
+                })}
+              />
+            </BulkBar>
+          }
+        >
           <table className="data-table">
             <caption className="sr-only">
               Applications, stages, and follow-up actions
@@ -746,7 +901,10 @@ export function Applications({ data, onOpen, onCreate }: Props) {
             <thead>
               <tr>
                 <th scope="col" className="sticky-name">
-                  {c.header("Candidate", "candidate")}
+                  <div className="name-head">
+                    <PageCheck pageIds={pageIds} selection={selection} />
+                    {c.header("Candidate", "candidate")}
+                  </div>
                 </th>
                 <th scope="col">{c.header("Job", "job")}</th>
                 <th scope="col">{c.header("Stage", "stage")}</th>
@@ -763,11 +921,18 @@ export function Applications({ data, onOpen, onCreate }: Props) {
                 return (
                   <tr key={a.id}>
                     <td className="sticky-name" data-label="Candidate">
-                      <RecordName
-                        name={person?.name ?? "Missing candidate"}
-                        subline={person?.cpmID}
-                        onOpen={() => onOpen(a.id)}
-                      />
+                      <div className="name-with-check">
+                        <RowCheck
+                          checked={selection.selected.has(a.id)}
+                          label={`Select ${label}`}
+                          onChange={() => selection.toggle(a.id)}
+                        />
+                        <RecordName
+                          name={person?.name ?? "Missing candidate"}
+                          subline={person?.cpmID}
+                          onOpen={() => onOpen(a.id)}
+                        />
+                      </div>
                     </td>
                     <td data-label="Job">
                       <RecordName

@@ -1,4 +1,5 @@
 import { useDeferredValue, useMemo, useState, useEffect } from "react";
+import { toast } from "sonner";
 import {
   Plus,
   Upload,
@@ -6,9 +7,17 @@ import {
   SlidersHorizontal,
   X,
   Download,
+  FileSpreadsheet,
+  Trash2,
+  Link2,
+  ExternalLink,
+  Linkedin,
 } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Select } from "../components/ui/select";
+import { Confirm } from "../components/ui/confirm";
+import { BulkBar, PageCheck, RowCheck } from "../components/bulk-bar";
+import { LinkJobDialog } from "../components/link-job-dialog";
 import { AutoField, useAutosave, safeAction } from "../components/autosave";
 import {
   Badge,
@@ -21,16 +30,41 @@ import {
   useTabIndicator,
 } from "../components/common";
 import { patchEntity } from "../lib/db";
-import { avatarStyle, initials } from "../lib/utils";
+import { bulkPatch, bulkRemove } from "../lib/bulk";
+import { downloadText, toCSV } from "../lib/csv";
+import { useSelection } from "../lib/selection";
+import {
+  avatarStyle,
+  cpmUrl,
+  displayDate,
+  initials,
+  linkedinHref,
+} from "../lib/utils";
+import { ContactDot } from "../components/contact-dot";
 import {
   candidateSearchText,
   countBy,
+  fold,
   matchesTerms,
   searchTerms,
 } from "../lib/search";
 import type { Candidate, Dataset } from "../lib/types";
 import { candidateStatuses } from "../lib/types";
 const candidateCollator = new Intl.Collator(undefined, { numeric: true });
+type Choice = { value: string; label: string };
+/** Unique values by folded key, keeping the first spelling as the label. */
+function distinct(values: string[]): Choice[] {
+  const seen = new Map<string, string>();
+  for (const value of values) {
+    const key = fold(value.trim());
+    if (key && !seen.has(key)) seen.set(key, value.trim());
+  }
+  return [...seen]
+    .map(([value, label]) => ({ value, label }))
+    .sort((a, b) => candidateCollator.compare(a.label, b.label));
+}
+const labelOf = (choices: Choice[], value: string) =>
+  choices.find((c) => c.value === value)?.label ?? value;
 
 export default function Candidates({
   data,
@@ -57,25 +91,25 @@ export default function Candidates({
   const [page, setPage] = useState(1);
   const { flush } = useAutosave();
   const tabsRef = useTabIndicator<HTMLDivElement>();
+  const [linking, setLinking] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [bulkBusy, setBulkBusy] = useState(false);
   const change = async (action: () => void) => {
     if (await flush()) action();
   };
   const reset = () =>
     void change(() => {
-      setStatus("");
       setLocation("");
       setSkill("");
       setSearch("");
     });
+  // Filter values are folded so "react" and "React", or "Ha Noi" and "Hà Nội", merge.
   const locations = useMemo(
-    () =>
-      [
-        ...new Set(data.candidates.map((c) => c.location).filter(Boolean)),
-      ].sort(),
+    () => distinct(data.candidates.map((c) => c.location)),
     [data.candidates],
   );
   const skills = useMemo(
-    () => [...new Set(data.candidates.flatMap((c) => c.skills))].sort(),
+    () => distinct(data.candidates.flatMap((c) => c.skills)),
     [data.candidates],
   );
   const searchText = useMemo(
@@ -98,12 +132,12 @@ export default function Candidates({
       .filter(
         (c) =>
           (!status || c.status === status) &&
-          (!location || c.location === location) &&
-          (!skill || c.skills.includes(skill)) &&
+          (!location || fold(c.location) === location) &&
+          (!skill || c.skills.some((x) => fold(x) === skill)) &&
           (!terms.length || matchesTerms(searchText.get(c.id) ?? "", terms)),
       )
       .sort((a, b) => {
-        // Status sorts by availability, most reachable first, not alphabetically.
+        // Status sorts by pipeline order, not alphabetically.
         const value = (x: Candidate) =>
           sort.key === "status"
             ? String(
@@ -128,13 +162,73 @@ export default function Candidates({
   );
   const changeSort = async (key: string) => {
     if (await flush())
-      setSort({ key, desc: sort.key === key ? !sort.desc : false });
+      setSort({
+        key,
+        desc: sort.key === key ? !sort.desc : key === "updatedAt",
+      });
   };
   const visible = rows.slice(
     (page - 1) * data.settings.pageSize,
     page * data.settings.pageSize,
   );
   const statusCounts = countBy(data.candidates, (c) => c.status);
+  const ids = useMemo(() => rows.map((c) => c.id), [rows]);
+  const selection = useSelection(ids);
+  const pageIds = visible.map((c) => c.id);
+  const chosen = () =>
+    data.candidates.filter((c) => selection.selected.has(c.id));
+  async function setStatusForSelected(next: string) {
+    if (!next || bulkBusy || !(await flush())) return;
+    setBulkBusy(true);
+    try {
+      const records = chosen();
+      const undo = await bulkPatch("candidates", records, { status: next });
+      toast.success(`${records.length} marked ${next}`, {
+        action: {
+          label: "Undo",
+          onClick: () => void undo().catch((e) => toast.error(e.message)),
+        },
+      });
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not update");
+    } finally {
+      setBulkBusy(false);
+    }
+  }
+  function exportSelected() {
+    const records = chosen();
+    downloadText(
+      toCSV(
+        records.map((c) => ({
+          "CPM ID": c.cpmID,
+          Name: c.name,
+          Headline: c.headline,
+          Status: c.status,
+          Location: c.location,
+          "Years of experience": c.yearsExperience,
+          Skills: c.skills.join("; "),
+          "Expected salary": c.salary,
+          Email: c.email,
+          Phone: c.phone,
+          "LinkedIn URL": c.linkedinURL,
+          Source: c.source,
+        })),
+      ),
+      `recruitdesk-candidates-${new Date().toISOString().slice(0, 10)}.csv`,
+      "text/csv;charset=utf-8",
+    );
+    toast.success(`Exported ${records.length} candidates`);
+  }
+  async function removeSelected() {
+    setBulkBusy(true);
+    const count = selection.count;
+    const failed = await bulkRemove("candidates", [...selection.selected]);
+    setBulkBusy(false);
+    setDeleting(false);
+    selection.clear();
+    if (failed) toast.error(`${failed} could not be deleted`);
+    else toast.success(`${count} candidates deleted`);
+  }
   return (
     <>
       <PageHeading
@@ -161,21 +255,16 @@ export default function Candidates({
         >
           All
         </button>
-        <button
-          className={status === "Available" ? "active" : ""}
-          aria-pressed={status === "Available"}
-          onClick={() => void change(() => setStatus("Available"))}
-        >
-          Available <span>{statusCounts.get("Available") ?? 0}</span>
-        </button>
-        <button
-          className={status === "Open to opportunities" ? "active" : ""}
-          aria-pressed={status === "Open to opportunities"}
-          onClick={() => void change(() => setStatus("Open to opportunities"))}
-        >
-          Open to opportunities{" "}
-          <span>{statusCounts.get("Open to opportunities") ?? 0}</span>
-        </button>
+        {candidateStatuses.map((name) => (
+          <button
+            key={name}
+            className={status === name ? "active" : ""}
+            aria-pressed={status === name}
+            onClick={() => void change(() => setStatus(name))}
+          >
+            {name} <span>{statusCounts.get(name) ?? 0}</span>
+          </button>
+        ))}
       </div>
       <div className="toolbar">
         <SearchBox
@@ -193,9 +282,9 @@ export default function Candidates({
           >
             <SlidersHorizontal size={14} />
             Filters
-            {[status, location, skill].filter(Boolean).length > 0 && (
+            {[location, skill].filter(Boolean).length > 0 && (
               <span className="filter-count">
-                {[status, location, skill].filter(Boolean).length}
+                {[location, skill].filter(Boolean).length}
               </span>
             )}
           </Button>
@@ -211,15 +300,6 @@ export default function Candidates({
       </div>
       {filters && (
         <div id="candidate-filters" className="filters-row filter-reveal">
-          <Select
-            label="Candidate status filter"
-            value={status}
-            onChange={(v) => void change(() => setStatus(v))}
-            options={[
-              { value: "", label: "All statuses" },
-              ...candidateStatuses,
-            ]}
-          />
           <Select
             label="Location filter"
             value={location}
@@ -238,37 +318,36 @@ export default function Candidates({
           </Button>
         </div>
       )}
-      {!filters &&
-        (location ||
-          skill ||
-          (status &&
-            !["Available", "Open to opportunities"].includes(status))) && (
-          <div className="active-filters" aria-label="Active candidate filters">
-            {[
-              { label: "Status", value: status, clear: () => setStatus("") },
-              {
-                label: "Location",
-                value: location,
-                clear: () => setLocation(""),
-              },
-              { label: "Skill", value: skill, clear: () => setSkill("") },
-            ]
-              .filter((item) => item.value)
-              .map((item) => (
-                <button
-                  key={item.label}
-                  className="filter-chip"
-                  aria-label={`Remove ${item.label.toLowerCase()} filter: ${item.value}`}
-                  onClick={() => void change(item.clear)}
-                >
-                  <span>
-                    {item.label}: {item.value}
-                  </span>
-                  <X size={12} aria-hidden="true" />
-                </button>
-              ))}
-          </div>
-        )}
+      {!filters && (location || skill) && (
+        <div className="active-filters" aria-label="Active candidate filters">
+          {[
+            {
+              label: "Location",
+              value: labelOf(locations, location),
+              clear: () => setLocation(""),
+            },
+            {
+              label: "Skill",
+              value: labelOf(skills, skill),
+              clear: () => setSkill(""),
+            },
+          ]
+            .filter((item) => item.value)
+            .map((item) => (
+              <button
+                key={item.label}
+                className="filter-chip"
+                aria-label={`Remove ${item.label.toLowerCase()} filter: ${item.value}`}
+                onClick={() => void change(item.clear)}
+              >
+                <span>
+                  {item.label}: {item.value}
+                </span>
+                <X size={12} aria-hidden="true" />
+              </button>
+            ))}
+        </div>
+      )}
       {data.candidates.length === 0 ? (
         <EmptyState
           title="No candidates yet"
@@ -301,6 +380,39 @@ export default function Candidates({
         />
       ) : (
         <div className={`data-surface ${data.settings.density}`}>
+          <BulkBar selection={selection} total={rows.length} noun="candidates">
+            <Select
+              label="Set status for selected"
+              value=""
+              disabled={bulkBusy}
+              options={[
+                { value: "", label: "Set status…" },
+                ...candidateStatuses,
+              ]}
+              onChange={(v) => void setStatusForSelected(v)}
+            />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setLinking(true)}
+            >
+              <Link2 size={14} />
+              Add to job
+            </Button>
+            <Button variant="outline" size="sm" onClick={exportSelected}>
+              <FileSpreadsheet size={14} />
+              Export CSV
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="danger-text"
+              onClick={() => setDeleting(true)}
+            >
+              <Trash2 size={14} />
+              Delete
+            </Button>
+          </BulkBar>
           <TableViewport label="Candidates, scroll for more columns">
             <table className="data-table candidate-table">
               <caption className="sr-only">
@@ -309,21 +421,18 @@ export default function Candidates({
               <thead>
                 <tr>
                   <th scope="col" className="sticky-name">
-                    <SortHeader
-                      label="Candidate"
-                      field="name"
-                      sort={sort}
-                      onSort={changeSort}
-                    />
+                    <div className="name-head">
+                      <PageCheck pageIds={pageIds} selection={selection} />
+                      <SortHeader
+                        label="Candidate"
+                        field="name"
+                        sort={sort}
+                        onSort={changeSort}
+                      />
+                    </div>
                   </th>
-                  <th scope="col">
-                    <SortHeader
-                      label="CPM ID"
-                      field="cpmID"
-                      sort={sort}
-                      onSort={changeSort}
-                    />
-                  </th>
+                  <th scope="col">CPM link</th>
+                  <th scope="col">LinkedIn</th>
                   <th scope="col">
                     <SortHeader
                       label="Status"
@@ -354,6 +463,14 @@ export default function Candidates({
                   </th>
                   <th scope="col">Contact</th>
                   <th scope="col">Jobs</th>
+                  <th scope="col">
+                    <SortHeader
+                      label="Updated"
+                      field="updatedAt"
+                      sort={sort}
+                      onSort={changeSort}
+                    />
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -361,14 +478,22 @@ export default function Candidates({
                   <tr key={c.id}>
                     <td className="sticky-name" data-label="Candidate">
                       <div className="person-cell">
-                        <button
-                          className="avatar"
-                          onClick={() => onOpen(c.id)}
-                          aria-label={`Open ${c.name}`}
-                          style={avatarStyle(c.name)}
-                        >
-                          {initials(c.name)}
-                        </button>
+                        <RowCheck
+                          checked={selection.selected.has(c.id)}
+                          label={`Select ${c.name}`}
+                          onChange={() => selection.toggle(c.id)}
+                        />
+                        <span className="avatar-wrap">
+                          <button
+                            className="avatar"
+                            onClick={() => onOpen(c.id)}
+                            aria-label={`Open ${c.name}`}
+                            style={avatarStyle(c.name)}
+                          >
+                            {initials(c.name)}
+                          </button>
+                          <ContactDot contacts={c.contacts} name={c.name} />
+                        </span>
                         <div>
                           <button
                             className="record-link"
@@ -394,26 +519,42 @@ export default function Candidates({
                         </div>
                       </div>
                     </td>
-                    <td data-label="CPM ID">
-                      <AutoField
-                        compact
-                        label={`CPM ID for ${c.name}`}
-                        value={c.cpmID}
-                        normalize={(value) => value.trim()}
-                        onSave={(v, e) =>
-                          patchEntity(
-                            "candidates",
-                            c.id,
-                            { cpmID: v },
-                            { cpmID: e },
-                          )
-                        }
-                      />
+                    <td data-label="CPM link">
+                      {c.cpmID.trim() ? (
+                        <a
+                          className="cpm-link"
+                          href={cpmUrl(c.cpmID)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title={`Open ${c.cpmID} in CPM`}
+                          aria-label={`Open ${c.cpmID} for ${c.name} in CPM (new tab)`}
+                        >
+                          <ExternalLink size={15} aria-hidden="true" />
+                        </a>
+                      ) : (
+                        <span className="muted">—</span>
+                      )}
+                    </td>
+                    <td data-label="LinkedIn">
+                      {linkedinHref(c.linkedinURL) ? (
+                        <a
+                          className="cpm-link"
+                          href={linkedinHref(c.linkedinURL)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="Open LinkedIn profile"
+                          aria-label={`Open LinkedIn profile of ${c.name} (new tab)`}
+                        >
+                          <Linkedin size={15} aria-hidden="true" />
+                        </a>
+                      ) : (
+                        <span className="muted">—</span>
+                      )}
                     </td>
                     <td data-label="Status">
                       <div className="status-cell" data-status={c.status}>
                         <Select
-                          label={`Availability for ${c.name}`}
+                          label={`Status for ${c.name}`}
                           value={c.status}
                           options={[...candidateStatuses]}
                           onChange={(v) =>
@@ -530,6 +671,14 @@ export default function Candidates({
                         {applicationCounts.get(c.id) ?? 0}
                       </button>
                     </td>
+                    <td className="updated-cell" data-label="Updated">
+                      <time
+                        dateTime={c.updatedAt}
+                        title={new Date(c.updatedAt).toLocaleString()}
+                      >
+                        {displayDate(c.updatedAt)}
+                      </time>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -545,6 +694,25 @@ export default function Candidates({
           />
         </div>
       )}
+      {linking && (
+        <LinkJobDialog
+          data={data}
+          candidateIds={[...selection.selected]}
+          onClose={() => setLinking(false)}
+          onDone={() => {
+            setLinking(false);
+            selection.clear();
+          }}
+        />
+      )}
+      <Confirm
+        open={deleting}
+        onOpenChange={setDeleting}
+        title={`Delete ${selection.count} candidates?`}
+        description="Their profiles and applications are removed from this browser. This cannot be undone."
+        onConfirm={() => void removeSelected()}
+        busy={bulkBusy}
+      />
     </>
   );
 }

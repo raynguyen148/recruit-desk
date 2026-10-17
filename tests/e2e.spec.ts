@@ -58,9 +58,9 @@ test("starts empty and adds fictional data only after opt-in", async ({
   await expect(
     page.getByRole("button", { name: "Alex Morgan", exact: true }),
   ).toBeVisible();
-  await expect(page.getByLabel("CPM ID for Alex Morgan")).toHaveValue(
-    "DEMO-1001",
-  );
+  await expect(
+    page.getByRole("link", { name: /DEMO-1001 for Alex Morgan/ }),
+  ).toHaveAttribute("href", "https://cbtwapac.atlassian.net/browse/DEMO-1001");
   await page.reload();
   await expect(
     page.getByRole("button", { name: "Alex Morgan", exact: true }),
@@ -160,7 +160,7 @@ test("company, job, and application relationships persist with stage history", a
     .getByRole("button", { name: "New application", exact: true })
     .click();
   await choose(page, "Candidate", "Ada Test · QA-100");
-  await choose(page, "Job", "QA Engineer");
+  await choose(page, "Job", "QA Engineer · QA Studio");
   await page
     .getByRole("button", { name: "Create application", exact: true })
     .click();
@@ -230,37 +230,31 @@ test("vendor CSV requires preview and rejects malformed and duplicate rows", asy
     .first()
     .click();
   const dialog = page.getByRole("dialog");
-  await dialog
-    .getByLabel("Import file")
-    .setInputFiles({
-      name: "invalid.csv",
-      mimeType: "text/csv",
-      buffer: Buffer.from("Wrong,Columns\nA,B"),
-    });
+  await dialog.getByLabel("Import file").setInputFiles({
+    name: "invalid.csv",
+    mimeType: "text/csv",
+    buffer: Buffer.from("Wrong,Columns\nA,B"),
+  });
   await expect(dialog.getByRole("alert")).toBeVisible();
   await expect(
     dialog.getByRole("button", { name: "Import records" }),
   ).toBeDisabled();
-  await dialog
-    .getByLabel("Import file")
-    .setInputFiles({
-      name: "duplicate.csv",
-      mimeType: "text/csv",
-      buffer: Buffer.from("Issue key,Summary\nCPM-1,Ada\ncpm-1,Grace"),
-    });
+  await dialog.getByLabel("Import file").setInputFiles({
+    name: "duplicate.csv",
+    mimeType: "text/csv",
+    buffer: Buffer.from("Issue key,Summary\nCPM-1,Ada\ncpm-1,Grace"),
+  });
   await expect(dialog.getByRole("alert")).toBeVisible();
   await expect(
     dialog.getByRole("button", { name: "Import records" }),
   ).toBeDisabled();
-  await dialog
-    .getByLabel("Import file")
-    .setInputFiles({
-      name: "valid.csv",
-      mimeType: "text/csv",
-      buffer: Buffer.from(
-        'Issue key,Summary,Skill Set,Vendor note\nCPM-20,"Morgan, Alex","React,Node.js","Quoted, source"',
-      ),
-    });
+  await dialog.getByLabel("Import file").setInputFiles({
+    name: "valid.csv",
+    mimeType: "text/csv",
+    buffer: Buffer.from(
+      'Issue key,Summary,Skill Set,Vendor note\nCPM-20,"Morgan, Alex","React,Node.js","Quoted, source"',
+    ),
+  });
   await expect(
     dialog.getByText("File validated. No changes have been saved yet.", {
       exact: true,
@@ -319,8 +313,8 @@ test("full backup restores into another isolated browser context", async ({
     ).toBeVisible();
     await restored.reload();
     await expect(
-      restored.getByLabel("CPM ID for Backup Candidate"),
-    ).toHaveValue("BACKUP-1");
+      restored.getByRole("link", { name: /BACKUP-1 for Backup Candidate/ }),
+    ).toHaveAttribute("href", "https://cbtwapac.atlassian.net/browse/BACKUP-1");
   } finally {
     await restoredContext.close();
   }
@@ -468,7 +462,9 @@ test("captures desktop, dark, mobile, and detail views without console errors or
       () => document.documentElement.scrollWidth <= innerWidth + 1,
     ),
   ).toBe(true);
+  // The toggle cycles system → light → dark.
   await page.getByRole("button", { name: /^Theme:/ }).click();
+  await page.getByRole("button", { name: /^Theme: light/ }).click();
   await expect(page.locator("html")).toHaveClass(/dark/);
   await page.waitForTimeout(300);
   await page.screenshot({

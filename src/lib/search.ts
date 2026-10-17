@@ -29,6 +29,7 @@ export function candidateSearchText(candidate: Candidate): string {
     candidate.name,
     candidate.cpmID,
     candidate.email,
+    candidate.linkedinURL,
     candidate.phone,
     candidate.headline,
     candidate.location,

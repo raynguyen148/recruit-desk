@@ -60,7 +60,7 @@ export async function loadSample() {
           "Singapore",
           "8",
           "React,TypeScript,Next.js",
-          "Available",
+          "Pre-qualification",
         ],
         [
           "Jamie Chen",
@@ -68,7 +68,7 @@ export async function loadSample() {
           "Ho Chi Minh City",
           "6",
           "Figma,Design systems,UX research",
-          "Open to opportunities",
+          "CV update",
         ],
         [
           "Taylor Nguyen",
@@ -76,7 +76,7 @@ export async function loadSample() {
           "Da Nang",
           "5",
           "React,Node.js,PostgreSQL",
-          "Available",
+          "Test",
         ],
         [
           "Jordan Lee",
@@ -84,7 +84,7 @@ export async function loadSample() {
           "Singapore",
           "12",
           "Leadership,Architecture,Python",
-          "Not looking",
+          "Not open",
         ],
         [
           "Casey Tran",
@@ -92,7 +92,7 @@ export async function loadSample() {
           "Ho Chi Minh City",
           "7",
           "Go,PostgreSQL,Kubernetes",
-          "Available",
+          "Interview",
         ],
         [
           "Sam Rivera",
@@ -100,7 +100,7 @@ export async function loadSample() {
           "Remote",
           "4",
           "React,CSS,Accessibility",
-          "Open to opportunities",
+          "CV update",
         ],
         [
           "Riley Park",
@@ -108,7 +108,7 @@ export async function loadSample() {
           "Singapore",
           "9",
           "Figma,Prototyping,Research",
-          "Available",
+          "Offer",
         ],
         [
           "Avery Kim",
@@ -116,7 +116,7 @@ export async function loadSample() {
           "Remote",
           "6",
           "AWS,Terraform,Go",
-          "Available",
+          "Pre-qualification",
         ],
       ];
       const candidates = rows.map((r, i) => ({
@@ -165,6 +165,48 @@ export async function loadSample() {
         };
         await createEntity("applications", app);
       }
+    },
+  );
+}
+export const isSampleCandidate = (c: { cpmID: string; source: string }) =>
+  c.cpmID.startsWith("DEMO-") && c.source === "Fictional sample";
+export const isSampleJob = (j: { description: string }) =>
+  j.description.startsWith("Fictional sample role.");
+export const isSampleCompany = (c: { notes: string }) =>
+  c.notes === "Fictional sample company.";
+/** Deletes only the records `loadSample` created, plus their applications. */
+export async function removeSample() {
+  return db.transaction(
+    "rw",
+    [db.candidates, db.jobs, db.companies, db.applications],
+    async () => {
+      const candidates = (await db.candidates.toArray())
+        .filter(isSampleCandidate)
+        .map((c) => c.id);
+      const jobs = (await db.jobs.toArray())
+        .filter(isSampleJob)
+        .map((j) => j.id);
+      const jobSet = new Set(jobs);
+      const stray = await db.applications
+        .filter(
+          (a) => candidates.includes(a.candidateId) || jobSet.has(a.jobId),
+        )
+        .primaryKeys();
+      await db.applications.bulkDelete(stray);
+      await db.candidates.bulkDelete(candidates);
+      await db.jobs.bulkDelete(jobs);
+      const used = new Set(
+        (await db.jobs.toArray()).map((j) => j.companyId).filter(Boolean),
+      );
+      const companies = (await db.companies.toArray())
+        .filter((c) => isSampleCompany(c) && !used.has(c.id))
+        .map((c) => c.id);
+      await db.companies.bulkDelete(companies);
+      return {
+        candidates: candidates.length,
+        jobs: jobs.length,
+        companies: companies.length,
+      };
     },
   );
 }

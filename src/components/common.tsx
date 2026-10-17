@@ -17,13 +17,13 @@ import { Select } from "./ui/select";
 import * as Tabs from "@radix-ui/react-tabs";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 export const toneOf = (value: string) =>
-  ["Available", "Open", "Hired"].includes(value)
+  ["Open", "Hired", "Placed"].includes(value)
     ? "green"
-    : ["Interview", "Offer", "Screening", "Submitted"].includes(value)
+    : ["Interview", "Offer", "Screening", "Submitted", "Test"].includes(value)
       ? "blue"
-      : ["On hold", "Not looking", "Contacted"].includes(value)
+      : ["On hold", "Not open", "CV update", "Contacted"].includes(value)
         ? "amber"
-        : ["Rejected", "Do not contact"].includes(value)
+        : ["Rejected", "Not suitable", "Failed"].includes(value)
           ? "red"
           : "neutral";
 export function Badge({ value }: { value: string }) {

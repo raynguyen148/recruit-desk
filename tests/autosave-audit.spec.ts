@@ -93,8 +93,8 @@ test("normalized saves accept edits queued while the previous write is active", 
   page,
 }) => {
   await sample(page);
-  const field = page.getByLabel("CPM ID for Alex Morgan", { exact: true });
-  await field.fill(" QA-TRIM ");
+  const field = page.getByLabel("Location for Alex Morgan", { exact: true });
+  await field.fill("QA-TRIM");
   // Two real input events around blur, in one task, force the in-flight window.
   await field.evaluate((el) => {
     (el as HTMLInputElement).blur();
@@ -112,7 +112,7 @@ test("normalized saves accept edits queued while the previous write is active", 
   await expect(page.getByRole("alert")).toHaveCount(0);
   await page.reload();
   await expect(
-    page.getByLabel("CPM ID for Alex Morgan", { exact: true }),
+    page.getByLabel("Location for Alex Morgan", { exact: true }),
   ).toHaveValue("QA-TRIM-2");
 });
 test("IME Enter leaves the active field focused", async ({ page }) => {

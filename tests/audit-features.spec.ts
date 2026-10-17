@@ -100,14 +100,14 @@ test("mobile restore notification does not block bottom navigation", async ({
   await expect(
     page.getByRole("heading", { name: "Candidates 24", exact: true }),
   ).toBeVisible();
-  const inline = page.getByLabel("CPM ID for An Nguyễn", { exact: true });
+  const inline = page.getByLabel("Location for An Nguyễn", { exact: true });
   expect(await inline.evaluate((el) => getComputedStyle(el).fontSize)).toBe(
     "16px",
   );
   expect(
     (await page
       .getByRole("combobox", {
-        name: "Availability for An Nguyễn",
+        name: "Status for An Nguyễn",
         exact: true,
       })
       .boundingBox())!.height,

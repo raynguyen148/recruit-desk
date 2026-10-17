@@ -10,7 +10,16 @@ import { PageHeading, Section, Field } from "../components/common";
 import { AutoField } from "../components/autosave";
 import { Select } from "../components/ui/select";
 import { Button } from "../components/ui/button";
-import { patchSettings } from "../lib/db";
+import { Confirm } from "../components/ui/confirm";
+import { toast } from "sonner";
+import {
+  isSampleCandidate,
+  isSampleCompany,
+  isSampleJob,
+  removeSample,
+} from "../lib/sample";
+import { Modal } from "../components/ui/dialog";
+import { clearAllData, patchSettings } from "../lib/db";
 import type { Dataset, Settings as WorkspaceSettings } from "../lib/types";
 import type { ImportKind } from "../lib/transfer";
 
@@ -33,6 +42,47 @@ export default function Settings({
   const s = data.settings;
   const workspaceEmpty =
     !data.candidates.length && !data.jobs.length && !data.companies.length;
+  const sampleCount =
+    data.candidates.filter(isSampleCandidate).length +
+    data.jobs.filter(isSampleJob).length +
+    data.companies.filter(isSampleCompany).length;
+  const [removingSample, setRemovingSample] = useState(false);
+  const [sampleBusy, setSampleBusy] = useState(false);
+  const [wiping, setWiping] = useState(false);
+  const [wipeText, setWipeText] = useState("");
+  const [wipeBusy, setWipeBusy] = useState(false);
+  const recordCount =
+    data.candidates.length +
+    data.jobs.length +
+    data.companies.length +
+    data.applications.length;
+  async function wipeAll() {
+    setWipeBusy(true);
+    try {
+      await clearAllData();
+      toast.success("All data deleted");
+      setWiping(false);
+      setWipeText("");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not delete data");
+    } finally {
+      setWipeBusy(false);
+    }
+  }
+  async function clearSample() {
+    setSampleBusy(true);
+    try {
+      const r = await removeSample();
+      toast.success(
+        `Removed ${r.candidates} candidates, ${r.jobs} jobs and ${r.companies} companies`,
+      );
+      setRemovingSample(false);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not remove samples");
+    } finally {
+      setSampleBusy(false);
+    }
+  }
   const [saving, setSaving] = useState(false),
     [error, setError] = useState("");
   const [storage, setStorage] = useState<{
@@ -383,6 +433,87 @@ export default function Settings({
               Add sample records
               <ArrowUpRight size={15} />
             </Button>
+            {sampleCount > 0 && (
+              <>
+                <Button
+                  variant="outline"
+                  className="ml-2"
+                  onClick={() => setRemovingSample(true)}
+                >
+                  Remove sample records
+                </Button>
+                <Confirm
+                  open={removingSample}
+                  onOpenChange={setRemovingSample}
+                  title="Remove the sample records?"
+                  description="Only the fictional sample candidates, jobs and companies (and their applications) are deleted. Records you added yourself are kept."
+                  onConfirm={() => void clearSample()}
+                  busy={sampleBusy}
+                />
+              </>
+            )}
+          </Section>
+          <Section id="danger-zone" title="Delete all data">
+            <p className="text-sm muted mb-4">
+              Permanently removes every candidate, job, company and application
+              from this browser and resets settings. Download a backup first if
+              you may need these records again.
+            </p>
+            <Button
+              variant="outline"
+              onClick={() => onExport("workspace")}
+              disabled={!recordCount}
+            >
+              <Download size={15} />
+              Back up first
+            </Button>
+            <Button
+              variant="destructive"
+              className="ml-2"
+              disabled={!recordCount}
+              onClick={() => setWiping(true)}
+            >
+              Delete all data
+            </Button>
+            <Modal
+              open={wiping}
+              onOpenChange={(v) => {
+                if (!wipeBusy) {
+                  setWiping(v);
+                  setWipeText("");
+                }
+              }}
+              title="Delete all data?"
+              description={`This permanently deletes ${recordCount} records from this browser. It cannot be undone.`}
+            >
+              <div className="form-grid">
+                <Field label="Type DELETE to confirm">
+                  <input
+                    className="input"
+                    value={wipeText}
+                    autoComplete="off"
+                    onChange={(e) => setWipeText(e.target.value)}
+                  />
+                </Field>
+              </div>
+              <div className="dialog-actions">
+                <Button
+                  variant="outline"
+                  disabled={wipeBusy}
+                  onClick={() => onExport("workspace")}
+                >
+                  <Download size={15} />
+                  Back up first
+                </Button>
+                <Button
+                  variant="destructive"
+                  disabled={wipeText.trim() !== "DELETE" || wipeBusy}
+                  onClick={() => void wipeAll()}
+                >
+                  {wipeBusy ? "Deleting…" : "Delete everything"}
+                </Button>
+              </div>
+            </Modal>
           </Section>
         </div>
       </div>

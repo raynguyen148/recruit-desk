@@ -3,6 +3,7 @@ import { z } from "zod";
 import { db, getDataset } from "./db";
 import {
   candidateStatuses,
+  migrateCandidateStatus,
   jobStatuses,
   stages,
   channels,
@@ -66,10 +67,11 @@ const candidate = z
     location: short,
     yearsExperience: short,
     skills: z.array(short).max(500),
-    status: z.enum(candidateStatuses),
+    status: z.preprocess(migrateCandidateStatus, z.enum(candidateStatuses)),
     salary: short,
     expectation: text,
     notes: text,
+    linkedinURL: short.default(""),
     source: short,
     entries: z
       .array(

@@ -50,7 +50,7 @@ it("preserves 10,000 vendor profiles and relational workspace backup through a f
       yearsExperience: String(index % 20),
       skills: ["TypeScript", "React"],
       location: "Vietnam",
-      status: "Available",
+      status: "Pre-qualification",
       vendorData: {
         Status: "Interview",
         "Issue id": String(100000 + index),

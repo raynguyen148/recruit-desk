@@ -4,6 +4,7 @@ import {
   defaultSettings,
   stages,
   candidateStatuses,
+  migrateCandidateStatus,
   jobStatuses,
   channels,
   type Candidate,
@@ -57,9 +58,10 @@ const schemas = {
         "salary",
         "source",
       ),
+      linkedinURL: short.default(""),
       expectation: text,
       notes: text,
-      status: z.enum(candidateStatuses),
+      status: z.preprocess(migrateCandidateStatus, z.enum(candidateStatuses)),
       skills: z.array(short).max(500),
       entries: z
         .array(
@@ -177,6 +179,26 @@ class RecruitdeskDB extends Dexie {
       applications: "id,&[candidateId+jobId],candidateId,jobId,stage,followUp",
       settings: "id",
     });
+    this.version(2)
+      .stores({})
+      .upgrade((tx) =>
+        tx
+          .table("candidates")
+          .toCollection()
+          .modify((c) => {
+            c.status = migrateCandidateStatus(c.status);
+          }),
+      );
+    this.version(3)
+      .stores({})
+      .upgrade((tx) =>
+        tx
+          .table("candidates")
+          .toCollection()
+          .modify((c) => {
+            c.linkedinURL ??= "";
+          }),
+      );
   }
 }
 export const db = new RecruitdeskDB();
@@ -192,6 +214,13 @@ export async function initializeDB(): Promise<void> {
   await db.transaction("rw", db.settings, async () => {
     if (!(await db.settings.get("workspace")))
       await db.settings.add({ ...defaultSettings });
+  });
+}
+/** Deletes every record and restores default settings. */
+export async function clearAllData(): Promise<void> {
+  await db.transaction("rw", tables(), async () => {
+    await Promise.all(tables().map((table) => table.clear()));
+    await db.settings.add({ ...defaultSettings });
   });
 }
 export async function getDataset(): Promise<Dataset> {

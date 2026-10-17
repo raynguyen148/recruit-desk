@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Modal } from "./ui/dialog";
 import { Button } from "./ui/button";
-import { Select } from "./ui/select";
+import { Combobox } from "./ui/combobox";
 import { Field, TextInput } from "./common";
 import { createEntity } from "../lib/db";
+import { fold } from "../lib/search";
 import {
   newCandidate,
   newJob,
@@ -36,6 +37,34 @@ export function CreateRecord({
   const [job, setJob] = useState(jobId);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const linked = useMemo(
+    () => new Set(data.applications.map((a) => `${a.candidateId}:${a.jobId}`)),
+    [data.applications],
+  );
+  // Hide choices that would create an application which already exists.
+  const candidateOptions = data.candidates
+    .filter((c) => !job || !linked.has(`${c.id}:${job}`))
+    .map((c) => ({ value: c.id, label: c.name, hint: c.cpmID }));
+  const jobOptions = data.jobs
+    .filter((j) => !candidate || !linked.has(`${candidate}:${j.id}`))
+    .map((j) => ({
+      value: j.id,
+      label: j.title,
+      hint: data.companies.find((c) => c.id === j.companyId)?.name,
+    }));
+  const duplicates = useMemo(() => {
+    if (kind !== "candidates") return [];
+    const foldedName = fold(name.trim()).replace(/\s+/g, " ");
+    const mail = email.trim().toLowerCase();
+    return data.candidates
+      .filter(
+        (c) =>
+          (foldedName.length >= 3 &&
+            fold(c.name).replace(/\s+/g, " ") === foldedName) ||
+          (!!mail && c.email.trim().toLowerCase() === mail),
+      )
+      .slice(0, 3);
+  }, [kind, name, email, data.candidates]);
   const singular = {
     candidates: "candidate",
     jobs: "job",
@@ -94,28 +123,27 @@ export function CreateRecord({
           {kind === "applications" ? (
             <>
               <Field label="Candidate">
-                <Select
+                <Combobox
                   label="Candidate"
                   value={candidate}
-                  onChange={setCandidate}
-                  options={[
-                    { value: "", label: "Choose a candidate" },
-                    ...data.candidates.map((c) => ({
-                      value: c.id,
-                      label: `${c.name} · ${c.cpmID}`,
-                    })),
-                  ]}
+                  onChange={(v) => {
+                    setCandidate(v);
+                    if (linked.has(`${v}:${job}`)) setJob("");
+                  }}
+                  options={candidateOptions}
+                  placeholder="Search candidates…"
                 />
               </Field>
               <Field label="Job">
-                <Select
+                <Combobox
                   label="Job"
                   value={job}
-                  onChange={setJob}
-                  options={[
-                    { value: "", label: "Choose a job" },
-                    ...data.jobs.map((j) => ({ value: j.id, label: j.title })),
-                  ]}
+                  onChange={(v) => {
+                    setJob(v);
+                    if (linked.has(`${candidate}:${v}`)) setCandidate("");
+                  }}
+                  options={jobOptions}
+                  placeholder="Search jobs…"
                 />
               </Field>
             </>
@@ -156,7 +184,7 @@ export function CreateRecord({
           )}
           {kind === "jobs" && (
             <Field label="Company">
-              <Select
+              <Combobox
                 label="Company"
                 value={company}
                 onChange={setCompany}
@@ -169,6 +197,13 @@ export function CreateRecord({
                 ]}
               />
             </Field>
+          )}
+          {duplicates.length > 0 && (
+            <p className="warning-banner" role="status">
+              Possible duplicate:{" "}
+              {duplicates.map((c) => `${c.name} (${c.cpmID})`).join(", ")}. You
+              can still create this candidate.
+            </p>
           )}
           {error && (
             <p className="error-banner" role="alert">

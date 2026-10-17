@@ -14,11 +14,14 @@ import {
   Sun,
   Moon,
   Monitor,
+  CalendarCheck,
+  Search,
 } from "lucide-react";
 import { getDataset, initializeDB, patchSettings } from "./lib/db";
 import { exportData } from "./lib/transfer";
 import { loadSample } from "./lib/sample";
 import type { EntityKind } from "./lib/types";
+import { followUpBucket } from "./lib/followups";
 import { usePageMotion } from "./lib/use-page-motion";
 import { Button } from "./components/ui/button";
 import {
@@ -29,19 +32,41 @@ import {
 import { CreateRecord } from "./components/create-record";
 import { Details } from "./components/details";
 import { ImportDialog } from "./components/import-dialog";
+import { CommandPalette } from "./components/command-palette";
 import Candidates from "./pages/candidates";
 import { Jobs, Companies, Applications } from "./pages/records";
 import Settings from "./pages/settings";
-type Page = EntityKind | "settings";
+import Today from "./pages/today";
+type Page = EntityKind | "today" | "settings";
+const entityKinds: EntityKind[] = [
+  "candidates",
+  "jobs",
+  "companies",
+  "applications",
+];
 const pages: Page[] = [
+  "today",
   "candidates",
   "jobs",
   "companies",
   "applications",
   "settings",
 ];
-const pageFromHash = (hash: string) =>
-  pages.find((p) => p === hash.replace(/^#/, ""));
+/** `#jobs` is a page; `#jobs/<id>` is a page with that record open. */
+function parseHash(hash: string) {
+  const [head, id] = hash.replace(/^#/, "").split("/");
+  const page = pages.find((p) => p === head);
+  const kind = entityKinds.find((k) => k === page);
+  return {
+    page,
+    record: kind && id ? { kind, id: decodeURIComponent(id) } : null,
+  };
+}
+type Selected = { kind: EntityKind; id: string } | null;
+const hashFor = (selected: Selected, page: Page) =>
+  selected
+    ? `#${selected.kind}/${encodeURIComponent(selected.id)}`
+    : `#${page}`;
 const THEME_KEY = "recruitdesk-theme";
 const themeCycle = { system: "light", light: "dark", dark: "system" } as const;
 const BACKUP_STALE_DAYS = 14;
@@ -84,10 +109,8 @@ function Workspace() {
   const data = useLiveQuery(() => getDataset(), []);
   const [page, setPage] = useState<Page>("candidates");
   const [navInitialized, setNavInitialized] = useState(false);
-  const [selected, setSelected] = useState<{
-    kind: EntityKind;
-    id: string;
-  } | null>(null);
+  const [selected, setSelected] = useState<Selected>(null);
+  const [palette, setPalette] = useState(false);
   const [create, setCreate] = useState<{
     kind: EntityKind;
     candidateId?: string;
@@ -97,6 +120,10 @@ function Workspace() {
   const [collapsed, setCollapsed] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const pageRef = useRef<Page>(page);
+  const selectedRef = useRef<Selected>(selected);
+  const dataRef = useRef(data);
+  selectedRef.current = selected;
+  dataRef.current = data;
   const defaultPageRef = useRef<Page>("candidates");
   pageRef.current = page;
   if (data) defaultPageRef.current = data.settings.defaultPage;
@@ -110,7 +137,11 @@ function Workspace() {
   }, []);
   useEffect(() => {
     if (data && !navInitialized) {
-      setPage(pageFromHash(location.hash) ?? data.settings.defaultPage);
+      const { page: linked, record } = parseHash(location.hash);
+      setPage(linked ?? data.settings.defaultPage);
+      if (record && data[record.kind].some((r) => r.id === record.id))
+        setSelected(record);
+      else if (record) history.replaceState(null, "", `#${record.kind}`);
       setNavInitialized(true);
     }
   }, [data, navInitialized]);
@@ -118,15 +149,28 @@ function Workspace() {
     if (!navInitialized) return;
     // Browser Back/Forward moves between pages like in-app navigation does.
     const onHistory = () => {
-      const next = pageFromHash(location.hash) ?? defaultPageRef.current;
-      if (next === pageRef.current) return;
+      const { page: linked, record } = parseHash(location.hash);
+      // An open record leaves the page underneath it alone.
+      const next = record
+        ? pageRef.current
+        : (linked ?? defaultPageRef.current);
+      const target =
+        record && dataRef.current?.[record.kind].some((r) => r.id === record.id)
+          ? record
+          : null;
       void flush().then((saved) => {
         if (saved) {
-          setSelected(null);
-          setPage(next);
-          window.scrollTo({ top: 0, behavior: "instant" });
+          setSelected(target);
+          if (next !== pageRef.current) {
+            setPage(next);
+            window.scrollTo({ top: 0, behavior: "instant" });
+          }
         } else {
-          history.replaceState(null, "", `#${pageRef.current}`);
+          history.replaceState(
+            history.state,
+            "",
+            hashFor(selectedRef.current, pageRef.current),
+          );
           toast.error("Resolve unsaved changes before leaving this page.");
         }
       });
@@ -157,16 +201,86 @@ function Workspace() {
     media.addEventListener("change", apply);
     return () => media.removeEventListener("change", apply);
   }, [data?.settings.theme]);
+  useEffect(() => {
+    if (!navInitialized) return;
+    const onKey = (event: KeyboardEvent) => {
+      const key = event.key.toLowerCase();
+      if ((event.metaKey || event.ctrlKey) && key === "k") {
+        event.preventDefault();
+        setPalette((open) => !open);
+        return;
+      }
+      if (
+        event.metaKey ||
+        event.ctrlKey ||
+        event.altKey ||
+        event.defaultPrevented
+      )
+        return;
+      const target = event.target as HTMLElement | null;
+      if (
+        target?.closest(
+          "input, textarea, select, [contenteditable], [role=dialog], [role=alertdialog]",
+        )
+      )
+        return;
+      if (document.querySelector("[role=dialog], [role=alertdialog]")) return;
+      if (event.key === "/") {
+        const search =
+          document.querySelector<HTMLInputElement>(".search-box input");
+        if (search) {
+          event.preventDefault();
+          search.focus();
+        }
+      } else if (
+        key === "n" &&
+        entityKinds.some((k) => k === pageRef.current)
+      ) {
+        event.preventDefault();
+        void startCreate(pageRef.current as EntityKind);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // startCreate only reads refs and `flush`, which is stable.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navInitialized, flush]);
   async function navigate(next: Page) {
     if (await flush()) {
+      setSelected(null);
       setPage(next);
       if (next !== page) window.scrollTo({ top: 0, behavior: "instant" });
       if (location.hash !== `#${next}`) history.pushState(null, "", `#${next}`);
     } else toast.error("Resolve unsaved changes before leaving this page.");
   }
   async function open(kind: EntityKind, id: string) {
-    if (await flush()) setSelected({ kind, id });
-    else toast.error("Resolve unsaved changes before opening another record.");
+    if (!(await flush())) {
+      toast.error("Resolve unsaved changes before opening another record.");
+      return;
+    }
+    setSelected({ kind, id });
+    // Each open adds one history entry, so Back closes the record again.
+    history.pushState(
+      { depth: (history.state?.depth ?? 0) + 1 },
+      "",
+      hashFor({ kind, id }, pageRef.current),
+    );
+  }
+  function closeDetails() {
+    setSelected(null);
+    const depth: number = history.state?.depth ?? 0;
+    if (depth > 0) history.go(-depth);
+    else history.replaceState(null, "", `#${pageRef.current}`);
+  }
+  async function startCreate(kind: EntityKind) {
+    if (await flush()) setCreate({ kind });
+    else toast.error("Resolve unsaved changes before creating a record.");
+  }
+  function cycleTheme() {
+    const current = dataRef.current?.settings.theme ?? "system";
+    void patchSettings({ theme: themeCycle[current] }).catch((e) =>
+      toast.error(e.message),
+    );
   }
   async function showImport(kind: ImportKind) {
     if (await flush()) setImportKind(kind);
@@ -248,7 +362,17 @@ function Workspace() {
     hasRecords &&
     (Number.isNaN(lastBackup) ||
       Date.now() - lastBackup > BACKUP_STALE_DAYS * 86_400_000);
+  const dueToday = data.applications.filter((a) => {
+    const bucket = followUpBucket(a);
+    return bucket === "overdue" || bucket === "today";
+  }).length;
   const links = [
+    {
+      key: "today" as const,
+      label: "Today",
+      icon: CalendarCheck,
+      count: dueToday,
+    },
     {
       key: "candidates" as const,
       label: "Candidates",
@@ -293,9 +417,18 @@ function Workspace() {
             onClick={() => void navigate("candidates")}
             aria-label="Recruitdesk home"
           >
-            <span className="brand-mark">
-              r<span />
-            </span>
+            <svg className="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="16" fill="currentColor" />
+              <path
+                d="M23 45V21m0 10c0-6 4-10 11-10"
+                stroke="#fff"
+                strokeWidth="6"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <circle cx="44" cy="44" r="4.5" fill="#9acbff" />
+            </svg>
             <strong>Recruitdesk</strong>
           </button>
           <nav aria-label="Main navigation">
@@ -345,13 +478,16 @@ function Workspace() {
         </aside>
         <div className="main-shell">
           <header className="topbar">
-            <div className="breadcrumb">
-              <strong>
-                {page === "settings"
-                  ? "Settings & data"
-                  : links.find((l) => l.key === page)?.label}
-              </strong>
-            </div>
+            <button
+              className="palette-trigger"
+              aria-label="Open command palette"
+              title="Command palette (Ctrl or ⌘ K)"
+              onClick={() => setPalette(true)}
+            >
+              <Search size={15} aria-hidden="true" />
+              <span>Search…</span>
+              <kbd aria-hidden="true">⌘K</kbd>
+            </button>
             <div className="topbar-right">
               {backupStale && (
                 <Button
@@ -369,11 +505,7 @@ function Workspace() {
                 className="theme-toggle"
                 aria-label={`Theme: ${data.settings.theme}. Switch to ${themeCycle[data.settings.theme]}`}
                 title={`Theme: ${data.settings.theme}`}
-                onClick={() =>
-                  void patchSettings({
-                    theme: themeCycle[data.settings.theme],
-                  }).catch((e) => toast.error(e.message))
-                }
+                onClick={cycleTheme}
               >
                 {data.settings.theme === "system" ? (
                   <Monitor size={17} />
@@ -387,11 +519,16 @@ function Workspace() {
           </header>
           <main id="main-content" tabIndex={-1}>
             <div className="page-content" ref={pageContentRef}>
-              {page === "candidates" ? (
+              {page === "today" ? (
+                <Today
+                  data={data}
+                  onOpen={(id) => void open("applications", id)}
+                />
+              ) : page === "candidates" ? (
                 <Candidates
                   data={data}
                   onOpen={(id) => void open("candidates", id)}
-                  onCreate={() => setCreate({ kind: "candidates" })}
+                  onCreate={() => void startCreate("candidates")}
                   onImport={() => void showImport("vendor")}
                   onExport={() => void download("candidates")}
                   onSample={() => void sample()}
@@ -400,7 +537,7 @@ function Workspace() {
                 <Jobs
                   data={data}
                   onOpen={(id) => void open("jobs", id)}
-                  onCreate={() => setCreate({ kind: "jobs" })}
+                  onCreate={() => void startCreate("jobs")}
                   onImport={() => void showImport("jobs")}
                   onExport={() => void download("jobs")}
                 />
@@ -408,13 +545,13 @@ function Workspace() {
                 <Companies
                   data={data}
                   onOpen={(id) => void open("companies", id)}
-                  onCreate={() => setCreate({ kind: "companies" })}
+                  onCreate={() => void startCreate("companies")}
                 />
               ) : page === "applications" ? (
                 <Applications
                   data={data}
                   onOpen={(id) => void open("applications", id)}
-                  onCreate={() => setCreate({ kind: "applications" })}
+                  onCreate={() => void startCreate("applications")}
                 />
               ) : (
                 <Settings
@@ -444,7 +581,7 @@ function Workspace() {
           key={`${selected.kind}-${selected.id}`}
           {...selected}
           data={data}
-          onClose={() => setSelected(null)}
+          onClose={closeDetails}
           onNavigate={(kind, id) => void open(kind, id)}
           onLink={(candidateId, jobId) =>
             setCreate({ kind: "applications", candidateId, jobId })
@@ -460,6 +597,20 @@ function Workspace() {
             const kind = create.kind;
             setCreate(null);
             void open(kind, id);
+          }}
+        />
+      )}
+      {palette && (
+        <CommandPalette
+          data={data}
+          onClose={() => setPalette(false)}
+          actions={{
+            go: (next) => void navigate(next),
+            create: (kind) => void startCreate(kind),
+            open: (kind, id) => void open(kind, id),
+            importCSV: () => void showImport("vendor"),
+            backup: () => void download("workspace"),
+            cycleTheme,
           }}
         />
       )}

@@ -1,9 +1,36 @@
 export const candidateStatuses = [
-  "Available",
-  "Open to opportunities",
-  "Not looking",
-  "Do not contact",
+  "Pre-qualification",
+  "CV update",
+  "Test",
+  "Interview",
+  "Offer",
+  "Placed",
+  "Not open",
+  "Not suitable",
+  "Failed",
 ] as const;
+export type CandidateStatus = (typeof candidateStatuses)[number];
+export const closedCandidateStatuses: readonly CandidateStatus[] = [
+  "Placed",
+  "Not open",
+  "Not suitable",
+  "Failed",
+];
+const legacyCandidateStatuses: Record<string, CandidateStatus> = {
+  Available: "Pre-qualification",
+  "Open to opportunities": "Pre-qualification",
+  "Not looking": "Not open",
+  "Do not contact": "Not suitable",
+  "Pre-Qualification": "Pre-qualification",
+  "Updating CV": "CV update",
+  "Not Suitable": "Not suitable",
+};
+/** Maps statuses from older versions/backups onto the current pipeline. */
+export function migrateCandidateStatus(value: unknown): unknown {
+  return typeof value === "string" && value in legacyCandidateStatuses
+    ? legacyCandidateStatuses[value]
+    : value;
+}
 export const jobStatuses = ["Draft", "Open", "On hold", "Closed"] as const;
 export const stages = [
   "Sourced",
@@ -65,6 +92,7 @@ export interface Candidate extends BaseRecord {
   salary: string;
   expectation: string;
   notes: string;
+  linkedinURL: string;
   source: string;
   entries: ProfileEntry[];
   customFields: CustomField[];
@@ -157,10 +185,11 @@ export function newCandidate(): Candidate {
     location: "",
     yearsExperience: "",
     skills: [],
-    status: "Available",
+    status: "Pre-qualification",
     salary: "",
     expectation: "",
     notes: "",
+    linkedinURL: "",
     source: "Manual",
     entries: [],
     customFields: [],

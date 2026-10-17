@@ -286,14 +286,14 @@ describe("import boundaries", () => {
       yearsExperience: "8",
       skills: ["React", "TypeScript", "Node.js"],
       location: "Vietnam / Ho Chi Minh City",
-      status: "Available",
+      status: "Pre-qualification",
       vendorData: Object.fromEntries(headers.map((h, i) => [h, values[i]])),
     });
     const local = {
       ...newCandidate(),
       cpmID: "CPM-88",
       name: "Old name",
-      status: "Not looking",
+      status: "Not open",
       yearsExperience: "2",
       skills: ["Java"],
       location: "Old city",
@@ -308,7 +308,7 @@ describe("import boundaries", () => {
       yearsExperience: "8",
       skills: ["React", "TypeScript", "Node.js"],
       location: "Vietnam / Ho Chi Minh City",
-      status: "Not looking",
+      status: "Not open",
       notes: "Keep manual note",
       vendorData: { Status: "Interview" },
     });
