@@ -39,7 +39,8 @@ export function ImportDialog({
     [filename, setFilename] = useState(""),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
-    [allowUpdates, setAllowUpdates] = useState(false);
+    [allowUpdates, setAllowUpdates] = useState(false),
+    [keep, setKeep] = useState<Record<string, string[]>>({});
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   async function read(file: File, confirmedLargeJSON = false) {
@@ -47,6 +48,7 @@ export function ImportDialog({
     setError("");
     setPlan(null);
     setAllowUpdates(false);
+    setKeep({});
     setFilename(file.name);
     if (
       kind !== "vendor" &&
@@ -78,7 +80,7 @@ export function ImportDialog({
     setBusy(true);
     setError("");
     try {
-      const result = await applyImport(plan, allowUpdates);
+      const result = await applyImport(plan, allowUpdates, keep);
       toast.success(
         `Import complete: ${result.added} added, ${result.updated} updated.`,
       );
@@ -278,6 +280,66 @@ export function ImportDialog({
                 {names.length > 5 && (
                   <p className="text-xs muted mt-2">
                     And {(names.length - 5).toLocaleString()} more…
+                  </p>
+                )}
+              </div>
+            )}
+            {plan.changes.length > 0 && (
+              <div>
+                <h3 className="text-sm font-medium">
+                  Changes to existing records
+                </h3>
+                <p className="text-xs muted mt-1">
+                  Untick a field to keep your current value.
+                </p>
+                <div className="import-diff">
+                  {plan.changes.slice(0, 50).map((change) => (
+                    <details key={change.id}>
+                      <summary>
+                        {change.label}
+                        <span className="muted">
+                          {" "}
+                          · {change.fields.length}{" "}
+                          {change.fields.length === 1 ? "field" : "fields"}
+                        </span>
+                      </summary>
+                      <ul>
+                        {change.fields.map((f) => (
+                          <li key={f.field}>
+                            <label>
+                              <input
+                                type="checkbox"
+                                checked={!keep[change.id]?.includes(f.field)}
+                                onChange={(e) =>
+                                  setKeep((prev) => {
+                                    const rest = (prev[change.id] ?? []).filter(
+                                      (x) => x !== f.field,
+                                    );
+                                    return {
+                                      ...prev,
+                                      [change.id]: e.target.checked
+                                        ? rest
+                                        : [...rest, f.field],
+                                    };
+                                  })
+                                }
+                              />
+                              <span className="import-diff-field">
+                                {f.field}
+                              </span>
+                              <del>{f.from || "empty"}</del>
+                              <ins>{f.to || "empty"}</ins>
+                            </label>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  ))}
+                </div>
+                {plan.changes.length > 50 && (
+                  <p className="text-xs muted mt-2">
+                    And {plan.changes.length - 50} more records with changes —
+                    these will be overwritten.
                   </p>
                 )}
               </div>

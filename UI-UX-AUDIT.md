@@ -1,5 +1,7 @@
 # Recruitdesk — UI/UX, feature and reliability audit
 
+> **Dated snapshot (17 October 2026, audit round).** Findings, test counts and "remaining limits" below describe the build at that time. Several recommendations have since shipped; see [Status of recommendations](#status-of-recommendations). For current verification see [VALIDATION.md](VALIDATION.md).
+
 Date: 17 October 2026. Reviewed by the main agent with three independent Astra Medium agents. Scope: Candidates, Jobs, Applications, Companies, Settings, detail editors, creation forms, JSON/CSV transfer, autosave, cross-tab updates, and desktop/mobile/light/dark behavior. All browser mutations used isolated fictional test profiles.
 
 ## Conclusion
@@ -36,7 +38,7 @@ These are qualitative implementation scores, not accessibility certification.
 | P2 | A very long candidate name expanded the pinned identity column over other mobile columns. | Bound the identity cell and truncate the list label; full names remain available and wrap in detail. `src/styles.css`, final candidate-table rules. |
 | P2 | Small controls and small input text were poor touch targets and could trigger mobile focus zoom. | 44px coarse-pointer targets, 16px input text including spreadsheet edits, safe-area spacing and modal scroll containment. `src/styles.css`, final responsive rules. |
 | P2 | Enter during IME composition could prematurely commit an edited field. | Respect composing keyboard events. `src/components/autosave.tsx`, input key handler. |
-| P2 | Free-text salary sorting produced an incorrect numeric order, even for $900 versus $1,000. | Removed the misleading sort action. Salary stays editable free text until amount/currency/period are structured. `src/pages/candidates.tsx:298`, `src/pages/records.tsx`. |
+| P2 | Free-text salary sorting produced an incorrect numeric order, even for $900 versus $1,000. | Removed the misleading sort action at the time. *Superseded:* salary now sorts and filters through a parsed monthly amount (`src/lib/salary.ts`) while the stored text stays free-form. `src/pages/candidates.tsx:298`, `src/pages/records.tsx`. |
 | P3 | Candidate search missed past employers, certificates, custom fields, phone and contact notes. | Search now includes all those profile fields, with memoized search text. `src/lib/search.ts`, `src/pages/candidates.tsx:69`. |
 | P3 | Each visible row scanned every relationship to display its count. | Build count maps once and memoize Applications filtering/sorting. `src/lib/search.ts:31`, `src/pages/records.tsx:576`. |
 | P3 | Sidebar Applications count excluded terminal stages while the page count included them. | Both now show the total application count. `src/App.tsx:215`. |
@@ -51,7 +53,7 @@ These are qualitative implementation scores, not accessibility certification.
 - The offline browser regression still observed no external HTTP requests in its exercised flow.
 - Mechanical detector: **77 advisory documentation mismatches** (72 typography and 5 radius values). These are differences between existing CSS values and the abbreviated DESIGN.md scale, not evidence of 77 runtime bugs. They were not used to justify unrelated visual changes.
 
-## Recommended next work — not silently added
+## Recommended next work (as of the audit)
 
 1. **Searchable entity pickers and saved views.** Replace all-record candidate/job selection menus with searchable, bounded results. Save common filter/sort/column combinations for recurring sourcing work.
 2. **Daily follow-up view.** Group overdue, today and upcoming actions; support explicit complete/reschedule operations and link each action to its application.
@@ -62,12 +64,23 @@ These are qualitative implementation scores, not accessibility certification.
 
 ## Remaining limits
 
-- Draft recovery added here is in memory for the current app session. Before-unload warnings help, but forced termination can still lose unsaved text.
+- *(At audit time)* draft recovery was in memory only. It is now also mirrored to local storage and restored on reload; see the status table.
 - Large native JSON files are read, parsed and serialized in browser memory. Removing an artificial format cap does not remove browser memory limits or guarantee arbitrarily large transfers.
 - Browser evidence is Chrome on this Mac, including emulated mobile viewports/touch capability. Safari, Firefox, physical mobile devices and screen readers were not comprehensively verified.
 - IndexedDB and exported JSON are not application-encrypted. Offline operation does not protect data from someone with access to the browser profile/device or backup files.
 - No real vendor file was supplied; compatibility tests use the exact provided columns with fictional values.
 - The application bundle remains about 671 kB uncompressed / 206 kB gzip. Splitting it is a lower priority than query and selector scaling for this local-only app.
+
+## Status of recommendations
+
+| # | Recommendation | Status |
+|---|---|---|
+| 1 | Searchable entity pickers and saved views | **Shipped.** Pickers are searchable and capped at 100 results; saved views store search, filters and sort per page in settings. |
+| 2 | Daily follow-up view | **Shipped** as the Today page with complete/snooze and undo. |
+| 3 | Field-by-field import preview | **Shipped.** Existing records list each changed field; unticked fields keep their current value. |
+| 4 | Structured compensation | **Partly shipped.** Free-text salary is parsed for sorting and filtering; amount, currency and period are not stored as separate fields. |
+| 5 | Durable draft recovery and editable contact logs | **Draft recovery shipped** (local-storage mirror). Editable contact logs not done. |
+| 6 | Indexed/paged live queries and shared validation schemas | **Not done.** The main live query still reads full collections and validation schemas remain duplicated. |
 
 ## Review references
 

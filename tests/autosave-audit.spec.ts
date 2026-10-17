@@ -4,7 +4,7 @@ async function sample(page: Page) {
   await page
     .getByRole("button", { name: "Try sample data", exact: true })
     .click();
-  await page.getByLabel("Phone for Alex Morgan", { exact: true }).waitFor();
+  await page.getByLabel("Salary for Alex Morgan", { exact: true }).waitFor();
 }
 async function rename(page: Page) {
   await page
@@ -27,24 +27,24 @@ test("filtered row removal saves its pending field instead of losing it", async 
   await page
     .getByRole("textbox", { name: /^Search.*CPM ID/ })
     .fill("Alex Morgan");
-  await expect(page.getByLabel("Phone for Avery Kim")).toHaveCount(0);
+  await expect(page.getByLabel("Salary for Avery Kim")).toHaveCount(0);
   await page
-    .getByLabel("Phone for Alex Morgan", { exact: true })
+    .getByLabel("Salary for Alex Morgan", { exact: true })
     .fill("AUDIT unsaved phone");
   await rename(other);
   await expect(
-    page.getByLabel("Phone for Alex Morgan", { exact: true }),
+    page.getByLabel("Salary for Alex Morgan", { exact: true }),
   ).toHaveCount(0);
   await expect(
     page.getByText("All changes saved", { exact: true }),
   ).toBeVisible();
   await page.getByRole("textbox", { name: /^Search.*CPM ID/ }).fill("");
   await expect(
-    page.getByLabel("Phone for Renamed Candidate", { exact: true }),
+    page.getByLabel("Salary for Renamed Candidate", { exact: true }),
   ).toHaveValue("AUDIT unsaved phone");
   await page.reload();
   await expect(
-    page.getByLabel("Phone for Renamed Candidate", { exact: true }),
+    page.getByLabel("Salary for Renamed Candidate", { exact: true }),
   ).toHaveValue("AUDIT unsaved phone");
 });
 test("an invalid detached draft stays recoverable and blocks navigation until explicitly discarded", async ({
@@ -59,13 +59,13 @@ test("an invalid detached draft stays recoverable and blocks navigation until ex
     .getByRole("textbox", { name: /^Search.*CPM ID/ })
     .fill("Alex Morgan");
   const draft = "x".repeat(1001);
-  await page.getByLabel("Phone for Alex Morgan", { exact: true }).fill(draft);
+  await page.getByLabel("Salary for Alex Morgan", { exact: true }).fill(draft);
   await expect(page.getByRole("alert")).toContainText("1000");
   await rename(other);
   const recovery = page.getByRole("region", { name: "Unsaved draft recovery" });
   await expect(recovery).toBeVisible();
   await expect(
-    recovery.getByLabel("Recovered draft: Phone for Alex Morgan"),
+    recovery.getByLabel("Recovered draft: Salary for Alex Morgan"),
   ).toHaveValue(draft);
   await expect(
     page.getByText("Unsaved changes", { exact: true }),

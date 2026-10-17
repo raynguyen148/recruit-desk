@@ -306,3 +306,50 @@ describe("transactional local storage", () => {
     expect(await first.db.candidates.get(c.id)).toBeDefined();
   });
 });
+
+describe("candidate status follows application stage", () => {
+  it("advances forward only and marks a hire as Placed", async () => {
+    const c = await candidate("CPM-SYNC");
+    const j = await job();
+    const app = newApplication(c.id, j.id);
+    await first.createEntity("applications", app);
+    const status = async () => (await first.db.candidates.get(c.id))!.status;
+    expect(await status()).toBe("Pre-qualification");
+    await first.patchEntity(
+      "applications",
+      app.id,
+      { stage: "Interview" },
+      { stage: "Sourced" },
+    );
+    expect(await status()).toBe("Interview");
+    await first.patchEntity(
+      "applications",
+      app.id,
+      { stage: "Screening" },
+      { stage: "Interview" },
+    );
+    expect(await status()).toBe("Interview");
+    await first.patchEntity(
+      "applications",
+      app.id,
+      { stage: "Hired" },
+      { stage: "Screening" },
+    );
+    expect(await status()).toBe("Placed");
+  });
+  it("leaves closed candidates alone until hired", async () => {
+    const c = {
+      ...newCandidate(),
+      name: "Bo",
+      cpmID: "CPM-CLOSED",
+      status: "Not open",
+    };
+    await first.createEntity("candidates", c);
+    const j = await job();
+    await first.createEntity("applications", {
+      ...newApplication(c.id, j.id),
+      stage: "Offer",
+    });
+    expect((await first.db.candidates.get(c.id))!.status).toBe("Not open");
+  });
+});

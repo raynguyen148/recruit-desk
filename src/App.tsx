@@ -33,6 +33,7 @@ import { CreateRecord } from "./components/create-record";
 import { Details } from "./components/details";
 import { ImportDialog } from "./components/import-dialog";
 import { CommandPalette } from "./components/command-palette";
+import { ShortcutsDialog } from "./components/shortcuts-dialog";
 import Candidates from "./pages/candidates";
 import { Jobs, Companies, Applications } from "./pages/records";
 import Settings from "./pages/settings";
@@ -111,6 +112,9 @@ function Workspace() {
   const [navInitialized, setNavInitialized] = useState(false);
   const [selected, setSelected] = useState<Selected>(null);
   const [palette, setPalette] = useState(false);
+  const [shortcuts, setShortcuts] = useState(false);
+  const goRef = useRef<{ at: number }>({ at: 0 });
+  const navigateRef = useRef<(page: Page) => Promise<void>>(async () => {});
   const [create, setCreate] = useState<{
     kind: EntityKind;
     candidateId?: string;
@@ -187,7 +191,7 @@ function Workspace() {
       document.documentElement.classList.toggle("dark", dark);
       document
         .querySelector('meta[name="theme-color"]')
-        ?.setAttribute("content", dark ? "#141d2a" : "#f7f9fc");
+        ?.setAttribute("content", dark ? "#0e1621" : "#edf1f7");
       setTheme(dark ? "dark" : "light");
       if (data?.settings.theme) {
         try {
@@ -225,6 +229,50 @@ function Workspace() {
       )
         return;
       if (document.querySelector("[role=dialog], [role=alertdialog]")) return;
+      const now = Date.now();
+      if (goRef.current.at && now - goRef.current.at < 1200) {
+        goRef.current.at = 0;
+        const dest: Record<string, Page> = {
+          t: "today",
+          c: "candidates",
+          j: "jobs",
+          a: "applications",
+          p: "companies",
+          s: "settings",
+        };
+        if (dest[key]) {
+          event.preventDefault();
+          void navigateRef.current(dest[key]);
+          return;
+        }
+      }
+      if (key === "g") {
+        goRef.current.at = now;
+        return;
+      }
+      if (event.key === "?") {
+        event.preventDefault();
+        setShortcuts(true);
+        return;
+      }
+      if (key === "j" || key === "k") {
+        const links = [
+          ...document.querySelectorAll<HTMLElement>(
+            "tbody tr .record-link, .today-row .record-link",
+          ),
+        ];
+        if (links.length) {
+          event.preventDefault();
+          const at = links.indexOf(document.activeElement as HTMLElement);
+          const next =
+            key === "j"
+              ? Math.min(at + 1, links.length - 1)
+              : Math.max(at < 0 ? 0 : at - 1, 0);
+          links[next].focus();
+          links[next].scrollIntoView({ block: "nearest" });
+        }
+        return;
+      }
       if (event.key === "/") {
         const search =
           document.querySelector<HTMLInputElement>(".search-box input");
@@ -245,6 +293,7 @@ function Workspace() {
     // startCreate only reads refs and `flush`, which is stable.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navInitialized, flush]);
+  navigateRef.current = navigate;
   async function navigate(next: Page) {
     if (await flush()) {
       setSelected(null);
@@ -600,6 +649,7 @@ function Workspace() {
           }}
         />
       )}
+      {shortcuts && <ShortcutsDialog onClose={() => setShortcuts(false)} />}
       {palette && (
         <CommandPalette
           data={data}

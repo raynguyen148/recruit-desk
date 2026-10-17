@@ -1,42 +1,78 @@
-# Release verification — 17 October 2026
+# Verification status
 
-The delivered production build was tested locally with Node 24 and installed Google Chrome. No real candidate records were supplied; all tests and screenshots use fictional records.
+Last full run: 17 October 2026, Node 22, installed Google Chrome on macOS. No real candidate records were supplied; every test and screenshot uses fictional data.
 
-## Confirmed
+## Current results
 
-- TypeScript check and production build pass.
-- 32 automated data/offline tests pass: 11 database, 17 transfer, 3 offline/server and 1 large-dataset round trip.
-- 9 Chrome end-to-end tests pass: empty first run and explicit sample opt-in; candidate CRUD and case-insensitive CPM uniqueness; autosave across reloads; live updates across tabs; company/job/application relationships and deletion protections; stage history; malformed/duplicate CSV rejection; valid CSV imports; backup restore into an isolated browser context; offline reload/edit/reload; same-field conflict draft retention; invalid-draft guards; desktop/mobile/dark layout checks.
-- The browser offline test observed zero external HTTP requests during its tested flow. Static CSP and worker tests verify page connections disabled, external worker requests blocked, and a loopback-only file server.
-- 10,000 fictional candidate profiles imported with exact vendor headers, detected as 10,000 updates on a second preview, exported and restored into an empty test database while preserving company/job/application/candidate links. This uses fake-indexeddb and does not establish browser performance limits.
-- Independent data audit findings were fixed: protected tab switching for dirty fields, aligned local/import size constraints, and timezone-offset timestamp compatibility.
-- Independent visual review disposition: ship for captured desktop/mobile/light/dark candidate list and desktop job/application details. The final inline availability Select was additionally verified through the visible app.
-- Mechanical Impeccable scan reported no findings. Design tokens and component behavior are documented in DESIGN.md and .impeccable/design.json.
+| Check | Result |
+|---|---|
+| `tsc -b` (type check) | Pass |
+| `npm test` (Vitest) | **71 / 71** — database 13, transfer 18, search 15, workflow 14, salary 5, offline/server 3, sample file 2, scale 1 |
+| `npm run test:browser` (Playwright, production preview) | **34 / 34** — end-to-end 9, workflow 8, autosave audit 5, audit features 4, motion 3, refinement 3, detail modal 2 |
+
+The `dist/` folder committed to the repository is an older prebuilt snapshot; the results above were produced from a fresh `npm run build`. Rebuild before running the preview or launcher.
+
+## What the tests cover
+
+**Data and transfer**
+
+- Case-insensitive CPM uniqueness, relationship integrity, deletion protections, stage history and atomic writes.
+- Malformed and duplicate CSV rejection, valid CSV import, and exact vendor header mapping.
+- Field-by-field import preview: per-field old/new diff for existing records, and kept fields retained when updates are applied.
+- Saved views: save, replace by name, delete, and survival through a workspace export.
+- Salary parsing: currency, amount and period, ranges with `k`, VND shorthand such as `20–30tr`, yearly-to-monthly normalisation, and unreadable values returning no amount.
+- Full-workspace JSON backup and restore into an isolated context, including settings.
+- The complete sample file: first preview adds 80 records plus one settings update; a repeat preview reports 81 updates.
+- 10,000 fictional candidate profiles imported, re-previewed as updates, exported and restored with company/job/application links intact. This uses fake-indexeddb and does not establish browser performance limits.
+
+**Browser**
+
+- Empty first run and explicit sample opt-in; candidate, job, company and application CRUD; live updates across tabs.
+- Autosave across reloads, same-field conflict handling, invalid-draft guards and in-session detached-draft recovery.
+- Today follow-ups with snooze and undo, bulk selection with undo, Applications board moves by keyboard, LinkedIn link editing, and the typed-`DELETE` confirmation.
+- Backup restore in an isolated profile; offline reload, edit and reload.
+- Navigation and reduced-motion behaviour; desktop, mobile, short-landscape and dark layouts without document overflow.
+- The offline regression observed no external HTTP requests. Static CSP and worker tests confirm page connections are disabled, external worker requests are blocked and the file server is loopback-only.
+
+## Checked manually, not automated
+
+These were exercised in Chrome against the dev server with fictional data, but have no automated regression yet:
+
+- Durable draft restore after a reload or closed tab.
+- Keyboard shortcuts (`?`, `G` sequences, `J`/`K`) and the shortcuts dialog.
+- The Views menu on Candidates, Jobs and Applications, salary filter/sort in the UI, and the field-by-field import dialog.
+- Copy-to-clipboard controls (✉ / ☎ icons and detail-sheet buttons) and their in-control "Copied" state.
+- The grouped toolbar actions at 1280px and 390px widths.
 
 ## Practical limits
 
-- Browser evidence is Chrome/local only. Safari, Firefox, accessibility certification, and long-term storage durability are not claimed.
-- Vendor compatibility is checked against the exact supplied headers and synthetic quoted/multiline values; no real vendor file was available.
-- The UI paginates records, but filtering/sorting and full transfer parsing operate in browser memory. Vendor CSV batches are limited to 100 MiB / 100,000 candidate rows. Native JSON has no fixed file/count cap and warns before reading files above 100 MiB; browser memory remains the practical limit.
-- No application-level encryption, login, multi-device sync, or cloud backup. IndexedDB and exported JSON require protection through the device and backup location.
-- Restore is an atomic merge with explicit duplicate/settings confirmation. It does not remove unrelated records already in the workspace.
-- The production build has a non-fatal large JavaScript chunk warning (about 667 kB uncompressed, 204 kB gzip). All assets remain local; this is not a correctness failure.
-- Updates preserve running tabs and old caches; close all app tabs to activate a downloaded new build. Do not clear browser site data as an update method.
+- Browser evidence is Chrome on one Mac, including emulated mobile viewports. Safari, Firefox, physical iOS/Android devices, screen readers and long-term storage durability are not claimed.
+- Vendor compatibility is checked against the supplied header row and synthetic quoted/multiline values; no real vendor file was available.
+- Lists paginate, but filtering, sorting and transfer parsing run in browser memory, and the main live query still reads whole collections. Only the entity picker (combobox) is capped (100 shown, type to narrow). Vendor CSV batches are limited to 100 MiB / 100,000 rows; native JSON has no fixed cap and asks for confirmation above 100 MiB, with browser memory as the practical limit.
+- Draft recovery relies on browser local storage; clearing site data removes both the workspace and any pending drafts.
+- Salary values are parsed from free text for sorting and filtering only. The text itself remains the stored, editable value; unrecognised formats are listed under "No salary listed" filters and sort last.
+- No application-level encryption, login, multi-device sync or cloud backup. IndexedDB and exported JSON need protection through the device and backup location.
+- Restore is an atomic merge with explicit duplicate and settings confirmation; it does not remove unrelated existing records.
+- The production build emits a non-fatal large-chunk warning (roughly 670 kB uncompressed). All assets are local; this is not a correctness issue.
+- Updates preserve running tabs and old caches; close all app tabs to activate a downloaded build. Never clear site data as an update method.
 
 ## Reproduce
 
-From the app directory, run `npm ci`, `npm test`, `npm run build`, and `npm run preview`. In another terminal run `npm run test:browser`. Tests use isolated browser contexts and synthetic data. The browser suite uses installed Google Chrome on macOS, or a Playwright browser if configured on another platform.
+```sh
+npm ci
+npm test
+npm run build
+npm run preview          # leave running
+npm run test:browser     # in another terminal
+```
 
-## Light-blue palette and full sample follow-up
+Tests use isolated browser contexts and synthetic data. The browser suite uses installed Google Chrome on macOS, or a Playwright browser if configured elsewhere. Set `PLAYWRIGHT_BASE_URL` to test a preview on a different origin.
 
-The requested palette uses pale-blue primary fills with dark-blue text in both themes. Measured key text/background pairs exceed 4.5:1; the light primary button pair is 7.67:1. A Chrome visual check passed for desktop, dark and mobile with no page errors or document overflow. The mechanical detector now reports advisory differences between existing typography/radii and their abbreviated design documentation; this color change does not alter those dimensions.
+## History
 
-The complete sample file passed two isolated data tests and an actual browser file import: 24 candidates, 12 jobs, 8 companies, 36 applications, profile details and related jobs. First preview: 80 new records plus one settings update. Repeat preview requires confirmation of 81 updates. The browser verification used an isolated profile and did not import into the user workspace.
+- **Initial release:** 32 data tests and 9 browser tests; light-blue palette and full sample added (palette contrast pairs above 4.5:1, primary button 7.67:1).
+- **Audit round:** 44 data tests and 18 browser tests — see [UI-UX-AUDIT.md](UI-UX-AUDIT.md).
+- **Refinement round 2:** 44 data tests and 26 browser tests — see [POLISH-ROUND-2.md](POLISH-ROUND-2.md).
+- **Productivity round:** keyboard shortcuts, saved views, salary sort/filter, field-by-field import preview, durable draft recovery, combobox cap, copy-to-clipboard controls and grouped toolbar actions — 71 data tests and 34 browser tests.
 
-## Full audit follow-up
-
-The current build passes 44 unit/integration tests and 18 Chrome browser tests. The full findings, fixes, evidence boundaries and prioritized next work are in `UI-UX-AUDIT.md`. This supersedes the earlier counts above; those describe the prior release.
-
-## Second refinement pass
-
-The current refinement passes 44 data tests and 21 browser tests. See `POLISH-ROUND-2.md` for motion behavior, responsive coverage and qualified before/after performance evidence.
+Earlier counts describe earlier builds and are kept only as history.

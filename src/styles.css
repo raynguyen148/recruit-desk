@@ -3,7 +3,7 @@
 @tailwind utilities;
 :root {
   --font-sans: "Inter Variable", Inter, sans-serif;
-  --background: #f7f9fc;
+  --background: #edf1f7;
   --surface: #ffffff;
   --surface-hover: #f0f5fb;
   --foreground: #203047;
@@ -28,7 +28,7 @@
   --selection: #d5eaff;
   --overlay: rgba(19, 34, 55, 0.24);
   --shadow: 0 16px 64px rgba(20, 39, 65, 0.16);
-  --radius: 8px;
+  --radius: 12px;
   --motion-fast: 140ms;
   --ease-interface: cubic-bezier(0.2, 0, 0, 1);
   --ease-arrive: cubic-bezier(0.16, 1, 0.3, 1);
@@ -37,7 +37,7 @@
   font-synthesis: none;
 }
 :root.dark {
-  --background: #141d2a;
+  --background: #0e1621;
   --surface: #1b2738;
   --surface-hover: #26364b;
   --foreground: #e6eef9;
@@ -189,7 +189,7 @@ input[type="date"] {
   height: 35px;
   background: var(--primary);
   color: var(--primary-foreground);
-  border-radius: 10px;
+  border-radius: 14px;
   font-size: 30px;
   line-height: 1;
   font-weight: 650;
@@ -221,7 +221,7 @@ input[type="date"] {
   gap: 11px;
   min-height: 41px;
   padding: 10px 12px;
-  border-radius: 7px;
+  border-radius: 10px;
   background: none;
   border: 0;
   color: var(--muted);
@@ -361,7 +361,7 @@ main {
   background: var(--surface);
   border: 1px solid var(--border);
   padding: 2px 7px;
-  border-radius: 6px;
+  border-radius: 9px;
   letter-spacing: 0;
   font-variant-numeric: tabular-nums;
 }
@@ -378,7 +378,7 @@ main {
 }
 .btn {
   min-height: 34px;
-  border-radius: 6px;
+  border-radius: 9px;
   font-size: 11px;
   font-weight: 550;
   padding: 7px 12px;
@@ -466,7 +466,7 @@ main {
   color: var(--muted);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 9px;
   padding: 0 11px;
   height: 35px;
 }
@@ -520,7 +520,7 @@ main {
   gap: 12px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 9px;
   padding: 7px 10px;
   font-size: 11px;
   text-align: left;
@@ -534,7 +534,7 @@ main {
   z-index: 100;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 7px;
+  border-radius: 10px;
   padding: 5px;
   box-shadow: var(--shadow);
   max-height: 300px;
@@ -558,7 +558,7 @@ main {
 .data-surface {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
 }
 .table-scroll {
@@ -810,7 +810,7 @@ main {
 .empty-state {
   background: var(--surface);
   border: 1px dashed var(--border);
-  border-radius: 9px;
+  border-radius: 12px;
   padding: 55px 25px;
   min-height: 310px;
   display: flex;
@@ -858,7 +858,7 @@ main {
   max-height: calc(100dvh - 40px);
   overflow: auto;
   background: var(--surface);
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 28px;
   box-shadow: var(--shadow);
 }
@@ -1039,7 +1039,7 @@ main {
   width: 100%;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 9px;
   padding: 9px 11px;
   font-size: 12px;
   line-height: 1.5;
@@ -1059,7 +1059,7 @@ main {
   color: var(--red);
   background: var(--red-bg);
   padding: 12px;
-  border-radius: 6px;
+  border-radius: 9px;
   font-size: 12px;
 }
 .field-error input,
@@ -1084,7 +1084,7 @@ main {
   padding: 15px;
   background: var(--background);
   border: 1px solid var(--border);
-  border-radius: 7px;
+  border-radius: 10px;
   margin-top: 12px;
 }
 .entry-heading {
@@ -1198,7 +1198,7 @@ main {
 .application-pair {
   background: var(--background);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 4px 14px;
 }
 .application-pair > button {
@@ -1654,7 +1654,7 @@ main {
   background: var(--surface);
   color: var(--foreground);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 9px;
 }
 .skip-link:focus {
   transform: translateY(0);
@@ -1684,7 +1684,7 @@ main {
   overscroll-behavior: contain;
   padding: 16px;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 14px;
   background: var(--surface);
   color: var(--foreground);
   box-shadow: var(--shadow);
@@ -1754,7 +1754,7 @@ main {
   padding: 8px;
   resize: vertical;
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 9px;
   background: var(--background);
   color: var(--foreground);
 }
@@ -1946,7 +1946,7 @@ main {
   --space-lg: 24px;
   --space-xl: 32px;
   --radius-control: 7px;
-  --radius-surface: 10px;
+  --radius-surface: 14px;
   --border-quiet: color-mix(in srgb, var(--border) 65%, var(--surface));
 }
 html,
@@ -2597,7 +2597,7 @@ h3 {
   .sidebar .nav-item svg {
     box-sizing: content-box;
     padding: 4px 13px;
-    border-radius: 8px;
+    border-radius: 12px;
   }
   .sidebar .nav-item.active svg {
     background: var(--primary);
@@ -2701,7 +2701,7 @@ h3 {
     width: calc(100vw - 24px);
     height: calc(100dvh - 24px);
     max-height: calc(100dvh - 24px);
-    border-radius: 12px;
+    border-radius: 16px;
   }
   .detail-modal-heading {
     padding: 20px;
@@ -2851,7 +2851,7 @@ h3 {
 
 .skeleton {
   display: block;
-  border-radius: 8px;
+  border-radius: 12px;
   background: linear-gradient(
       90deg,
       transparent,
@@ -2910,7 +2910,7 @@ h3 {
   display: grid;
   gap: 1px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 12px;
   background: var(--border);
   overflow: hidden;
 }
@@ -2964,7 +2964,7 @@ h3 {
   .data-table tbody tr {
     display: block;
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: 14px;
     background: var(--surface);
     overflow: hidden;
   }
@@ -3025,7 +3025,7 @@ h3 {
   color: var(--amber);
   background: var(--amber-bg);
   padding: 10px 12px;
-  border-radius: 6px;
+  border-radius: 9px;
   font-size: 12px;
   margin: 0;
 }
@@ -3038,7 +3038,7 @@ h3 {
   color: var(--muted);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
 }
 .palette-trigger:hover {
@@ -3094,7 +3094,7 @@ h3 {
   list-style: none;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 12px;
   box-shadow: var(--shadow);
 }
 .combobox-list li {
@@ -3102,7 +3102,7 @@ h3 {
   justify-content: space-between;
   gap: 12px;
   padding: 7px 9px;
-  border-radius: 6px;
+  border-radius: 9px;
   cursor: pointer;
 }
 .combobox-list li small {
@@ -3161,7 +3161,7 @@ h3 {
   gap: 2px;
   background: var(--surface-hover);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 12px;
 }
 .view-toggle button {
   display: inline-flex;
@@ -3172,7 +3172,7 @@ h3 {
   color: var(--muted);
   background: transparent;
   border: 0;
-  border-radius: 6px;
+  border-radius: 9px;
   cursor: pointer;
 }
 .view-toggle button[aria-pressed="true"] {
@@ -3213,7 +3213,7 @@ h3 {
   list-style: none;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 14px;
 }
 .today-row {
   display: grid;
@@ -3273,7 +3273,7 @@ h3 {
   padding: 8px;
   background: var(--surface-hover);
   border: 1px solid transparent;
-  border-radius: 10px;
+  border-radius: 14px;
 }
 .board-column[data-over="true"] {
   border-color: var(--primary);
@@ -3309,7 +3309,7 @@ h3 {
 .board-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: grab;
 }
 .board-card:active {
@@ -3324,7 +3324,7 @@ h3 {
   color: inherit;
   background: transparent;
   border: 0;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
 }
 .board-card button:hover {
@@ -3358,7 +3358,7 @@ h3 {
   overflow: hidden;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 16px;
   box-shadow: var(--shadow);
 }
 .palette-input {
@@ -3392,7 +3392,7 @@ h3 {
   align-items: center;
   gap: 10px;
   padding: 8px 10px;
-  border-radius: 6px;
+  border-radius: 9px;
   cursor: pointer;
 }
 .palette li[role="option"] > span {
@@ -3445,7 +3445,7 @@ h3 {
   font-weight: 500;
   text-decoration: none;
   background: var(--accent-soft);
-  border-radius: 6px;
+  border-radius: 9px;
 }
 .button-link:hover {
   background: var(--selection);
@@ -3522,7 +3522,7 @@ h3 {
   padding: 10px 12px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 14px;
   box-shadow: 0 8px 24px rgb(0 0 0 / 0.14);
   font-size: var(--text-secondary, 12px);
   color: var(--foreground);
@@ -3586,7 +3586,7 @@ h3 {
   color: var(--accent);
   font-size: var(--text-secondary, 12px);
   text-decoration: none;
-  border-radius: 6px;
+  border-radius: 9px;
   padding: 3px 6px;
   margin: -3px -6px;
 }
@@ -3676,7 +3676,7 @@ main,
   padding: 8px;
   background: var(--surface-hover);
   border: 1px solid var(--border-quiet, var(--border));
-  border-radius: 10px;
+  border-radius: 14px;
 }
 .filters-row .select-trigger {
   flex: 0 1 200px;
@@ -3700,7 +3700,7 @@ main,
   text-align: center;
   font-size: 10px;
   line-height: 16px;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 0 5px;
 }
 
@@ -3785,4 +3785,500 @@ svg.brand-mark {
 /* Company/candidate quick actions sit apart from the fields around them. */
 .contact-actions {
   margin: 4px 0 18px;
+}
+
+/* ---- Floating panels: every region is a rounded card on a soft canvas ---- */
+:root {
+  --radius-panel: 22px;
+  --panel-gap: 12px;
+  --panel-shadow:
+    0 1px 2px rgb(20 39 65 / 0.04), 0 8px 24px rgb(20 39 65 / 0.05);
+}
+:root.dark {
+  --panel-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px rgb(0 0 0 / 0.25);
+}
+.dialog-content {
+  border-radius: var(--radius-panel);
+}
+.dialog-content.wide {
+  border-radius: var(--radius-panel);
+}
+.dialog-actions .btn,
+.btn {
+  border-radius: var(--radius-control);
+}
+.nav-item.active {
+  background: var(--accent-soft);
+}
+.nav-item small {
+  border-radius: 999px;
+  padding: 1px 7px;
+}
+.filters-row,
+.empty-state,
+.settings-section {
+  border-radius: var(--radius-surface);
+}
+th:first-child {
+  border-top-left-radius: var(--radius-surface);
+}
+th:last-child {
+  border-top-right-radius: var(--radius-surface);
+}
+
+@media (min-width: 761px) {
+  html,
+  body {
+    background: var(--background);
+  }
+  .app-shell {
+    padding: var(--panel-gap);
+    gap: var(--panel-gap);
+    min-height: 100dvh;
+    background: var(--background);
+    grid-template-columns: 240px minmax(0, 1fr);
+  }
+  .app-shell.collapsed {
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+  .sidebar {
+    top: var(--panel-gap);
+    height: calc(100dvh - var(--panel-gap) * 2);
+    padding: 22px 12px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border-quiet);
+    border-radius: var(--radius-panel);
+    box-shadow: var(--panel-shadow);
+  }
+  .app-shell.collapsed .sidebar {
+    padding: 22px 12px 12px;
+  }
+  .brand,
+  .collapsed .brand {
+    padding: 0 7px 22px;
+  }
+  .nav-item,
+  .collapsed .nav-item {
+    padding: 10px 0 10px 15px;
+    border-radius: 14px;
+  }
+  .nav-item {
+    padding-right: 12px;
+  }
+  .sidebar nav,
+  .collapsed .sidebar nav {
+    gap: 4px;
+  }
+  .sidebar-footer,
+  .collapsed .sidebar-footer {
+    padding: 10px 0 0;
+    border-top-color: var(--border-quiet);
+  }
+  .collapsed .sidebar-footer .btn {
+    margin: 0 0 0 7px;
+  }
+  .main-shell {
+    background: var(--surface);
+    border: 1px solid var(--border-quiet);
+    border-radius: var(--radius-panel);
+    box-shadow: var(--panel-shadow);
+    min-height: calc(100dvh - var(--panel-gap) * 2);
+  }
+  .topbar {
+    border-bottom: 1px solid var(--border-quiet);
+    border-radius: var(--radius-panel) var(--radius-panel) 0 0;
+    padding: 0 20px;
+    height: 56px;
+  }
+  .topbar .palette-trigger {
+    border-radius: 999px;
+  }
+  .page-content {
+    padding: 22px 24px 24px;
+    border-radius: 0 0 var(--radius-panel) var(--radius-panel);
+  }
+  .table-scroll {
+    max-height: calc(100dvh - 380px);
+  }
+}
+@media (min-width: 761px) and (max-width: 1100px) {
+  .app-shell {
+    grid-template-columns: 208px minmax(0, 1fr);
+  }
+  .app-shell.collapsed {
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+}
+@media (max-width: 760px) {
+  .sidebar {
+    border-radius: 0;
+    box-shadow: none;
+    background: var(--surface);
+  }
+}
+
+/* Today: every row shares the same column widths so stage, date and actions line up. */
+@media (min-width: 901px) {
+  .today-row {
+    grid-template-columns: minmax(180px, 1.1fr) minmax(160px, 1.6fr) 200px 220px;
+  }
+  .today-meta {
+    justify-content: flex-end;
+  }
+  .today-meta time {
+    min-width: 72px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Sidebar: hover is a neutral tint so it never reads as the selected page. */
+.sidebar .nav-item:hover:not(.active) {
+  background: color-mix(in srgb, var(--foreground) 5%, transparent);
+  color: var(--foreground);
+}
+.sidebar .nav-item.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.sidebar .nav-item.active small {
+  background: var(--surface);
+  color: var(--accent);
+}
+
+/* Startup skeleton mirrors the floating panel layout. */
+@media (min-width: 761px) {
+  .boot {
+    padding: var(--panel-gap);
+    gap: var(--panel-gap);
+  }
+  .boot-side,
+  .boot-main {
+    background: var(--surface);
+    border: 1px solid var(--border-quiet);
+    border-radius: var(--radius-panel);
+    box-shadow: var(--panel-shadow);
+  }
+  .boot-side {
+    padding: 22px 12px;
+  }
+  .boot-main {
+    padding: 78px 24px 24px;
+  }
+}
+@media (min-width: 901px) {
+  .today-row {
+    grid-template-columns:
+      minmax(150px, 1.1fr) minmax(130px, 1.4fr)
+      190px max-content;
+  }
+  .today-buttons {
+    flex-wrap: nowrap;
+  }
+}
+
+/* Keyboard shortcut help */
+.shortcut-groups {
+  display: grid;
+  gap: 18px;
+}
+.shortcut-groups h3 {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.shortcut-groups dl {
+  margin: 0;
+  display: grid;
+  gap: 2px;
+}
+.shortcut-groups dl > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border-quiet);
+}
+.shortcut-groups dt {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 11px;
+  order: 2;
+}
+.shortcut-groups dd {
+  margin: 0;
+  font-size: 12px;
+}
+.shortcut-groups kbd {
+  min-width: 22px;
+  padding: 2px 6px;
+  text-align: center;
+  font: 600 11px var(--font-sans);
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 7px;
+  background: var(--surface-hover);
+  color: var(--foreground);
+}
+
+/* Saved views */
+.saved-views {
+  position: relative;
+}
+.saved-views-menu {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 260px;
+  padding: 10px;
+  display: grid;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-surface);
+  box-shadow: var(--panel-shadow);
+}
+.saved-views-menu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 2px;
+}
+.saved-views-menu li {
+  display: flex;
+  align-items: center;
+}
+.saved-views-menu li > button:first-child {
+  flex: 1;
+  text-align: left;
+  padding: 7px 9px;
+  border-radius: 9px;
+  font-size: 12px;
+  background: none;
+  color: var(--foreground);
+}
+.saved-views-menu li > button:hover {
+  background: var(--surface-hover);
+}
+.saved-view-remove {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: none;
+  color: var(--muted);
+}
+.saved-views-empty {
+  margin: 0;
+  padding: 4px 2px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.saved-views-menu form {
+  display: flex;
+  gap: 6px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-quiet);
+}
+.saved-views-menu form input {
+  flex: 1;
+  min-width: 0;
+  height: 32px;
+  padding: 0 10px;
+  font-size: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--foreground);
+}
+
+.danger-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.danger-actions > button {
+  height: 36px;
+}
+
+/* Import field-by-field preview */
+.import-diff {
+  margin-top: 8px;
+  max-height: 260px;
+  overflow: auto;
+  border: 1px solid var(--border-quiet);
+  border-radius: var(--radius-surface);
+}
+.import-diff details + details {
+  border-top: 1px solid var(--border-quiet);
+}
+.import-diff summary {
+  padding: 9px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.import-diff ul {
+  margin: 0;
+  padding: 0 12px 10px;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+.import-diff label {
+  display: grid;
+  grid-template-columns: auto 110px 1fr 1fr;
+  gap: 8px;
+  align-items: baseline;
+  font-size: 12px;
+}
+.import-diff-field {
+  color: var(--muted);
+}
+.import-diff del {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.import-diff ins {
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+/* Copy email / phone icons beside the candidate name */
+.copy-contacts {
+  display: inline-flex;
+  gap: 2px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+.copy-contact {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: none;
+  color: var(--muted);
+}
+.copy-contact:hover,
+.copy-contact:focus-visible {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.copy-tip {
+  display: grid;
+  gap: 2px;
+  width: auto;
+  max-width: 260px;
+  overflow-wrap: anywhere;
+}
+.copy-tip small {
+  color: var(--muted);
+  font-size: 10px;
+}
+@media (hover: hover) {
+  tbody tr:not(:hover):not(:focus-within) .copy-contact {
+    opacity: 0.45;
+  }
+}
+
+/* Toolbar: search on the left, one tidy group of equal-height actions on the right. */
+.toolbar {
+  justify-content: space-between;
+}
+.toolbar .toolbar-actions {
+  margin-left: auto;
+  gap: 8px;
+}
+.toolbar .toolbar-actions .btn,
+.toolbar .toolbar-actions .view-toggle {
+  height: 36px;
+}
+.toolbar .toolbar-actions .btn {
+  padding-inline: 12px;
+  gap: 7px;
+  font-size: 13px;
+}
+.toolbar .toolbar-actions .btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* Copy feedback lives on the control itself for a couple of seconds. */
+.copy-contact.copied,
+.copy-button.copied {
+  background: var(--green-bg);
+  color: var(--green);
+}
+.copy-contact.copied {
+  opacity: 1 !important;
+}
+
+/* Joined button group: one bordered capsule with hairline dividers. */
+.toolbar .btn-group {
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+}
+.toolbar .btn-group .btn {
+  height: 34px;
+  min-height: 34px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--foreground);
+}
+.toolbar .btn-group > * + * {
+  border-left: 1px solid var(--border-quiet, var(--border));
+}
+.toolbar .btn-group > :first-child .btn,
+.toolbar .btn-group > .btn:first-child {
+  border-radius: calc(var(--radius-control) - 1px) 0 0
+    calc(var(--radius-control) - 1px);
+}
+.toolbar .btn-group > :last-child .btn,
+.toolbar .btn-group > .btn:last-child {
+  border-radius: 0 calc(var(--radius-control) - 1px)
+    calc(var(--radius-control) - 1px) 0;
+}
+.toolbar .btn-group .btn:hover {
+  background: var(--surface-hover);
+}
+.toolbar .btn-group .filter-toggle.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+/* Applications: the view switch and Views button share one height. */
+.toolbar .toolbar-actions .view-toggle {
+  height: 36px;
+  box-sizing: border-box;
+  align-items: center;
+}
+.toolbar .toolbar-actions > .saved-views > .btn {
+  height: 36px;
+}
+.toolbar .btn-group .view-toggle {
+  height: 34px;
+  padding: 3px;
+  border: 0;
+  border-radius: 0 calc(var(--radius-control) - 1px)
+    calc(var(--radius-control) - 1px) 0;
+  background: transparent;
+}
+.toolbar .btn-group .view-toggle button[aria-pressed="true"] {
+  background: var(--accent-soft);
+  color: var(--accent);
+  box-shadow: none;
 }

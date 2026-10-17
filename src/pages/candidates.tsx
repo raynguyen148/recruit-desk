@@ -41,6 +41,7 @@ import {
   linkedinHref,
 } from "../lib/utils";
 import { ContactDot } from "../components/contact-dot";
+import { CopyContact } from "../components/copy-contact";
 import {
   candidateSearchText,
   countBy,
@@ -50,6 +51,8 @@ import {
 } from "../lib/search";
 import type { Candidate, Dataset } from "../lib/types";
 import { candidateStatuses } from "../lib/types";
+import { compareSalary, matchesSalary, salaryCurrencies } from "../lib/salary";
+import { SavedViews, encodeSort, decodeSort } from "../components/saved-views";
 const candidateCollator = new Intl.Collator(undefined, { numeric: true });
 type Choice = { value: string; label: string };
 /** Unique values by folded key, keeping the first spelling as the label. */
@@ -86,6 +89,7 @@ export default function Candidates({
   const [status, setStatus] = useState("");
   const [location, setLocation] = useState("");
   const [skill, setSkill] = useState("");
+  const [pay, setPay] = useState("");
   const [filters, setFilters] = useState(false);
   const [sort, setSort] = useState({ key: "name", desc: false });
   const [page, setPage] = useState(1);
@@ -101,11 +105,16 @@ export default function Candidates({
     void change(() => {
       setLocation("");
       setSkill("");
+      setPay("");
       setSearch("");
     });
   // Filter values are folded so "react" and "React", or "Ha Noi" and "Hà Nội", merge.
   const locations = useMemo(
     () => distinct(data.candidates.map((c) => c.location)),
+    [data.candidates],
+  );
+  const currencies = useMemo(
+    () => salaryCurrencies(data.candidates.map((c) => c.salary)),
     [data.candidates],
   );
   const skills = useMemo(
@@ -134,9 +143,12 @@ export default function Candidates({
           (!status || c.status === status) &&
           (!location || fold(c.location) === location) &&
           (!skill || c.skills.some((x) => fold(x) === skill)) &&
+          matchesSalary(c.salary, pay) &&
           (!terms.length || matchesTerms(searchText.get(c.id) ?? "", terms)),
       )
       .sort((a, b) => {
+        if (sort.key === "salary")
+          return compareSalary(a.salary, b.salary, sort.desc);
         // Status sorts by pipeline order, not alphabetically.
         const value = (x: Candidate) =>
           sort.key === "status"
@@ -148,8 +160,8 @@ export default function Candidates({
           candidateCollator.compare(value(a), value(b)) * (sort.desc ? -1 : 1)
         );
       });
-  }, [data.candidates, query, status, location, skill, sort, searchText]);
-  useEffect(() => setPage(1), [query, status, location, skill]);
+  }, [data.candidates, query, status, location, skill, pay, sort, searchText]);
+  useEffect(() => setPage(1), [query, status, location, skill, pay]);
   useEffect(
     () =>
       setPage((p) =>
@@ -272,7 +284,30 @@ export default function Candidates({
           onChange={(v) => void change(() => setSearch(v))}
           placeholder="Search profiles, CPM ID, skills, or notes…"
         />
-        <div className="toolbar-actions">
+        <div className="toolbar-actions btn-group">
+          <SavedViews
+            page="candidates"
+            views={data.settings.savedViews}
+            current={() => ({
+              search,
+              status,
+              location,
+              skill,
+              pay,
+              sort: encodeSort(sort),
+            })}
+            onApply={(s) =>
+              void change(() => {
+                setSearch(s.search ?? "");
+                setStatus(s.status ?? "");
+                setLocation(s.location ?? "");
+                setSkill(s.skill ?? "");
+                setPay(s.pay ?? "");
+                setSort(decodeSort(s.sort, { key: "name", desc: false }));
+                setPage(1);
+              })
+            }
+          />
           <Button
             variant="outline"
             onClick={() => setFilters(!filters)}
@@ -282,14 +317,14 @@ export default function Candidates({
           >
             <SlidersHorizontal size={14} />
             Filters
-            {[location, skill].filter(Boolean).length > 0 && (
+            {[location, skill, pay].filter(Boolean).length > 0 && (
               <span className="filter-count">
-                {[location, skill].filter(Boolean).length}
+                {[location, skill, pay].filter(Boolean).length}
               </span>
             )}
           </Button>
           <Button
-            variant="ghost"
+            variant="outline"
             onClick={onExport}
             aria-label="Export candidates JSON"
           >
@@ -312,13 +347,23 @@ export default function Candidates({
             onChange={(v) => void change(() => setSkill(v))}
             options={[{ value: "", label: "All skills" }, ...skills]}
           />
+          <Select
+            label="Salary filter"
+            value={pay}
+            onChange={(v) => void change(() => setPay(v))}
+            options={[
+              { value: "", label: "Any salary" },
+              ...currencies.map((x) => ({ value: x, label: `${x} listed` })),
+              { value: "none", label: "No salary listed" },
+            ]}
+          />
           <Button variant="ghost" onClick={reset}>
             <X size={14} />
             Reset
           </Button>
         </div>
       )}
-      {!filters && (location || skill) && (
+      {!filters && (location || skill || pay) && (
         <div className="active-filters" aria-label="Active candidate filters">
           {[
             {
@@ -451,7 +496,7 @@ export default function Candidates({
                   </th>
                   <th scope="col" className="col-optional">
                     <SortHeader
-                      label="Experience"
+                      label="Exp. (yrs)"
                       field="yearsExperience"
                       sort={sort}
                       onSort={changeSort}
@@ -459,9 +504,13 @@ export default function Candidates({
                   </th>
                   <th scope="col">Skills</th>
                   <th scope="col" className="col-optional">
-                    Expected salary
+                    <SortHeader
+                      label="Expected salary"
+                      field="salary"
+                      sort={sort}
+                      onSort={changeSort}
+                    />
                   </th>
-                  <th scope="col">Contact</th>
                   <th scope="col">Jobs</th>
                   <th scope="col">
                     <SortHeader
@@ -502,6 +551,11 @@ export default function Candidates({
                             <span>{c.name}</span>
                             <ArrowUpRight size={12} aria-hidden="true" />
                           </button>
+                          <CopyContact
+                            email={c.email}
+                            phone={c.phone}
+                            name={c.name}
+                          />
                           <AutoField
                             compact
                             label={`Headline for ${c.name}`}
@@ -591,7 +645,6 @@ export default function Candidates({
                         compact
                         label={`Experience for ${c.name}`}
                         value={c.yearsExperience}
-                        placeholder="Years"
                         onSave={(v, e) =>
                           patchEntity(
                             "candidates",
@@ -631,36 +684,6 @@ export default function Candidates({
                           )
                         }
                       />
-                    </td>
-                    <td data-label="Contact">
-                      <div className="stacked-cells">
-                        <AutoField
-                          compact
-                          label={`Email for ${c.name}`}
-                          value={c.email}
-                          onSave={(v, e) =>
-                            patchEntity(
-                              "candidates",
-                              c.id,
-                              { email: v },
-                              { email: e },
-                            )
-                          }
-                        />
-                        <AutoField
-                          compact
-                          label={`Phone for ${c.name}`}
-                          value={c.phone}
-                          onSave={(v, e) =>
-                            patchEntity(
-                              "candidates",
-                              c.id,
-                              { phone: v },
-                              { phone: e },
-                            )
-                          }
-                        />
-                      </div>
                     </td>
                     <td data-label="Jobs">
                       <button

@@ -27,6 +27,26 @@ const Context = createContext<{
   hasAttachedDirty: () => false,
 });
 const PendingContext = createContext(0);
+// Unsaved text is mirrored here so a crash or accidental close does not lose it.
+const mirrorKey = (label: string) => `rd-draft:${location.hash}|${label}`;
+function writeMirror(label: string, base: string, draft: string | null) {
+  try {
+    if (draft === null || draft === base || draft.length > 50000)
+      localStorage.removeItem(mirrorKey(label));
+    else
+      localStorage.setItem(mirrorKey(label), JSON.stringify({ base, draft }));
+  } catch {
+    // Storage can be full or blocked; autosave still works without the mirror.
+  }
+}
+function readMirror(label: string): { base: string; draft: string } | null {
+  try {
+    const raw = localStorage.getItem(mirrorKey(label));
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
 export function AutosaveProvider({ children }: { children: ReactNode }) {
   const registry = useRef(new Map<string, RegisteredDraft>());
   const dirty = useRef(new Set<string>());
@@ -144,7 +164,7 @@ export function AutoField({
   label,
   multiline = false,
   type = "text",
-  placeholder = "Not set",
+  placeholder,
   compact = false,
   normalize = (value: string) => value,
 }: {
@@ -207,6 +227,7 @@ export function AutoField({
       r.awaiting =
         currentValue.current === next ? null : { previous, saved: next };
       r.dirty = r.draft !== rawDraft;
+      if (!r.dirty) writeMirror(r.label, next, null);
       if (!r.dirty) {
         r.draft = next;
         setDraft(next);
@@ -243,6 +264,7 @@ export function AutoField({
         discard: () => {
           // Detached failures are recoverable; discard only this local draft.
           clearTimeout(timer.current);
+          writeMirror(ref.current.label, "", null);
           ref.current.dirty = false;
           ref.current.draft = ref.current.base;
           ref.current.error = "";
@@ -265,8 +287,29 @@ export function AutoField({
     }
   }, [value, state]);
   useEffect(() => () => clearTimeout(timer.current), []);
+  useEffect(() => {
+    const saved = readMirror(ref.current.label);
+    if (!saved) return;
+    if (
+      saved.base !== currentValue.current ||
+      saved.draft === currentValue.current
+    ) {
+      writeMirror(ref.current.label, "", null);
+      return;
+    }
+    ref.current.draft = saved.draft;
+    ref.current.dirty = true;
+    setDraft(saved.draft);
+    setState("dirty");
+    context.mark(id, true);
+    timer.current = setTimeout(() => void commit.current(), 650);
+    toast.info("Recovered an unsaved edit", { id: "draft-recovered" });
+    // Runs once per mounted field.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const change = (next: string) => {
     ref.current.draft = next;
+    writeMirror(ref.current.label, ref.current.base, next);
     ref.current.dirty = next !== ref.current.base;
     setDraft(next);
     setState(ref.current.dirty ? "dirty" : "saved");
@@ -280,7 +323,7 @@ export function AutoField({
     "aria-label": label,
     "aria-invalid": state === "error" || undefined,
     "aria-describedby": state === "error" ? `error-${id}` : undefined,
-    placeholder,
+    placeholder: placeholder ?? (compact ? "—" : "Not set"),
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       change(e.target.value),
     onBlur: () => {
@@ -297,6 +340,7 @@ export function AutoField({
         e.preventDefault();
         e.stopPropagation();
         clearTimeout(timer.current);
+        writeMirror(ref.current.label, "", null);
         ref.current.dirty = false;
         ref.current.base = currentValue.current;
         ref.current.draft = currentValue.current;
@@ -347,6 +391,7 @@ export function AutoField({
               variant="ghost"
               onClick={() => {
                 clearTimeout(timer.current);
+                writeMirror(ref.current.label, "", null);
                 ref.current.dirty = false;
                 ref.current.base = currentValue.current;
                 ref.current.draft = currentValue.current;

@@ -2,6 +2,7 @@ import { useId, useMemo, useRef, useState } from "react";
 import { Check, ChevronDown } from "lucide-react";
 import { fold, matchesTerms, searchTerms } from "../../lib/search";
 
+const MAX_SHOWN = 100;
 type Option = { value: string; label: string; hint?: string };
 
 /** Searchable single-select. Diacritics are ignored, so "nguyen" finds "Nguyễn". */
@@ -26,14 +27,25 @@ export function Combobox({
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
   const selected = options.find((o) => o.value === value);
-  const shown = useMemo(() => {
+  // Folding every option on each keystroke is slow with thousands of records.
+  const folded = useMemo(
+    () => options.map((o) => fold(`${o.label} ${o.hint ?? ""}`)),
+    [options],
+  );
+  const matches = useMemo(() => {
     const terms = searchTerms(query);
     return terms.length
-      ? options.filter((o) =>
-          matchesTerms(fold(`${o.label} ${o.hint ?? ""}`), terms),
-        )
+      ? options.filter((_, i) => matchesTerms(folded[i], terms))
       : options;
-  }, [options, query]);
+  }, [options, folded, query]);
+  // Rendering thousands of rows freezes the list; narrow by typing instead.
+  const shown = useMemo(() => {
+    const head = matches.slice(0, MAX_SHOWN);
+    const current = options.find((o) => o.value === value);
+    return current && !head.includes(current) && !query
+      ? [current, ...head.slice(0, MAX_SHOWN - 1)]
+      : head;
+  }, [matches, options, value, query]);
   const close = () => {
     setOpen(false);
     setQuery("");
@@ -123,6 +135,12 @@ export function Combobox({
           ) : (
             <li className="combobox-empty" role="presentation">
               {emptyLabel}
+            </li>
+          )}
+          {matches.length > MAX_SHOWN && (
+            <li className="combobox-empty" role="presentation">
+              Showing {MAX_SHOWN} of {matches.length.toLocaleString()} — keep
+              typing to narrow
             </li>
           )}
         </ul>

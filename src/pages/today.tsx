@@ -92,9 +92,13 @@ export default function Today({
   }, [data, today]);
   const total = groups.result.overdue.length + groups.result.today.length;
   const empty = sections.every((s) => !groups.result[s.key].length);
+  const summary = sections
+    .filter((s) => groups.result[s.key].length)
+    .map((s) => `${groups.result[s.key].length} ${s.title.toLowerCase()}`)
+    .join(" · ");
   return (
     <>
-      <PageHeading title="Today" count={total} />
+      <PageHeading title="Today" description={summary || undefined} />
       {empty ? (
         <EmptyState
           icon="jobs"

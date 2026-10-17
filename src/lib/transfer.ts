@@ -29,9 +29,48 @@ export interface ParsedImport {
   errors: string[];
   warnings: string[];
 }
+export interface FieldChange {
+  field: string;
+  from: string;
+  to: string;
+}
+export interface RecordChange {
+  kind: EntityKind;
+  id: string;
+  label: string;
+  fields: FieldChange[];
+}
 export interface ImportPlan extends ParsedImport {
   added: number;
   updated: number;
+  /** Per-record differences for existing records the file would overwrite. */
+  changes: RecordChange[];
+}
+const unchanged = new Set(["id", "createdAt", "updatedAt", "revision"]);
+const show = (value: unknown): string =>
+  Array.isArray(value)
+    ? value.every((v) => typeof v !== "object")
+      ? value.join("; ")
+      : `${value.length} entries`
+    : value && typeof value === "object"
+      ? `${Object.keys(value).length} fields`
+      : String(value ?? "");
+function diffRecord(
+  kind: EntityKind,
+  old: object,
+  next: object,
+): RecordChange | null {
+  const a = old as Record<string, unknown>,
+    b = next as Record<string, unknown>;
+  const fields: FieldChange[] = [];
+  for (const field of Object.keys(b)) {
+    if (unchanged.has(field) || field === "cpmKey") continue;
+    if (JSON.stringify(a[field]) === JSON.stringify(b[field])) continue;
+    fields.push({ field, from: show(a[field]), to: show(b[field]) });
+  }
+  if (!fields.length) return null;
+  const label = String(b.name ?? b.title ?? b.id);
+  return { kind, id: String(b.id), label, fields };
 }
 const text = z.string().max(100000);
 const short = z.string().max(1000);
@@ -171,10 +210,23 @@ const settings = z
     id: z.literal("workspace"),
     theme: z.enum(["system", "light", "dark"]),
     workspaceName: short,
-    defaultPage: z.enum(["candidates", "jobs", "applications"]),
+    defaultPage: z.enum(["today", "candidates", "jobs", "applications"]),
     pageSize: z.number().int().min(1).max(500),
     density: z.enum(["comfortable", "compact"]),
     lastBackup: z.union([timestamp, z.literal("")]),
+    savedViews: z
+      .array(
+        z
+          .object({
+            id,
+            page: z.enum(["candidates", "jobs", "applications"]),
+            name: short,
+            state: z.record(z.string(), z.string()),
+          })
+          .strict(),
+      )
+      .max(100)
+      .optional(),
     revision: z.number().int().min(0),
   })
   .strict();
@@ -448,11 +500,18 @@ export async function prepareImport(parsed: ParsedImport): Promise<ImportPlan> {
   }
   let added = 0,
     updated = 0;
+  const changes: RecordChange[] = [];
   for (const kind of kinds) {
-    const ids = new Set(current[kind].map((c) => c.id));
+    const existing = new Map<string, object>(
+      current[kind].map((c) => [c.id, c]),
+    );
     for (const row of data[kind] ?? []) {
-      if (ids.has(row.id)) updated++;
-      else added++;
+      const old = existing.get(row.id);
+      if (old) {
+        updated++;
+        const change = diffRecord(kind, old, row);
+        if (change && changes.length < 500) changes.push(change);
+      } else added++;
     }
   }
   if (data.settings) {
@@ -466,6 +525,7 @@ export async function prepareImport(parsed: ParsedImport): Promise<ImportPlan> {
     warnings,
     added,
     updated,
+    changes,
   };
   plans.set(plan, {
     snapshot: fingerprint(current),
@@ -479,6 +539,8 @@ export async function prepareImport(parsed: ParsedImport): Promise<ImportPlan> {
 export async function applyImport(
   plan: ImportPlan,
   allowUpdates: boolean,
+  /** Fields to leave as they are, keyed by record id. */
+  keep: Record<string, string[]> = {},
 ): Promise<{ added: number; updated: number }> {
   const saved = plans.get(plan);
   if (!saved)
@@ -507,6 +569,11 @@ export async function applyImport(
         const existing = new Map(current[kind].map((c) => [c.id, c]));
         const rows = (saved.data[kind] ?? []).map((row) => {
           const old = existing.get(row.id);
+          if (old && keep[row.id]?.length)
+            for (const field of keep[row.id])
+              (row as unknown as Record<string, unknown>)[field] = (
+                old as unknown as Record<string, unknown>
+              )[field];
           return old
             ? {
                 ...row,

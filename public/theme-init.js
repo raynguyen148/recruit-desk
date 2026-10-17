@@ -8,7 +8,7 @@
     if (!dark) return;
     document.documentElement.classList.add("dark");
     var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", "#141d2a");
+    if (meta) meta.setAttribute("content", "#0e1621");
   } catch (e) {
     /* Storage can be unavailable; the app applies the theme after load. */
   }

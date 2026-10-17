@@ -171,6 +171,14 @@ Controls use modest rounded corners; tags and badges are tighter, containers sli
 ### Buttons
 Primary controls use primary with primary-foreground text; outline controls use surface, border and foreground. Ghost controls remain transparent with muted text. Buttons have a 36px minimum height, 12px semibold text and frontmatter padding. Hover uses primary-hover or surface-hover with 140ms color/border feedback. Keyboard focus uses a 2px accent outline with 3px offset.
 
+### Action groups and toolbars
+Page actions are split by role. The page header holds the actions that create or bring in records: one primary button (`New …`) preceded, where relevant, by one outline import button. The toolbar below holds tools that change how the list is viewed, grouped into a single joined control (`.btn-group`) aligned to the right of the search field: Candidates uses Views, Filters and Export; Jobs uses Views and Export; Applications uses Views and the List/Board toggle.
+
+The group is a 36px capsule with a 1px border and the control radius. Its children are borderless 34px buttons at 13px text with 15px icons, separated by 1px hairlines, with only the outer corners rounded. Hover uses surface-hover; an active toggle (Filters, List/Board) uses accent-soft with accent text. Menus opened from the group (saved views) are positioned outside it so they are never clipped. At 760px and below the search takes its own line and the group spans the full width with its buttons sharing the space.
+
+### Copy feedback
+Copying never raises a toast. The control that was clicked changes in place: its icon becomes a check and the control turns green (`--green` on `--green-bg`) for about 2.5 seconds, and its tooltip reads "Copied". Candidate email/phone icons show the full value in a tooltip on hover and copy on click; they do not open `mailto:` or `tel:`. If the clipboard is unavailable an error toast explains how to copy manually.
+
 ### Inputs / Fields
 Bordered inputs use the surface token. Table fields are transparent at rest, reveal a border on hover and use accent on focus. Dirty, saving and error states remain explicit. Detached failed drafts stay in a recovery panel; normalization preserves queued edits. Error text names the failure and offers recovery. Caret, selection highlight and focus colors come from the theme.
 

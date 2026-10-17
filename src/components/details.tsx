@@ -8,11 +8,14 @@ import {
   Mail,
   Phone,
   Copy,
+  Check,
   BriefcaseBusiness,
   Clock3,
   Linkedin,
+  Pencil,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useCopy } from "../lib/use-copy";
 import { DetailModal, Modal } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Select } from "./ui/select";
@@ -179,6 +182,24 @@ export function Details({
     </>
   );
 }
+function CopyButton({ value, label }: { value: string; label: string }) {
+  const { copied, copy } = useCopy();
+  return (
+    <Button
+      size="sm"
+      variant="ghost"
+      className={copied ? "copy-button copied" : "copy-button"}
+      onClick={() => void copy(value)}
+    >
+      {copied ? (
+        <Check size={14} aria-hidden="true" />
+      ) : (
+        <Copy size={14} aria-hidden="true" />
+      )}
+      {copied ? "Copied" : `Copy ${label}`}
+    </Button>
+  );
+}
 /** Quick ways to reach someone from their saved (not in-progress) details. */
 function ContactActions({
   email,
@@ -189,11 +210,6 @@ function ContactActions({
   phone: string;
   linkedin?: string;
 }) {
-  const copy = (value: string, what: string) =>
-    navigator.clipboard
-      .writeText(value)
-      .then(() => toast.success(`${what} copied`))
-      .catch(() => toast.error(`Could not copy the ${what.toLowerCase()}`));
   const e = email.trim();
   const p = phone.trim();
   const l = linkedinHref(linkedin);
@@ -206,14 +222,7 @@ function ContactActions({
             <Mail size={14} aria-hidden="true" />
             Email
           </a>
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => void copy(e, "Email")}
-          >
-            <Copy size={14} aria-hidden="true" />
-            Copy email
-          </Button>
+          <CopyButton value={e} label="email" />
         </>
       )}
       {l && (
@@ -233,14 +242,7 @@ function ContactActions({
             <Phone size={14} aria-hidden="true" />
             Call
           </a>
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => void copy(p, "Phone")}
-          >
-            <Copy size={14} aria-hidden="true" />
-            Copy phone
-          </Button>
+          <CopyButton value={p} label="phone" />
         </>
       )}
     </div>
@@ -284,6 +286,9 @@ function CandidateDetail({
 }) {
   const [entryModal, setEntryModal] = useState(false);
   const [contactModal, setContactModal] = useState(false);
+  const [editingContact, setEditingContact] = useState<
+    Candidate["contacts"][number] | null
+  >(null);
   const [customModal, setCustomModal] = useState(false);
   const apps = data.applications.filter((a) => a.candidateId === c.id);
   const text = (key: keyof Candidate, label: string, multiline = false) => (
@@ -551,6 +556,14 @@ function CandidateDetail({
                       <time>{displayDate(contact.date)}</time>
                       <p>{contact.note || "No notes added"}</p>
                     </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      aria-label="Edit contact entry"
+                      onClick={() => setEditingContact(contact)}
+                    >
+                      <Pencil size={14} />
+                    </Button>
                     <RemoveItem
                       label="Remove contact entry"
                       title="contact entry"
@@ -611,17 +624,27 @@ function CandidateDetail({
           }}
         />
       )}
-      {contactModal && (
+      {(contactModal || editingContact) && (
         <ContactForm
-          onClose={() => setContactModal(false)}
+          initial={editingContact ?? undefined}
+          onClose={() => {
+            setContactModal(false);
+            setEditingContact(null);
+          }}
           onSave={async (contact) => {
+            const exists = c.contacts.some((x) => x.id === contact.id);
             await patchEntity(
               "candidates",
               c.id,
-              { contacts: [...c.contacts, contact] },
+              {
+                contacts: exists
+                  ? c.contacts.map((x) => (x.id === contact.id ? contact : x))
+                  : [...c.contacts, contact],
+              },
               { contacts: c.contacts },
             );
             setContactModal(false);
+            setEditingContact(null);
           }}
         />
       )}
@@ -1136,21 +1159,25 @@ function EntryForm({
   );
 }
 function ContactForm({
+  initial,
   onClose,
   onSave,
 }: {
+  initial?: Candidate["contacts"][number];
   onClose: () => void;
   onSave: (contact: Candidate["contacts"][number]) => Promise<void>;
 }) {
-  const [channel, setChannel] = useState("Email");
-  const [date, setDate] = useState(new Date().toLocaleDateString("en-CA"));
-  const [note, setNote] = useState("");
+  const [channel, setChannel] = useState(initial?.channel ?? "Email");
+  const [date, setDate] = useState(
+    initial?.date ?? new Date().toLocaleDateString("en-CA"),
+  );
+  const [note, setNote] = useState(initial?.note ?? "");
   const [busy, setBusy] = useState(false);
   return (
     <Modal
       open
       onOpenChange={(v) => !v && !busy && onClose()}
-      title="Log a conversation"
+      title={initial ? "Edit conversation" : "Log a conversation"}
       description="Capture where you connected and what matters for the next conversation."
     >
       <form
@@ -1158,7 +1185,12 @@ function ContactForm({
           e.preventDefault();
           setBusy(true);
           await safeAction(() =>
-            onSave({ id: crypto.randomUUID(), channel, date, note }),
+            onSave({
+              id: initial?.id ?? crypto.randomUUID(),
+              channel,
+              date,
+              note,
+            }),
           );
           setBusy(false);
         }}
@@ -1198,7 +1230,9 @@ function ContactForm({
           >
             Cancel
           </Button>
-          <Button disabled={busy}>Log contact</Button>
+          <Button disabled={busy}>
+            {initial ? "Save changes" : "Log contact"}
+          </Button>
         </div>
       </form>
     </Modal>

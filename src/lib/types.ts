@@ -31,6 +31,35 @@ export function migrateCandidateStatus(value: unknown): unknown {
     ? legacyCandidateStatuses[value]
     : value;
 }
+/** Pipeline order used to advance a candidate when an application moves forward. */
+const statusProgress: readonly CandidateStatus[] = [
+  "Pre-qualification",
+  "CV update",
+  "Test",
+  "Interview",
+  "Offer",
+  "Placed",
+];
+const stageStatus: Record<string, CandidateStatus> = {
+  Interview: "Interview",
+  Offer: "Offer",
+  Hired: "Placed",
+};
+/**
+ * The candidate status implied by an application stage, or null when the
+ * candidate should stay as is. Only moves forward; a hire always means Placed.
+ */
+export function advancedCandidateStatus(
+  current: string,
+  stage: string,
+): CandidateStatus | null {
+  const target = stageStatus[stage];
+  if (!target || target === current) return null;
+  if (target === "Placed") return target;
+  const from = statusProgress.indexOf(current as CandidateStatus);
+  if (from < 0 || from === statusProgress.length - 1) return null;
+  return statusProgress.indexOf(target) > from ? target : null;
+}
 export const jobStatuses = ["Draft", "Open", "On hold", "Closed"] as const;
 export const stages = [
   "Sourced",
@@ -132,14 +161,21 @@ export interface Application extends BaseRecord {
   notes: string;
   history: { id: string; date: string; stage: string; note: string }[];
 }
+export interface SavedView {
+  id: string;
+  page: "candidates" | "jobs" | "applications";
+  name: string;
+  state: Record<string, string>;
+}
 export interface Settings {
   id: "workspace";
   theme: "system" | "light" | "dark";
   workspaceName: string;
-  defaultPage: "candidates" | "jobs" | "applications";
+  defaultPage: "today" | "candidates" | "jobs" | "applications";
   pageSize: number;
   density: "comfortable" | "compact";
   lastBackup: string;
+  savedViews?: SavedView[];
   revision: number;
 }
 export interface Dataset {

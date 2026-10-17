@@ -314,3 +314,46 @@ describe("import boundaries", () => {
     });
   });
 });
+describe("field-by-field import preview", () => {
+  it("lists changed fields and keeps the ones the user declines to overwrite", async () => {
+    await applyImport(
+      await prepareImport(parseVendorCSV(csv("CPM-1", "Ada"))),
+      false,
+    );
+    const plan = await prepareImport(
+      parseVendorCSV(
+        "Issue key,Summary,YOE,Skill Set,Country/ City\nCPM-1,Ada L,9,TypeScript,Paris",
+      ),
+    );
+    expect(plan.changes).toHaveLength(1);
+    const fields = plan.changes[0].fields.map((f) => f.field);
+    expect(fields).toEqual(expect.arrayContaining(["name", "location"]));
+    const id = plan.changes[0].id;
+    await applyImport(plan, true, { [id]: ["location"] });
+    const [row] = (await getDataset()).candidates;
+    expect(row).toMatchObject({ name: "Ada L", location: "London" });
+  });
+});
+describe("saved views", () => {
+  it("saves, replaces by name, deletes and survives a workspace export", async () => {
+    await storageModule.saveView({
+      page: "jobs",
+      name: "Remote",
+      state: { workMode: "Remote" },
+    });
+    await storageModule.saveView({
+      page: "jobs",
+      name: "remote",
+      state: { workMode: "Hybrid" },
+    });
+    let { settings } = await getDataset();
+    expect(settings.savedViews).toHaveLength(1);
+    expect(settings.savedViews![0].state).toEqual({ workMode: "Hybrid" });
+    const file = await exportData("workspace");
+    expect(() => parseImport(file, "workspace")).not.toThrow();
+    expect(parseImport(file, "workspace").errors).toEqual([]);
+    await storageModule.deleteView(settings.savedViews![0].id);
+    ({ settings } = await getDataset());
+    expect(settings.savedViews).toEqual([]);
+  });
+});

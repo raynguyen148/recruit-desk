@@ -34,6 +34,8 @@ import { patchEntity } from "../lib/db";
 import { useSelection } from "../lib/selection";
 import { countBy, matchesTerms, searchable, searchTerms } from "../lib/search";
 import { displayDate } from "../lib/utils";
+import { compareSalary, matchesSalary, salaryCurrencies } from "../lib/salary";
+import { SavedViews, encodeSort, decodeSort } from "../components/saved-views";
 import { jobStatuses, stages, type Dataset } from "../lib/types";
 
 type Props = {
@@ -81,6 +83,7 @@ function useControls(pageSize: number) {
     search,
     setSearch,
     sort,
+    setSort,
     page,
     setPage,
     change,
@@ -155,6 +158,7 @@ export function Jobs({
   const [status, setStatus] = useState("");
   const [company, setCompany] = useState("");
   const [workMode, setWorkMode] = useState("");
+  const [pay, setPay] = useState("");
   const query = useDeferredValue(c.search);
   const companyNames = useMemo(
     () => new Map(data.companies.map((x) => [x.id, x.name])),
@@ -172,6 +176,7 @@ export function Jobs({
           (!status || j.status === status) &&
           (!company || j.companyId === company) &&
           (!workMode || j.workMode === workMode) &&
+          matchesSalary(j.salary, pay) &&
           (!terms.length ||
             matchesTerms(
               searchable([
@@ -185,6 +190,8 @@ export function Jobs({
             )),
       )
       .sort((a, b) => {
+        if (c.sort.key === "salary")
+          return compareSalary(a.salary, b.salary, c.sort.desc);
         const value = (job: typeof a) =>
           c.sort.key === "company"
             ? (companyNames.get(job.companyId) ?? "")
@@ -193,13 +200,14 @@ export function Jobs({
               : String(job[c.sort.key as keyof typeof job] ?? "");
         return compare(value(a), value(b)) * (c.sort.desc ? -1 : 1);
       });
-  }, [data.jobs, query, c.sort, status, company, workMode, companyNames]);
+  }, [data.jobs, query, c.sort, status, company, workMode, pay, companyNames]);
   const reset = () => {
     void c.change(() => {
       c.setSearch("");
       setStatus("");
       setCompany("");
       setWorkMode("");
+      setPay("");
     });
   };
   const visible = rows.slice((c.page - 1) * c.pageSize, c.page * c.pageSize);
@@ -226,10 +234,34 @@ export function Jobs({
       />
       <div className="toolbar">
         {c.searchBox("Search title, company, location, or skills…")}
-        <Button variant="ghost" onClick={onExport}>
-          <Download size={16} />
-          Export
-        </Button>
+        <div className="toolbar-actions btn-group">
+          <SavedViews
+            page="jobs"
+            views={data.settings.savedViews}
+            current={() => ({
+              search: c.search,
+              status,
+              company,
+              workMode,
+              pay,
+              sort: encodeSort(c.sort),
+            })}
+            onApply={(s) =>
+              void c.change(() => {
+                c.setSearch(s.search ?? "");
+                setStatus(s.status ?? "");
+                setCompany(s.company ?? "");
+                setWorkMode(s.workMode ?? "");
+                setPay(s.pay ?? "");
+                c.setSort(decodeSort(s.sort, { key: "updatedAt", desc: true }));
+              })
+            }
+          />
+          <Button variant="outline" onClick={onExport}>
+            <Download size={16} />
+            Export
+          </Button>
+        </div>
       </div>
       <div className="filters-row">
         <Select
@@ -265,7 +297,22 @@ export function Jobs({
             "Other",
           ]}
         />
-        {(c.search || status || company || workMode) && (
+        <Select
+          label="Salary filter"
+          value={pay}
+          onChange={(v) => {
+            void c.change(() => setPay(v));
+          }}
+          options={[
+            { value: "", label: "Any salary" },
+            ...salaryCurrencies(data.jobs.map((j) => j.salary)).map((x) => ({
+              value: x,
+              label: `${x} listed`,
+            })),
+            { value: "none", label: "No salary listed" },
+          ]}
+        />
+        {(c.search || status || company || workMode || pay) && (
           <Button variant="ghost" onClick={reset}>
             <X size={14} />
             Reset
@@ -339,7 +386,7 @@ export function Jobs({
                 <th scope="col">{c.header("Status", "status")}</th>
                 <th scope="col">Location</th>
                 <th scope="col">Work mode</th>
-                <th scope="col">Salary</th>
+                <th scope="col">{c.header("Salary", "salary")}</th>
                 <th scope="col">Candidates</th>
                 <th scope="col">{c.header("Updated", "updatedAt")}</th>
               </tr>
@@ -740,33 +787,55 @@ export function Applications({ data, onOpen, onCreate }: Props) {
       />
       <div className="toolbar">
         {c.searchBox("Search candidate, CPM ID, job, or company…")}
-        <div
-          className="view-toggle"
-          role="group"
-          aria-label="Applications view"
-        >
-          {(
-            [
-              ["list", "List", List],
-              ["board", "Board", KanbanSquare],
-            ] as const
-          ).map(([key, label, Icon]) => (
-            <button
-              key={key}
-              aria-pressed={view === key}
-              onClick={() => {
-                setView(key);
-                try {
-                  localStorage.setItem(VIEW_KEY, key);
-                } catch {
-                  /* The view choice is a convenience only. */
-                }
-              }}
-            >
-              <Icon size={14} aria-hidden="true" />
-              {label}
-            </button>
-          ))}
+        <div className="toolbar-actions btn-group">
+          <SavedViews
+            page="applications"
+            views={data.settings.savedViews}
+            current={() => ({
+              search: c.search,
+              stage,
+              job,
+              followUp,
+              sort: encodeSort(c.sort),
+            })}
+            onApply={(s) =>
+              void c.change(() => {
+                c.setSearch(s.search ?? "");
+                setStage(s.stage ?? "");
+                setJob(s.job ?? "");
+                setFollowUp(s.followUp ?? "");
+                c.setSort(decodeSort(s.sort, { key: "updatedAt", desc: true }));
+              })
+            }
+          />
+          <div
+            className="view-toggle"
+            role="group"
+            aria-label="Applications view"
+          >
+            {(
+              [
+                ["list", "List", List],
+                ["board", "Board", KanbanSquare],
+              ] as const
+            ).map(([key, label, Icon]) => (
+              <button
+                key={key}
+                aria-pressed={view === key}
+                onClick={() => {
+                  setView(key);
+                  try {
+                    localStorage.setItem(VIEW_KEY, key);
+                  } catch {
+                    /* The view choice is a convenience only. */
+                  }
+                }}
+              >
+                <Icon size={14} aria-hidden="true" />
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
       <div className="filters-row">

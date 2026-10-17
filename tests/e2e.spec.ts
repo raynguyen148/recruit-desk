@@ -87,11 +87,11 @@ test("candidate creation, CPM uniqueness, autosave persistence, cross-tab update
   const other = await context.newPage();
   await open(other);
   await other
-    .getByLabel("Phone for Ada Test", { exact: true })
+    .getByLabel("Salary for Ada Test", { exact: true })
     .fill("+84 900 123 456");
-  await other.getByLabel("Phone for Ada Test", { exact: true }).press("Tab");
+  await other.getByLabel("Salary for Ada Test", { exact: true }).press("Tab");
   await expect(
-    page.getByLabel("Phone for Ada Test", { exact: true }),
+    page.getByLabel("Salary for Ada Test", { exact: true }),
   ).toHaveValue("+84 900 123 456");
   await other.close();
   await page

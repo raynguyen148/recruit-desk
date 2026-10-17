@@ -5,6 +5,7 @@ import {
   stages,
   candidateStatuses,
   migrateCandidateStatus,
+  advancedCandidateStatus,
   jobStatuses,
   channels,
   type Candidate,
@@ -12,6 +13,7 @@ import {
   type Company,
   type Application,
   type Settings,
+  type SavedView,
   type Dataset,
   type EntityKind,
   type EntityMap,
@@ -348,6 +350,21 @@ export async function createEntity<K extends EntityKind>(
       ];
     }
     await entityTable(kind).add(next);
+    if (kind === "applications")
+      await advanceCandidate(next as Application, now);
+  });
+}
+/** Keep the candidate status in step with an application that moved forward. */
+async function advanceCandidate(application: Application, now: string) {
+  const candidate = await db.candidates.get(application.candidateId);
+  if (!candidate) return;
+  const status = advancedCandidateStatus(candidate.status, application.stage);
+  if (!status) return;
+  await db.candidates.put({
+    ...candidate,
+    status,
+    updatedAt: now,
+    revision: candidate.revision + 1,
   });
 }
 export async function patchEntity<K extends EntityKind>(
@@ -384,6 +401,11 @@ export async function patchEntity<K extends EntityKind>(
     }
     await validate(kind, next);
     await entityTable(kind).put(next);
+    if (
+      kind === "applications" &&
+      (next as Application).stage !== (current as Application).stage
+    )
+      await advanceCandidate(next as Application, now);
   });
 }
 export async function removeEntity(
@@ -426,7 +448,9 @@ export async function patchSettings(
     if (
       !["system", "light", "dark"].includes(next.theme) ||
       !["comfortable", "compact"].includes(next.density) ||
-      !["candidates", "jobs", "applications"].includes(next.defaultPage) ||
+      !["today", "candidates", "jobs", "applications"].includes(
+        next.defaultPage,
+      ) ||
       !Number.isInteger(next.pageSize) ||
       next.pageSize < 1 ||
       next.pageSize > 500 ||
@@ -434,5 +458,36 @@ export async function patchSettings(
     )
       throw new Error("Invalid workspace settings.");
     await db.settings.put(next);
+  });
+}
+
+/** Saves a filter/sort combination so it can be re-applied from the list page. */
+export async function saveView(view: Omit<SavedView, "id">): Promise<void> {
+  const name = required(view.name, "View name");
+  await db.transaction("rw", db.settings, async () => {
+    const current = (await db.settings.get("workspace")) ?? {
+      ...defaultSettings,
+    };
+    const rest = (current.savedViews ?? []).filter(
+      (v) =>
+        !(v.page === view.page && v.name.toLowerCase() === name.toLowerCase()),
+    );
+    if (rest.length >= 100) throw new Error("Too many saved views.");
+    await db.settings.put({
+      ...current,
+      savedViews: [...rest, { ...view, name, id: crypto.randomUUID() }],
+      revision: current.revision + 1,
+    });
+  });
+}
+export async function deleteView(id: string): Promise<void> {
+  await db.transaction("rw", db.settings, async () => {
+    const current = await db.settings.get("workspace");
+    if (!current) return;
+    await db.settings.put({
+      ...current,
+      savedViews: (current.savedViews ?? []).filter((v) => v.id !== id),
+      revision: current.revision + 1,
+    });
   });
 }

@@ -32,7 +32,17 @@ type Props = {
 const bytes = (n: number) =>
   n < 1024 * 1024
     ? `${(n / 1024).toFixed(1)} KB`
-    : `${(n / 1024 / 1024).toFixed(1)} MB`;
+    : n < 1024 ** 3
+      ? `${(n / 1024 / 1024).toFixed(1)} MB`
+      : `${(n / 1024 ** 3).toFixed(1)} GB`;
+const sectionLinks = [
+  ["preferences", "Preferences"],
+  ["workspace-backup", "Backup & restore"],
+  ["record-transfer", "Import & export"],
+  ["local-storage", "Local storage"],
+  ["sample-records", "Sample records"],
+  ["danger-zone", "Delete all data"],
+] as const;
 export default function Settings({
   data,
   onImport,
@@ -169,51 +179,18 @@ export default function Settings({
       <PageHeading title="Settings & data" />
       <div className="settings-layout">
         <nav className="settings-nav" aria-label="Settings sections">
-          <a
-            href="#preferences"
-            onClick={(event) => {
-              event.preventDefault();
-              document.getElementById("preferences")?.scrollIntoView();
-            }}
-          >
-            Preferences
-          </a>
-          <a
-            href="#workspace-backup"
-            onClick={(event) => {
-              event.preventDefault();
-              document.getElementById("workspace-backup")?.scrollIntoView();
-            }}
-          >
-            Backup & restore
-          </a>
-          <a
-            href="#record-transfer"
-            onClick={(event) => {
-              event.preventDefault();
-              document.getElementById("record-transfer")?.scrollIntoView();
-            }}
-          >
-            Import & export
-          </a>
-          <a
-            href="#local-storage"
-            onClick={(event) => {
-              event.preventDefault();
-              document.getElementById("local-storage")?.scrollIntoView();
-            }}
-          >
-            Local storage
-          </a>
-          <a
-            href="#sample-records"
-            onClick={(event) => {
-              event.preventDefault();
-              document.getElementById("sample-records")?.scrollIntoView();
-            }}
-          >
-            Sample records
-          </a>
+          {sectionLinks.map(([id, label]) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              onClick={(event) => {
+                event.preventDefault();
+                document.getElementById(id)?.scrollIntoView();
+              }}
+            >
+              {label}
+            </a>
+          ))}
         </nav>
         <div className="settings-content">
           <Section id="preferences" title="Your preferences">
@@ -246,6 +223,7 @@ export default function Settings({
                   label="Start page"
                   value={s.defaultPage}
                   options={[
+                    { value: "today", label: "Today" },
                     { value: "candidates", label: "Candidates" },
                     { value: "jobs", label: "Jobs" },
                     { value: "applications", label: "Applications" },
@@ -459,22 +437,23 @@ export default function Settings({
               from this browser and resets settings. Download a backup first if
               you may need these records again.
             </p>
-            <Button
-              variant="outline"
-              onClick={() => onExport("workspace")}
-              disabled={!recordCount}
-            >
-              <Download size={15} />
-              Back up first
-            </Button>
-            <Button
-              variant="destructive"
-              className="ml-2"
-              disabled={!recordCount}
-              onClick={() => setWiping(true)}
-            >
-              Delete all data
-            </Button>
+            <div className="danger-actions">
+              <Button
+                variant="outline"
+                onClick={() => onExport("workspace")}
+                disabled={!recordCount}
+              >
+                <Download size={15} />
+                Back up first
+              </Button>
+              <Button
+                variant="destructive"
+                disabled={!recordCount}
+                onClick={() => setWiping(true)}
+              >
+                Delete all data
+              </Button>
+            </div>
             <Modal
               open={wiping}
               onOpenChange={(v) => {
