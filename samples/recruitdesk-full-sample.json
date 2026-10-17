@@ -1,0 +1,4416 @@
+{
+  "format": "recruitdesk",
+  "version": 1,
+  "kind": "workspace",
+  "exportedAt": "2026-10-17T08:00:00.000Z",
+  "data": {
+    "candidates": [
+      {
+        "id": "sample-full-candidate-001",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2001",
+        "name": "An Nguyễn",
+        "headline": "Full-stack Engineer · fictional sample",
+        "email": "candidate-01@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Ho Chi Minh City, Vietnam",
+        "yearsExperience": "3",
+        "skills": ["TypeScript", "React", "Node.js", "PostgreSQL"],
+        "status": "Available",
+        "salary": "USD 2,500–3,300 / month (sample)",
+        "expectation": "Prefers Remote work with clear ownership and a learning budget. Sample notice period: immediate.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample vendor CSV",
+        "entries": [
+          {
+            "id": "sample-full-candidate-1-entry-001",
+            "type": "Experience",
+            "title": "Full-stack Engineer — fictional role",
+            "organization": "Aurora Sample Labs",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable TypeScript solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-1-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-1-entry-003",
+            "type": "Certificate",
+            "title": "TypeScript Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-1-entry-004",
+            "type": "Project",
+            "title": "TypeScript community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using TypeScript, React, Node.js. Demo URL: https://project-1.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-1-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-1-field-001",
+            "label": "Notice period",
+            "value": "Immediate"
+          },
+          {
+            "id": "sample-full-candidate-1-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-1-contact-001",
+            "channel": "Email",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-1-contact-002",
+            "channel": "Phone",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2001",
+          "Issue id": "sample-issue-2001",
+          "Summary": "An Nguyễn",
+          "Custom field (Years of experience)": "3",
+          "Custom field (Skill Set)": "TypeScript; React; Node.js; PostgreSQL",
+          "Custom field (Country/ City)": "Ho Chi Minh City, Vietnam",
+          "Status": "Sourced",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-002",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2002",
+        "name": "Bình Trần",
+        "headline": "Backend Engineer · fictional sample",
+        "email": "candidate-02@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Hanoi, Vietnam",
+        "yearsExperience": "4",
+        "skills": ["Java", "Spring Boot", "Kafka", "PostgreSQL"],
+        "status": "Open to opportunities",
+        "salary": "USD 2,600–3,400 / month (sample)",
+        "expectation": "Prefers Hybrid work with clear ownership and a learning budget. Sample notice period: 30 days.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample referral",
+        "entries": [
+          {
+            "id": "sample-full-candidate-2-entry-001",
+            "type": "Experience",
+            "title": "Backend Engineer — fictional role",
+            "organization": "Bamboo Sample Commerce",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable Java solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-2-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-2-entry-003",
+            "type": "Certificate",
+            "title": "Java Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-2-entry-004",
+            "type": "Project",
+            "title": "Java community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using Java, Spring Boot, Kafka. Demo URL: https://project-2.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-2-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-2-field-001",
+            "label": "Notice period",
+            "value": "30 days"
+          },
+          {
+            "id": "sample-full-candidate-2-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-2-contact-001",
+            "channel": "Phone",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-2-contact-002",
+            "channel": "LinkedIn",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2002",
+          "Issue id": "sample-issue-2002",
+          "Summary": "Bình Trần",
+          "Custom field (Years of experience)": "4",
+          "Custom field (Skill Set)": "Java; Spring Boot; Kafka; PostgreSQL",
+          "Custom field (Country/ City)": "Hanoi, Vietnam",
+          "Status": "Screening",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-003",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2003",
+        "name": "Chi Lê",
+        "headline": "Frontend Engineer · fictional sample",
+        "email": "candidate-03@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Da Nang, Vietnam",
+        "yearsExperience": "5",
+        "skills": ["React", "TypeScript", "CSS", "Accessibility"],
+        "status": "Available",
+        "salary": "USD 2,700–3,500 / month (sample)",
+        "expectation": "Prefers On-site work with clear ownership and a learning budget. Sample notice period: 60 days.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample manual entry",
+        "entries": [
+          {
+            "id": "sample-full-candidate-3-entry-001",
+            "type": "Experience",
+            "title": "Frontend Engineer — fictional role",
+            "organization": "Coral Sample Health",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable React solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-3-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-3-entry-003",
+            "type": "Certificate",
+            "title": "React Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-3-entry-004",
+            "type": "Project",
+            "title": "React community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using React, TypeScript, CSS. Demo URL: https://project-3.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-3-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-3-field-001",
+            "label": "Notice period",
+            "value": "60 days"
+          },
+          {
+            "id": "sample-full-candidate-3-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-3-contact-001",
+            "channel": "LinkedIn",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-3-contact-002",
+            "channel": "Zalo",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2003",
+          "Issue id": "sample-issue-2003",
+          "Summary": "Chi Lê",
+          "Custom field (Years of experience)": "5",
+          "Custom field (Skill Set)": "React; TypeScript; CSS; Accessibility",
+          "Custom field (Country/ City)": "Da Nang, Vietnam",
+          "Status": "Interview",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-004",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2004",
+        "name": "Dũng Phạm",
+        "headline": "Platform Engineer · fictional sample",
+        "email": "candidate-04@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Singapore",
+        "yearsExperience": "6",
+        "skills": ["Go", "Kubernetes", "Terraform", "AWS"],
+        "status": "Not looking",
+        "salary": "USD 2,800–3,600 / month (sample)",
+        "expectation": "Prefers Remote work with clear ownership and a learning budget. Sample notice period: immediate.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample vendor CSV",
+        "entries": [
+          {
+            "id": "sample-full-candidate-4-entry-001",
+            "type": "Experience",
+            "title": "Platform Engineer — fictional role",
+            "organization": "Delta Sample Logistics",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable Go solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-4-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-4-entry-003",
+            "type": "Certificate",
+            "title": "Go Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-4-entry-004",
+            "type": "Project",
+            "title": "Go community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using Go, Kubernetes, Terraform. Demo URL: https://project-4.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-4-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-4-field-001",
+            "label": "Notice period",
+            "value": "Immediate"
+          },
+          {
+            "id": "sample-full-candidate-4-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-4-contact-001",
+            "channel": "Zalo",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-4-contact-002",
+            "channel": "Facebook",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2004",
+          "Issue id": "sample-issue-2004",
+          "Summary": "Dũng Phạm",
+          "Custom field (Years of experience)": "6",
+          "Custom field (Skill Set)": "Go; Kubernetes; Terraform; AWS",
+          "Custom field (Country/ City)": "Singapore",
+          "Status": "Sourced",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-005",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2005",
+        "name": "Em Hoàng",
+        "headline": "Data Engineer · fictional sample",
+        "email": "candidate-05@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Bangkok, Thailand",
+        "yearsExperience": "7",
+        "skills": ["Python", "SQL", "dbt", "Airflow"],
+        "status": "Available",
+        "salary": "USD 2,900–3,700 / month (sample)",
+        "expectation": "Prefers Hybrid work with clear ownership and a learning budget. Sample notice period: 30 days.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample referral",
+        "entries": [
+          {
+            "id": "sample-full-candidate-5-entry-001",
+            "type": "Experience",
+            "title": "Data Engineer — fictional role",
+            "organization": "Ember Sample Finance",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable Python solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-5-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-5-entry-003",
+            "type": "Certificate",
+            "title": "Python Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-5-entry-004",
+            "type": "Project",
+            "title": "Python community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using Python, SQL, dbt. Demo URL: https://project-5.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-5-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-5-field-001",
+            "label": "Notice period",
+            "value": "30 days"
+          },
+          {
+            "id": "sample-full-candidate-5-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-5-contact-001",
+            "channel": "Facebook",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-5-contact-002",
+            "channel": "Referral",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2005",
+          "Issue id": "sample-issue-2005",
+          "Summary": "Em Hoàng",
+          "Custom field (Years of experience)": "7",
+          "Custom field (Skill Set)": "Python; SQL; dbt; Airflow",
+          "Custom field (Country/ City)": "Bangkok, Thailand",
+          "Status": "Screening",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-006",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2006",
+        "name": "Giang Vũ",
+        "headline": "QA Engineer · fictional sample",
+        "email": "candidate-06@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Kuala Lumpur, Malaysia",
+        "yearsExperience": "8",
+        "skills": ["Playwright", "TypeScript", "API testing", "CI/CD"],
+        "status": "Open to opportunities",
+        "salary": "USD 3,000–3,800 / month (sample)",
+        "expectation": "Prefers On-site work with clear ownership and a learning budget. Sample notice period: 60 days.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample manual entry",
+        "entries": [
+          {
+            "id": "sample-full-candidate-6-entry-001",
+            "type": "Experience",
+            "title": "QA Engineer — fictional role",
+            "organization": "Fern Sample Education",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable Playwright solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-6-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-6-entry-003",
+            "type": "Certificate",
+            "title": "Playwright Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-6-entry-004",
+            "type": "Project",
+            "title": "Playwright community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using Playwright, TypeScript, API testing. Demo URL: https://project-6.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-6-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-6-field-001",
+            "label": "Notice period",
+            "value": "60 days"
+          },
+          {
+            "id": "sample-full-candidate-6-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-6-contact-001",
+            "channel": "Referral",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-6-contact-002",
+            "channel": "Other",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2006",
+          "Issue id": "sample-issue-2006",
+          "Summary": "Giang Vũ",
+          "Custom field (Years of experience)": "8",
+          "Custom field (Skill Set)": "Playwright; TypeScript; API testing; CI/CD",
+          "Custom field (Country/ City)": "Kuala Lumpur, Malaysia",
+          "Status": "Interview",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-007",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2007",
+        "name": "Hà Đỗ",
+        "headline": "Product Designer · fictional sample",
+        "email": "candidate-07@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Ho Chi Minh City, Vietnam",
+        "yearsExperience": "9",
+        "skills": ["Figma", "User research", "Prototyping", "Design systems"],
+        "status": "Available",
+        "salary": "USD 3,100–3,900 / month (sample)",
+        "expectation": "Prefers Remote work with clear ownership and a learning budget. Sample notice period: immediate.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample vendor CSV",
+        "entries": [
+          {
+            "id": "sample-full-candidate-7-entry-001",
+            "type": "Experience",
+            "title": "Product Designer — fictional role",
+            "organization": "Grove Sample Cloud",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable Figma solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-7-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-7-entry-003",
+            "type": "Certificate",
+            "title": "Figma Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-7-entry-004",
+            "type": "Project",
+            "title": "Figma community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using Figma, User research, Prototyping. Demo URL: https://project-7.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-7-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-7-field-001",
+            "label": "Notice period",
+            "value": "Immediate"
+          },
+          {
+            "id": "sample-full-candidate-7-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-7-contact-001",
+            "channel": "Other",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-7-contact-002",
+            "channel": "Email",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2007",
+          "Issue id": "sample-issue-2007",
+          "Summary": "Hà Đỗ",
+          "Custom field (Years of experience)": "9",
+          "Custom field (Skill Set)": "Figma; User research; Prototyping; Design systems",
+          "Custom field (Country/ City)": "Ho Chi Minh City, Vietnam",
+          "Status": "Sourced",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-008",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2008",
+        "name": "Hải Bùi",
+        "headline": "Mobile Engineer · fictional sample",
+        "email": "candidate-08@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Hanoi, Vietnam",
+        "yearsExperience": "10",
+        "skills": ["Flutter", "Dart", "Android", "iOS"],
+        "status": "Not looking",
+        "salary": "USD 3,200–4,000 / month (sample)",
+        "expectation": "Prefers Hybrid work with clear ownership and a learning budget. Sample notice period: 30 days.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample referral",
+        "entries": [
+          {
+            "id": "sample-full-candidate-8-entry-001",
+            "type": "Experience",
+            "title": "Mobile Engineer — fictional role",
+            "organization": "Harbor Sample Studio",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable Flutter solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-8-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-8-entry-003",
+            "type": "Certificate",
+            "title": "Flutter Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-8-entry-004",
+            "type": "Project",
+            "title": "Flutter community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using Flutter, Dart, Android. Demo URL: https://project-8.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-8-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-8-field-001",
+            "label": "Notice period",
+            "value": "30 days"
+          },
+          {
+            "id": "sample-full-candidate-8-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-8-contact-001",
+            "channel": "Email",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-8-contact-002",
+            "channel": "Phone",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2008",
+          "Issue id": "sample-issue-2008",
+          "Summary": "Hải Bùi",
+          "Custom field (Years of experience)": "10",
+          "Custom field (Skill Set)": "Flutter; Dart; Android; iOS",
+          "Custom field (Country/ City)": "Hanoi, Vietnam",
+          "Status": "Screening",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-009",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2009",
+        "name": "Hân Phan",
+        "headline": "Engineering Manager · fictional sample",
+        "email": "candidate-09@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Da Nang, Vietnam",
+        "yearsExperience": "11",
+        "skills": ["Team leadership", "System design", "Coaching", "Delivery"],
+        "status": "Available",
+        "salary": "USD 3,300–4,100 / month (sample)",
+        "expectation": "Prefers On-site work with clear ownership and a learning budget. Sample notice period: 60 days.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample manual entry",
+        "entries": [
+          {
+            "id": "sample-full-candidate-9-entry-001",
+            "type": "Experience",
+            "title": "Engineering Manager — fictional role",
+            "organization": "Aurora Sample Labs",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable Team leadership solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-9-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-9-entry-003",
+            "type": "Certificate",
+            "title": "Team leadership Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-9-entry-004",
+            "type": "Project",
+            "title": "Team leadership community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using Team leadership, System design, Coaching. Demo URL: https://project-9.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-9-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-9-field-001",
+            "label": "Notice period",
+            "value": "60 days"
+          },
+          {
+            "id": "sample-full-candidate-9-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-9-contact-001",
+            "channel": "Phone",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-9-contact-002",
+            "channel": "LinkedIn",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2009",
+          "Issue id": "sample-issue-2009",
+          "Summary": "Hân Phan",
+          "Custom field (Years of experience)": "11",
+          "Custom field (Skill Set)": "Team leadership; System design; Coaching; Delivery",
+          "Custom field (Country/ City)": "Da Nang, Vietnam",
+          "Status": "Interview",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-010",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2010",
+        "name": "Hiếu Võ",
+        "headline": "Security Engineer · fictional sample",
+        "email": "candidate-10@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Singapore",
+        "yearsExperience": "12",
+        "skills": [
+          "Application security",
+          "Threat modeling",
+          "Python",
+          "Cloud security"
+        ],
+        "status": "Open to opportunities",
+        "salary": "USD 3,400–4,200 / month (sample)",
+        "expectation": "Prefers Remote work with clear ownership and a learning budget. Sample notice period: immediate.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample vendor CSV",
+        "entries": [
+          {
+            "id": "sample-full-candidate-10-entry-001",
+            "type": "Experience",
+            "title": "Security Engineer — fictional role",
+            "organization": "Bamboo Sample Commerce",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable Application security solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-10-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-10-entry-003",
+            "type": "Certificate",
+            "title": "Application security Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-10-entry-004",
+            "type": "Project",
+            "title": "Application security community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using Application security, Threat modeling, Python. Demo URL: https://project-10.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-10-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-10-field-001",
+            "label": "Notice period",
+            "value": "Immediate"
+          },
+          {
+            "id": "sample-full-candidate-10-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-10-contact-001",
+            "channel": "LinkedIn",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-10-contact-002",
+            "channel": "Zalo",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2010",
+          "Issue id": "sample-issue-2010",
+          "Summary": "Hiếu Võ",
+          "Custom field (Years of experience)": "12",
+          "Custom field (Skill Set)": "Application security; Threat modeling; Python; Cloud security",
+          "Custom field (Country/ City)": "Singapore",
+          "Status": "Sourced",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-011",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2011",
+        "name": "Hương Lý",
+        "headline": "Product Analyst · fictional sample",
+        "email": "candidate-11@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Bangkok, Thailand",
+        "yearsExperience": "3",
+        "skills": ["SQL", "Python", "Experimentation", "Product analytics"],
+        "status": "Available",
+        "salary": "USD 3,500–4,300 / month (sample)",
+        "expectation": "Prefers Hybrid work with clear ownership and a learning budget. Sample notice period: 30 days.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample referral",
+        "entries": [
+          {
+            "id": "sample-full-candidate-11-entry-001",
+            "type": "Experience",
+            "title": "Product Analyst — fictional role",
+            "organization": "Coral Sample Health",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable SQL solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-11-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-11-entry-003",
+            "type": "Certificate",
+            "title": "SQL Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-11-entry-004",
+            "type": "Project",
+            "title": "SQL community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using SQL, Python, Experimentation. Demo URL: https://project-11.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-11-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-11-field-001",
+            "label": "Notice period",
+            "value": "30 days"
+          },
+          {
+            "id": "sample-full-candidate-11-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-11-contact-001",
+            "channel": "Zalo",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-11-contact-002",
+            "channel": "Facebook",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2011",
+          "Issue id": "sample-issue-2011",
+          "Summary": "Hương Lý",
+          "Custom field (Years of experience)": "3",
+          "Custom field (Skill Set)": "SQL; Python; Experimentation; Product analytics",
+          "Custom field (Country/ City)": "Bangkok, Thailand",
+          "Status": "Screening",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-012",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2012",
+        "name": "Khang Đặng",
+        "headline": "Technical Writer · fictional sample",
+        "email": "candidate-12@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Kuala Lumpur, Malaysia",
+        "yearsExperience": "4",
+        "skills": [
+          "API documentation",
+          "Git",
+          "Markdown",
+          "Developer education"
+        ],
+        "status": "Not looking",
+        "salary": "USD 3,600–4,400 / month (sample)",
+        "expectation": "Prefers On-site work with clear ownership and a learning budget. Sample notice period: 60 days.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample manual entry",
+        "entries": [
+          {
+            "id": "sample-full-candidate-12-entry-001",
+            "type": "Experience",
+            "title": "Technical Writer — fictional role",
+            "organization": "Delta Sample Logistics",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable API documentation solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-12-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-12-entry-003",
+            "type": "Certificate",
+            "title": "API documentation Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-12-entry-004",
+            "type": "Project",
+            "title": "API documentation community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using API documentation, Git, Markdown. Demo URL: https://project-12.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-12-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-12-field-001",
+            "label": "Notice period",
+            "value": "60 days"
+          },
+          {
+            "id": "sample-full-candidate-12-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-12-contact-001",
+            "channel": "Facebook",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-12-contact-002",
+            "channel": "Referral",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2012",
+          "Issue id": "sample-issue-2012",
+          "Summary": "Khang Đặng",
+          "Custom field (Years of experience)": "4",
+          "Custom field (Skill Set)": "API documentation; Git; Markdown; Developer education",
+          "Custom field (Country/ City)": "Kuala Lumpur, Malaysia",
+          "Status": "Interview",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-013",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2013",
+        "name": "Lan Mai",
+        "headline": "Full-stack Engineer · fictional sample",
+        "email": "candidate-13@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Ho Chi Minh City, Vietnam",
+        "yearsExperience": "5",
+        "skills": ["TypeScript", "React", "Node.js", "PostgreSQL"],
+        "status": "Available",
+        "salary": "USD 3,700–4,500 / month (sample)",
+        "expectation": "Prefers Remote work with clear ownership and a learning budget. Sample notice period: immediate.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample vendor CSV",
+        "entries": [
+          {
+            "id": "sample-full-candidate-13-entry-001",
+            "type": "Experience",
+            "title": "Full-stack Engineer — fictional role",
+            "organization": "Ember Sample Finance",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable TypeScript solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-13-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-13-entry-003",
+            "type": "Certificate",
+            "title": "TypeScript Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-13-entry-004",
+            "type": "Project",
+            "title": "TypeScript community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using TypeScript, React, Node.js. Demo URL: https://project-13.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-13-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-13-field-001",
+            "label": "Notice period",
+            "value": "Immediate"
+          },
+          {
+            "id": "sample-full-candidate-13-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-13-contact-001",
+            "channel": "Referral",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-13-contact-002",
+            "channel": "Other",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2013",
+          "Issue id": "sample-issue-2013",
+          "Summary": "Lan Mai",
+          "Custom field (Years of experience)": "5",
+          "Custom field (Skill Set)": "TypeScript; React; Node.js; PostgreSQL",
+          "Custom field (Country/ City)": "Ho Chi Minh City, Vietnam",
+          "Status": "Sourced",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-014",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2014",
+        "name": "Linh Cao",
+        "headline": "Backend Engineer · fictional sample",
+        "email": "candidate-14@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Hanoi, Vietnam",
+        "yearsExperience": "6",
+        "skills": ["Java", "Spring Boot", "Kafka", "PostgreSQL"],
+        "status": "Open to opportunities",
+        "salary": "USD 3,800–4,600 / month (sample)",
+        "expectation": "Prefers Hybrid work with clear ownership and a learning budget. Sample notice period: 30 days.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample referral",
+        "entries": [
+          {
+            "id": "sample-full-candidate-14-entry-001",
+            "type": "Experience",
+            "title": "Backend Engineer — fictional role",
+            "organization": "Fern Sample Education",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable Java solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-14-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-14-entry-003",
+            "type": "Certificate",
+            "title": "Java Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-14-entry-004",
+            "type": "Project",
+            "title": "Java community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using Java, Spring Boot, Kafka. Demo URL: https://project-14.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-14-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-14-field-001",
+            "label": "Notice period",
+            "value": "30 days"
+          },
+          {
+            "id": "sample-full-candidate-14-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-14-contact-001",
+            "channel": "Other",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-14-contact-002",
+            "channel": "Email",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2014",
+          "Issue id": "sample-issue-2014",
+          "Summary": "Linh Cao",
+          "Custom field (Years of experience)": "6",
+          "Custom field (Skill Set)": "Java; Spring Boot; Kafka; PostgreSQL",
+          "Custom field (Country/ City)": "Hanoi, Vietnam",
+          "Status": "Screening",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-015",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2015",
+        "name": "Minh Đinh",
+        "headline": "Frontend Engineer · fictional sample",
+        "email": "candidate-15@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Da Nang, Vietnam",
+        "yearsExperience": "7",
+        "skills": ["React", "TypeScript", "CSS", "Accessibility"],
+        "status": "Available",
+        "salary": "USD 3,900–4,700 / month (sample)",
+        "expectation": "Prefers On-site work with clear ownership and a learning budget. Sample notice period: 60 days.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample manual entry",
+        "entries": [
+          {
+            "id": "sample-full-candidate-15-entry-001",
+            "type": "Experience",
+            "title": "Frontend Engineer — fictional role",
+            "organization": "Grove Sample Cloud",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable React solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-15-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-15-entry-003",
+            "type": "Certificate",
+            "title": "React Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-15-entry-004",
+            "type": "Project",
+            "title": "React community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using React, TypeScript, CSS. Demo URL: https://project-15.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-15-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-15-field-001",
+            "label": "Notice period",
+            "value": "60 days"
+          },
+          {
+            "id": "sample-full-candidate-15-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-15-contact-001",
+            "channel": "Email",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-15-contact-002",
+            "channel": "Phone",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2015",
+          "Issue id": "sample-issue-2015",
+          "Summary": "Minh Đinh",
+          "Custom field (Years of experience)": "7",
+          "Custom field (Skill Set)": "React; TypeScript; CSS; Accessibility",
+          "Custom field (Country/ City)": "Da Nang, Vietnam",
+          "Status": "Interview",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-016",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2016",
+        "name": "Nam Hồ",
+        "headline": "Platform Engineer · fictional sample",
+        "email": "candidate-16@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Singapore",
+        "yearsExperience": "8",
+        "skills": ["Go", "Kubernetes", "Terraform", "AWS"],
+        "status": "Not looking",
+        "salary": "USD 4,000–4,800 / month (sample)",
+        "expectation": "Prefers Remote work with clear ownership and a learning budget. Sample notice period: immediate.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample vendor CSV",
+        "entries": [
+          {
+            "id": "sample-full-candidate-16-entry-001",
+            "type": "Experience",
+            "title": "Platform Engineer — fictional role",
+            "organization": "Harbor Sample Studio",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable Go solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-16-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-16-entry-003",
+            "type": "Certificate",
+            "title": "Go Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-16-entry-004",
+            "type": "Project",
+            "title": "Go community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using Go, Kubernetes, Terraform. Demo URL: https://project-16.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-16-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-16-field-001",
+            "label": "Notice period",
+            "value": "Immediate"
+          },
+          {
+            "id": "sample-full-candidate-16-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-16-contact-001",
+            "channel": "Phone",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-16-contact-002",
+            "channel": "LinkedIn",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2016",
+          "Issue id": "sample-issue-2016",
+          "Summary": "Nam Hồ",
+          "Custom field (Years of experience)": "8",
+          "Custom field (Skill Set)": "Go; Kubernetes; Terraform; AWS",
+          "Custom field (Country/ City)": "Singapore",
+          "Status": "Sourced",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-017",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2017",
+        "name": "Ngân Tạ",
+        "headline": "Data Engineer · fictional sample",
+        "email": "candidate-17@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Bangkok, Thailand",
+        "yearsExperience": "9",
+        "skills": ["Python", "SQL", "dbt", "Airflow"],
+        "status": "Available",
+        "salary": "USD 4,100–4,900 / month (sample)",
+        "expectation": "Prefers Hybrid work with clear ownership and a learning budget. Sample notice period: 30 days.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample referral",
+        "entries": [
+          {
+            "id": "sample-full-candidate-17-entry-001",
+            "type": "Experience",
+            "title": "Data Engineer — fictional role",
+            "organization": "Aurora Sample Labs",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable Python solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-17-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-17-entry-003",
+            "type": "Certificate",
+            "title": "Python Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-17-entry-004",
+            "type": "Project",
+            "title": "Python community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using Python, SQL, dbt. Demo URL: https://project-17.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-17-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-17-field-001",
+            "label": "Notice period",
+            "value": "30 days"
+          },
+          {
+            "id": "sample-full-candidate-17-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-17-contact-001",
+            "channel": "LinkedIn",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-17-contact-002",
+            "channel": "Zalo",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2017",
+          "Issue id": "sample-issue-2017",
+          "Summary": "Ngân Tạ",
+          "Custom field (Years of experience)": "9",
+          "Custom field (Skill Set)": "Python; SQL; dbt; Airflow",
+          "Custom field (Country/ City)": "Bangkok, Thailand",
+          "Status": "Screening",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-018",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2018",
+        "name": "Nhật Dương",
+        "headline": "QA Engineer · fictional sample",
+        "email": "candidate-18@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Kuala Lumpur, Malaysia",
+        "yearsExperience": "10",
+        "skills": ["Playwright", "TypeScript", "API testing", "CI/CD"],
+        "status": "Open to opportunities",
+        "salary": "USD 4,200–5,000 / month (sample)",
+        "expectation": "Prefers On-site work with clear ownership and a learning budget. Sample notice period: 60 days.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample manual entry",
+        "entries": [
+          {
+            "id": "sample-full-candidate-18-entry-001",
+            "type": "Experience",
+            "title": "QA Engineer — fictional role",
+            "organization": "Bamboo Sample Commerce",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable Playwright solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-18-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-18-entry-003",
+            "type": "Certificate",
+            "title": "Playwright Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-18-entry-004",
+            "type": "Project",
+            "title": "Playwright community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using Playwright, TypeScript, API testing. Demo URL: https://project-18.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-18-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-18-field-001",
+            "label": "Notice period",
+            "value": "60 days"
+          },
+          {
+            "id": "sample-full-candidate-18-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-18-contact-001",
+            "channel": "Zalo",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-18-contact-002",
+            "channel": "Facebook",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2018",
+          "Issue id": "sample-issue-2018",
+          "Summary": "Nhật Dương",
+          "Custom field (Years of experience)": "10",
+          "Custom field (Skill Set)": "Playwright; TypeScript; API testing; CI/CD",
+          "Custom field (Country/ City)": "Kuala Lumpur, Malaysia",
+          "Status": "Interview",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-019",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2019",
+        "name": "Phúc Lâm",
+        "headline": "Product Designer · fictional sample",
+        "email": "candidate-19@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Ho Chi Minh City, Vietnam",
+        "yearsExperience": "11",
+        "skills": ["Figma", "User research", "Prototyping", "Design systems"],
+        "status": "Available",
+        "salary": "USD 4,300–5,100 / month (sample)",
+        "expectation": "Prefers Remote work with clear ownership and a learning budget. Sample notice period: immediate.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample vendor CSV",
+        "entries": [
+          {
+            "id": "sample-full-candidate-19-entry-001",
+            "type": "Experience",
+            "title": "Product Designer — fictional role",
+            "organization": "Coral Sample Health",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable Figma solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-19-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-19-entry-003",
+            "type": "Certificate",
+            "title": "Figma Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-19-entry-004",
+            "type": "Project",
+            "title": "Figma community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using Figma, User research, Prototyping. Demo URL: https://project-19.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-19-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-19-field-001",
+            "label": "Notice period",
+            "value": "Immediate"
+          },
+          {
+            "id": "sample-full-candidate-19-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-19-contact-001",
+            "channel": "Facebook",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-19-contact-002",
+            "channel": "Referral",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2019",
+          "Issue id": "sample-issue-2019",
+          "Summary": "Phúc Lâm",
+          "Custom field (Years of experience)": "11",
+          "Custom field (Skill Set)": "Figma; User research; Prototyping; Design systems",
+          "Custom field (Country/ City)": "Ho Chi Minh City, Vietnam",
+          "Status": "Sourced",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-020",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2020",
+        "name": "Quỳnh Lưu",
+        "headline": "Mobile Engineer · fictional sample",
+        "email": "candidate-20@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Hanoi, Vietnam",
+        "yearsExperience": "12",
+        "skills": ["Flutter", "Dart", "Android", "iOS"],
+        "status": "Not looking",
+        "salary": "USD 4,400–5,200 / month (sample)",
+        "expectation": "Prefers Hybrid work with clear ownership and a learning budget. Sample notice period: 30 days.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample referral",
+        "entries": [
+          {
+            "id": "sample-full-candidate-20-entry-001",
+            "type": "Experience",
+            "title": "Mobile Engineer — fictional role",
+            "organization": "Delta Sample Logistics",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable Flutter solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-20-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-20-entry-003",
+            "type": "Certificate",
+            "title": "Flutter Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-20-entry-004",
+            "type": "Project",
+            "title": "Flutter community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using Flutter, Dart, Android. Demo URL: https://project-20.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-20-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-20-field-001",
+            "label": "Notice period",
+            "value": "30 days"
+          },
+          {
+            "id": "sample-full-candidate-20-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-20-contact-001",
+            "channel": "Referral",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-20-contact-002",
+            "channel": "Other",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2020",
+          "Issue id": "sample-issue-2020",
+          "Summary": "Quỳnh Lưu",
+          "Custom field (Years of experience)": "12",
+          "Custom field (Skill Set)": "Flutter; Dart; Android; iOS",
+          "Custom field (Country/ City)": "Hanoi, Vietnam",
+          "Status": "Screening",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-021",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2021",
+        "name": "Sơn Đào",
+        "headline": "Engineering Manager · fictional sample",
+        "email": "candidate-21@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Da Nang, Vietnam",
+        "yearsExperience": "3",
+        "skills": ["Team leadership", "System design", "Coaching", "Delivery"],
+        "status": "Available",
+        "salary": "USD 4,500–5,300 / month (sample)",
+        "expectation": "Prefers On-site work with clear ownership and a learning budget. Sample notice period: 60 days.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample manual entry",
+        "entries": [
+          {
+            "id": "sample-full-candidate-21-entry-001",
+            "type": "Experience",
+            "title": "Engineering Manager — fictional role",
+            "organization": "Ember Sample Finance",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable Team leadership solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-21-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-21-entry-003",
+            "type": "Certificate",
+            "title": "Team leadership Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-21-entry-004",
+            "type": "Project",
+            "title": "Team leadership community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using Team leadership, System design, Coaching. Demo URL: https://project-21.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-21-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-21-field-001",
+            "label": "Notice period",
+            "value": "60 days"
+          },
+          {
+            "id": "sample-full-candidate-21-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-21-contact-001",
+            "channel": "Other",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-21-contact-002",
+            "channel": "Email",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2021",
+          "Issue id": "sample-issue-2021",
+          "Summary": "Sơn Đào",
+          "Custom field (Years of experience)": "3",
+          "Custom field (Skill Set)": "Team leadership; System design; Coaching; Delivery",
+          "Custom field (Country/ City)": "Da Nang, Vietnam",
+          "Status": "Interview",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-022",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2022",
+        "name": "Thảo Nguyễn",
+        "headline": "Security Engineer · fictional sample",
+        "email": "candidate-22@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Singapore",
+        "yearsExperience": "4",
+        "skills": [
+          "Application security",
+          "Threat modeling",
+          "Python",
+          "Cloud security"
+        ],
+        "status": "Open to opportunities",
+        "salary": "USD 4,600–5,400 / month (sample)",
+        "expectation": "Prefers Remote work with clear ownership and a learning budget. Sample notice period: immediate.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample vendor CSV",
+        "entries": [
+          {
+            "id": "sample-full-candidate-22-entry-001",
+            "type": "Experience",
+            "title": "Security Engineer — fictional role",
+            "organization": "Fern Sample Education",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable Application security solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-22-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-22-entry-003",
+            "type": "Certificate",
+            "title": "Application security Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-22-entry-004",
+            "type": "Project",
+            "title": "Application security community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using Application security, Threat modeling, Python. Demo URL: https://project-22.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-22-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-22-field-001",
+            "label": "Notice period",
+            "value": "Immediate"
+          },
+          {
+            "id": "sample-full-candidate-22-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-22-contact-001",
+            "channel": "Email",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-22-contact-002",
+            "channel": "Phone",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2022",
+          "Issue id": "sample-issue-2022",
+          "Summary": "Thảo Nguyễn",
+          "Custom field (Years of experience)": "4",
+          "Custom field (Skill Set)": "Application security; Threat modeling; Python; Cloud security",
+          "Custom field (Country/ City)": "Singapore",
+          "Status": "Sourced",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-023",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2023",
+        "name": "Trang Trần",
+        "headline": "Product Analyst · fictional sample",
+        "email": "candidate-23@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Bangkok, Thailand",
+        "yearsExperience": "5",
+        "skills": ["SQL", "Python", "Experimentation", "Product analytics"],
+        "status": "Do not contact",
+        "salary": "USD 4,700–5,500 / month (sample)",
+        "expectation": "Prefers Hybrid work with clear ownership and a learning budget. Sample notice period: 30 days.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample referral",
+        "entries": [
+          {
+            "id": "sample-full-candidate-23-entry-001",
+            "type": "Experience",
+            "title": "Product Analyst — fictional role",
+            "organization": "Grove Sample Cloud",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable SQL solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-23-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-23-entry-003",
+            "type": "Certificate",
+            "title": "SQL Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-23-entry-004",
+            "type": "Project",
+            "title": "SQL community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using SQL, Python, Experimentation. Demo URL: https://project-23.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-23-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-23-field-001",
+            "label": "Notice period",
+            "value": "30 days"
+          },
+          {
+            "id": "sample-full-candidate-23-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-23-contact-001",
+            "channel": "Phone",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-23-contact-002",
+            "channel": "LinkedIn",
+            "date": "2026-10-11",
+            "note": "Fictional candidate requested no further outreach; retain this preference."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2023",
+          "Issue id": "sample-issue-2023",
+          "Summary": "Trang Trần",
+          "Custom field (Years of experience)": "5",
+          "Custom field (Skill Set)": "SQL; Python; Experimentation; Product analytics",
+          "Custom field (Country/ City)": "Bangkok, Thailand",
+          "Status": "Screening",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      },
+      {
+        "id": "sample-full-candidate-024",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "cpmID": "SAMPLE-2024",
+        "name": "Vân Lê",
+        "headline": "Technical Writer · fictional sample",
+        "email": "candidate-24@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "location": "Kuala Lumpur, Malaysia",
+        "yearsExperience": "6",
+        "skills": [
+          "API documentation",
+          "Git",
+          "Markdown",
+          "Developer education"
+        ],
+        "status": "Not looking",
+        "salary": "USD 4,800–5,600 / month (sample)",
+        "expectation": "Prefers On-site work with clear ownership and a learning budget. Sample notice period: 60 days.",
+        "notes": "Entire profile is fictional. Use to explore search, details, linked applications and structured records.",
+        "source": "Sample manual entry",
+        "entries": [
+          {
+            "id": "sample-full-candidate-24-entry-001",
+            "type": "Experience",
+            "title": "Technical Writer — fictional role",
+            "organization": "Harbor Sample Studio",
+            "startDate": "2022-01",
+            "endDate": "Present",
+            "notes": "Example responsibility: deliver reliable API documentation solutions and mentor teammates. All employment claims are fictional."
+          },
+          {
+            "id": "sample-full-candidate-24-entry-002",
+            "type": "Education",
+            "title": "BSc in Computing — sample qualification",
+            "organization": "Sample Learning Institute",
+            "startDate": "2016-09",
+            "endDate": "2020-06",
+            "notes": "Fictional educational record for profile layout testing."
+          },
+          {
+            "id": "sample-full-candidate-24-entry-003",
+            "type": "Certificate",
+            "title": "API documentation Foundations — sample certificate",
+            "organization": "Sample Skills Academy",
+            "startDate": "2024-03",
+            "endDate": "2024-03",
+            "notes": "Sample credential only; not issued by a real accreditation body."
+          },
+          {
+            "id": "sample-full-candidate-24-entry-004",
+            "type": "Project",
+            "title": "API documentation community toolkit — sample project",
+            "organization": "Sample Open Lab",
+            "startDate": "2025-01",
+            "endDate": "2025-08",
+            "notes": "Example project using API documentation, Git, Markdown. Demo URL: https://project-24.example.invalid"
+          },
+          {
+            "id": "sample-full-candidate-24-entry-005",
+            "type": "Other",
+            "title": "Mentoring and learning preferences",
+            "organization": "Sample Peer Circle",
+            "startDate": "2025-09",
+            "endDate": "Present",
+            "notes": "Enjoys asynchronous collaboration and monthly peer learning. Fictional profile detail."
+          }
+        ],
+        "customFields": [
+          {
+            "id": "sample-full-candidate-24-field-001",
+            "label": "Notice period",
+            "value": "60 days"
+          },
+          {
+            "id": "sample-full-candidate-24-field-002",
+            "label": "Preferred interview time",
+            "value": "Weekdays 14:00–17:00 UTC+7"
+          }
+        ],
+        "contacts": [
+          {
+            "id": "sample-full-candidate-24-contact-001",
+            "channel": "LinkedIn",
+            "date": "2026-10-10",
+            "note": "Fictional contact log: availability and preferred role discussed."
+          },
+          {
+            "id": "sample-full-candidate-24-contact-002",
+            "channel": "Zalo",
+            "date": "2026-10-11",
+            "note": "Fictional follow-up: profile details reviewed; no message was sent."
+          }
+        ],
+        "vendorData": {
+          "Issue Type": "Candidate",
+          "Issue key": "SAMPLE-2024",
+          "Issue id": "sample-issue-2024",
+          "Summary": "Vân Lê",
+          "Custom field (Years of experience)": "6",
+          "Custom field (Skill Set)": "API documentation; Git; Markdown; Developer education",
+          "Custom field (Country/ City)": "Kuala Lumpur, Malaysia",
+          "Status": "Interview",
+          "Assignee": "Sample Recruiter",
+          "Assignee Id": "sample-assignee-01",
+          "Custom field (Sourcer)": "Sample Sourcer",
+          "Custom field (Sourcer)Id": "sample-sourcer-01",
+          "Updated": "2026-10-17 08:00",
+          "Due date": "2026-10-20"
+        }
+      }
+    ],
+    "companies": [
+      {
+        "id": "sample-full-company-001",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "name": "Aurora Sample Labs",
+        "industry": "Developer tools",
+        "location": "Ho Chi Minh City, Vietnam",
+        "website": "https://company-1.example.invalid",
+        "contactName": "Sample Hiring Contact 1",
+        "email": "hiring-1@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "notes": "Fictional company for testing. Developer tools team; interview feedback expected within two business days."
+      },
+      {
+        "id": "sample-full-company-002",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "name": "Bamboo Sample Commerce",
+        "industry": "E-commerce",
+        "location": "Hanoi, Vietnam",
+        "website": "https://company-2.example.invalid",
+        "contactName": "Sample Hiring Contact 2",
+        "email": "hiring-2@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "notes": "Fictional company for testing. E-commerce team; interview feedback expected within two business days."
+      },
+      {
+        "id": "sample-full-company-003",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "name": "Coral Sample Health",
+        "industry": "Health software",
+        "location": "Da Nang, Vietnam",
+        "website": "https://company-3.example.invalid",
+        "contactName": "Sample Hiring Contact 3",
+        "email": "hiring-3@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "notes": "Fictional company for testing. Health software team; interview feedback expected within two business days."
+      },
+      {
+        "id": "sample-full-company-004",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "name": "Delta Sample Logistics",
+        "industry": "Logistics",
+        "location": "Singapore",
+        "website": "https://company-4.example.invalid",
+        "contactName": "Sample Hiring Contact 4",
+        "email": "hiring-4@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "notes": "Fictional company for testing. Logistics team; interview feedback expected within two business days."
+      },
+      {
+        "id": "sample-full-company-005",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "name": "Ember Sample Finance",
+        "industry": "Financial software",
+        "location": "Bangkok, Thailand",
+        "website": "https://company-5.example.invalid",
+        "contactName": "Sample Hiring Contact 5",
+        "email": "hiring-5@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "notes": "Fictional company for testing. Financial software team; interview feedback expected within two business days."
+      },
+      {
+        "id": "sample-full-company-006",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "name": "Fern Sample Education",
+        "industry": "Education",
+        "location": "Kuala Lumpur, Malaysia",
+        "website": "https://company-6.example.invalid",
+        "contactName": "Sample Hiring Contact 6",
+        "email": "hiring-6@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "notes": "Fictional company for testing. Education team; interview feedback expected within two business days."
+      },
+      {
+        "id": "sample-full-company-007",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "name": "Grove Sample Cloud",
+        "industry": "Cloud infrastructure",
+        "location": "Ho Chi Minh City, Vietnam",
+        "website": "https://company-7.example.invalid",
+        "contactName": "Sample Hiring Contact 7",
+        "email": "hiring-7@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "notes": "Fictional company for testing. Cloud infrastructure team; interview feedback expected within two business days."
+      },
+      {
+        "id": "sample-full-company-008",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "name": "Harbor Sample Studio",
+        "industry": "Design services",
+        "location": "Hanoi, Vietnam",
+        "website": "https://company-8.example.invalid",
+        "contactName": "Sample Hiring Contact 8",
+        "email": "hiring-8@example.invalid",
+        "phone": "SAMPLE ONLY — not a telephone number",
+        "notes": "Fictional company for testing. Design services team; interview feedback expected within two business days."
+      }
+    ],
+    "jobs": [
+      {
+        "id": "sample-full-job-001",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "title": "Full-stack Engineer",
+        "companyId": "sample-full-company-001",
+        "description": "Fictional Full-stack Engineer opening at Aurora Sample Labs.\n\nResponsibilities: deliver maintainable solutions, collaborate with product partners, and document decisions.\n\nCore skills: TypeScript, React, Node.js, PostgreSQL.\n\nInterview process: recruiter conversation, practical discussion, team interview, and offer review.",
+        "status": "Open",
+        "location": "Ho Chi Minh City, Vietnam",
+        "employmentType": "Full-time",
+        "workMode": "Remote",
+        "salary": "USD 3,000–4,500 / month (sample)",
+        "skills": ["TypeScript", "React", "Node.js", "PostgreSQL"],
+        "priority": "Low",
+        "notes": "Fictional vacancy for product exploration. Confirm role availability before moving a real application.",
+        "customFields": [
+          {
+            "id": "sample-full-job-1-field-001",
+            "label": "Hiring owner",
+            "value": "Sample Hiring Contact 1"
+          },
+          {
+            "id": "sample-full-job-1-field-002",
+            "label": "Interview rounds",
+            "value": "3"
+          }
+        ]
+      },
+      {
+        "id": "sample-full-job-002",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "title": "Backend Engineer",
+        "companyId": "sample-full-company-002",
+        "description": "Fictional Backend Engineer opening at Bamboo Sample Commerce.\n\nResponsibilities: deliver maintainable solutions, collaborate with product partners, and document decisions.\n\nCore skills: Java, Spring Boot, Kafka, PostgreSQL.\n\nInterview process: recruiter conversation, practical discussion, team interview, and offer review.",
+        "status": "Open",
+        "location": "Hanoi, Vietnam",
+        "employmentType": "Contract",
+        "workMode": "Hybrid",
+        "salary": "USD 3,150–4,650 / month (sample)",
+        "skills": ["Java", "Spring Boot", "Kafka", "PostgreSQL"],
+        "priority": "Normal",
+        "notes": "Fictional vacancy for product exploration. Confirm role availability before moving a real application.",
+        "customFields": [
+          {
+            "id": "sample-full-job-2-field-001",
+            "label": "Hiring owner",
+            "value": "Sample Hiring Contact 2"
+          },
+          {
+            "id": "sample-full-job-2-field-002",
+            "label": "Interview rounds",
+            "value": "3"
+          }
+        ]
+      },
+      {
+        "id": "sample-full-job-003",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "title": "Frontend Engineer",
+        "companyId": "sample-full-company-003",
+        "description": "Fictional Frontend Engineer opening at Coral Sample Health.\n\nResponsibilities: deliver maintainable solutions, collaborate with product partners, and document decisions.\n\nCore skills: React, TypeScript, CSS, Accessibility.\n\nInterview process: recruiter conversation, practical discussion, team interview, and offer review.",
+        "status": "On hold",
+        "location": "Da Nang, Vietnam",
+        "employmentType": "Part-time",
+        "workMode": "On-site",
+        "salary": "USD 3,300–4,800 / month (sample)",
+        "skills": ["React", "TypeScript", "CSS", "Accessibility"],
+        "priority": "High",
+        "notes": "Fictional vacancy for product exploration. Confirm role availability before moving a real application.",
+        "customFields": [
+          {
+            "id": "sample-full-job-3-field-001",
+            "label": "Hiring owner",
+            "value": "Sample Hiring Contact 3"
+          },
+          {
+            "id": "sample-full-job-3-field-002",
+            "label": "Interview rounds",
+            "value": "3"
+          }
+        ]
+      },
+      {
+        "id": "sample-full-job-004",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "title": "Platform Engineer",
+        "companyId": "sample-full-company-004",
+        "description": "Fictional Platform Engineer opening at Delta Sample Logistics.\n\nResponsibilities: deliver maintainable solutions, collaborate with product partners, and document decisions.\n\nCore skills: Go, Kubernetes, Terraform, AWS.\n\nInterview process: recruiter conversation, practical discussion, team interview, and offer review.",
+        "status": "Closed",
+        "location": "Singapore",
+        "employmentType": "Freelance",
+        "workMode": "Other",
+        "salary": "USD 3,450–4,950 / month (sample)",
+        "skills": ["Go", "Kubernetes", "Terraform", "AWS"],
+        "priority": "Urgent",
+        "notes": "Fictional vacancy for product exploration. Confirm role availability before moving a real application.",
+        "customFields": [
+          {
+            "id": "sample-full-job-4-field-001",
+            "label": "Hiring owner",
+            "value": "Sample Hiring Contact 4"
+          },
+          {
+            "id": "sample-full-job-4-field-002",
+            "label": "Interview rounds",
+            "value": "3"
+          }
+        ]
+      },
+      {
+        "id": "sample-full-job-005",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "title": "Data Engineer",
+        "companyId": "sample-full-company-005",
+        "description": "Fictional Data Engineer opening at Ember Sample Finance.\n\nResponsibilities: deliver maintainable solutions, collaborate with product partners, and document decisions.\n\nCore skills: Python, SQL, dbt, Airflow.\n\nInterview process: recruiter conversation, practical discussion, team interview, and offer review.",
+        "status": "Open",
+        "location": "Bangkok, Thailand",
+        "employmentType": "Temporary",
+        "workMode": "Remote",
+        "salary": "USD 3,600–5,100 / month (sample)",
+        "skills": ["Python", "SQL", "dbt", "Airflow"],
+        "priority": "Low",
+        "notes": "Fictional vacancy for product exploration. Confirm role availability before moving a real application.",
+        "customFields": [
+          {
+            "id": "sample-full-job-5-field-001",
+            "label": "Hiring owner",
+            "value": "Sample Hiring Contact 5"
+          },
+          {
+            "id": "sample-full-job-5-field-002",
+            "label": "Interview rounds",
+            "value": "3"
+          }
+        ]
+      },
+      {
+        "id": "sample-full-job-006",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "title": "QA Engineer",
+        "companyId": "sample-full-company-006",
+        "description": "Fictional QA Engineer opening at Fern Sample Education.\n\nResponsibilities: deliver maintainable solutions, collaborate with product partners, and document decisions.\n\nCore skills: Playwright, TypeScript, API testing, CI/CD.\n\nInterview process: recruiter conversation, practical discussion, team interview, and offer review.",
+        "status": "Open",
+        "location": "Kuala Lumpur, Malaysia",
+        "employmentType": "Internship",
+        "workMode": "Hybrid",
+        "salary": "USD 3,750–5,250 / month (sample)",
+        "skills": ["Playwright", "TypeScript", "API testing", "CI/CD"],
+        "priority": "Normal",
+        "notes": "Fictional vacancy for product exploration. Confirm role availability before moving a real application.",
+        "customFields": [
+          {
+            "id": "sample-full-job-6-field-001",
+            "label": "Hiring owner",
+            "value": "Sample Hiring Contact 6"
+          },
+          {
+            "id": "sample-full-job-6-field-002",
+            "label": "Interview rounds",
+            "value": "3"
+          }
+        ]
+      },
+      {
+        "id": "sample-full-job-007",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "title": "Product Designer",
+        "companyId": "sample-full-company-007",
+        "description": "Fictional Product Designer opening at Grove Sample Cloud.\n\nResponsibilities: deliver maintainable solutions, collaborate with product partners, and document decisions.\n\nCore skills: Figma, User research, Prototyping, Design systems.\n\nInterview process: recruiter conversation, practical discussion, team interview, and offer review.",
+        "status": "Open",
+        "location": "Ho Chi Minh City, Vietnam",
+        "employmentType": "Other",
+        "workMode": "On-site",
+        "salary": "USD 3,900–5,400 / month (sample)",
+        "skills": ["Figma", "User research", "Prototyping", "Design systems"],
+        "priority": "High",
+        "notes": "Fictional vacancy for product exploration. Confirm role availability before moving a real application.",
+        "customFields": [
+          {
+            "id": "sample-full-job-7-field-001",
+            "label": "Hiring owner",
+            "value": "Sample Hiring Contact 7"
+          },
+          {
+            "id": "sample-full-job-7-field-002",
+            "label": "Interview rounds",
+            "value": "3"
+          }
+        ]
+      },
+      {
+        "id": "sample-full-job-008",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "title": "Mobile Engineer",
+        "companyId": "sample-full-company-008",
+        "description": "Fictional Mobile Engineer opening at Harbor Sample Studio.\n\nResponsibilities: deliver maintainable solutions, collaborate with product partners, and document decisions.\n\nCore skills: Flutter, Dart, Android, iOS.\n\nInterview process: recruiter conversation, practical discussion, team interview, and offer review.",
+        "status": "Open",
+        "location": "Hanoi, Vietnam",
+        "employmentType": "Full-time",
+        "workMode": "Other",
+        "salary": "USD 4,050–5,550 / month (sample)",
+        "skills": ["Flutter", "Dart", "Android", "iOS"],
+        "priority": "Urgent",
+        "notes": "Fictional vacancy for product exploration. Confirm role availability before moving a real application.",
+        "customFields": [
+          {
+            "id": "sample-full-job-8-field-001",
+            "label": "Hiring owner",
+            "value": "Sample Hiring Contact 8"
+          },
+          {
+            "id": "sample-full-job-8-field-002",
+            "label": "Interview rounds",
+            "value": "3"
+          }
+        ]
+      },
+      {
+        "id": "sample-full-job-009",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "title": "Engineering Manager",
+        "companyId": "sample-full-company-001",
+        "description": "Fictional Engineering Manager opening at Aurora Sample Labs.\n\nResponsibilities: deliver maintainable solutions, collaborate with product partners, and document decisions.\n\nCore skills: Team leadership, System design, Coaching, Delivery.\n\nInterview process: recruiter conversation, practical discussion, team interview, and offer review.",
+        "status": "Open",
+        "location": "Da Nang, Vietnam",
+        "employmentType": "Contract",
+        "workMode": "Remote",
+        "salary": "USD 4,200–5,700 / month (sample)",
+        "skills": ["Team leadership", "System design", "Coaching", "Delivery"],
+        "priority": "Low",
+        "notes": "Fictional vacancy for product exploration. Confirm role availability before moving a real application.",
+        "customFields": [
+          {
+            "id": "sample-full-job-9-field-001",
+            "label": "Hiring owner",
+            "value": "Sample Hiring Contact 1"
+          },
+          {
+            "id": "sample-full-job-9-field-002",
+            "label": "Interview rounds",
+            "value": "3"
+          }
+        ]
+      },
+      {
+        "id": "sample-full-job-010",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "title": "Security Engineer",
+        "companyId": "sample-full-company-002",
+        "description": "Fictional Security Engineer opening at Bamboo Sample Commerce.\n\nResponsibilities: deliver maintainable solutions, collaborate with product partners, and document decisions.\n\nCore skills: Application security, Threat modeling, Python, Cloud security.\n\nInterview process: recruiter conversation, practical discussion, team interview, and offer review.",
+        "status": "Draft",
+        "location": "Singapore",
+        "employmentType": "Part-time",
+        "workMode": "Hybrid",
+        "salary": "USD 4,350–5,850 / month (sample)",
+        "skills": [
+          "Application security",
+          "Threat modeling",
+          "Python",
+          "Cloud security"
+        ],
+        "priority": "Normal",
+        "notes": "Fictional vacancy for product exploration. Confirm role availability before moving a real application.",
+        "customFields": [
+          {
+            "id": "sample-full-job-10-field-001",
+            "label": "Hiring owner",
+            "value": "Sample Hiring Contact 2"
+          },
+          {
+            "id": "sample-full-job-10-field-002",
+            "label": "Interview rounds",
+            "value": "3"
+          }
+        ]
+      },
+      {
+        "id": "sample-full-job-011",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "title": "Product Analyst",
+        "companyId": "sample-full-company-003",
+        "description": "Fictional Product Analyst opening at Coral Sample Health.\n\nResponsibilities: deliver maintainable solutions, collaborate with product partners, and document decisions.\n\nCore skills: SQL, Python, Experimentation, Product analytics.\n\nInterview process: recruiter conversation, practical discussion, team interview, and offer review.",
+        "status": "Open",
+        "location": "Bangkok, Thailand",
+        "employmentType": "Freelance",
+        "workMode": "On-site",
+        "salary": "USD 4,500–6,000 / month (sample)",
+        "skills": ["SQL", "Python", "Experimentation", "Product analytics"],
+        "priority": "High",
+        "notes": "Fictional vacancy for product exploration. Confirm role availability before moving a real application.",
+        "customFields": [
+          {
+            "id": "sample-full-job-11-field-001",
+            "label": "Hiring owner",
+            "value": "Sample Hiring Contact 3"
+          },
+          {
+            "id": "sample-full-job-11-field-002",
+            "label": "Interview rounds",
+            "value": "3"
+          }
+        ]
+      },
+      {
+        "id": "sample-full-job-012",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "title": "Technical Writer",
+        "companyId": "sample-full-company-004",
+        "description": "Fictional Technical Writer opening at Delta Sample Logistics.\n\nResponsibilities: deliver maintainable solutions, collaborate with product partners, and document decisions.\n\nCore skills: API documentation, Git, Markdown, Developer education.\n\nInterview process: recruiter conversation, practical discussion, team interview, and offer review.",
+        "status": "Open",
+        "location": "Kuala Lumpur, Malaysia",
+        "employmentType": "Temporary",
+        "workMode": "Other",
+        "salary": "USD 4,650–6,150 / month (sample)",
+        "skills": [
+          "API documentation",
+          "Git",
+          "Markdown",
+          "Developer education"
+        ],
+        "priority": "Urgent",
+        "notes": "Fictional vacancy for product exploration. Confirm role availability before moving a real application.",
+        "customFields": [
+          {
+            "id": "sample-full-job-12-field-001",
+            "label": "Hiring owner",
+            "value": "Sample Hiring Contact 4"
+          },
+          {
+            "id": "sample-full-job-12-field-002",
+            "label": "Interview rounds",
+            "value": "3"
+          }
+        ]
+      }
+    ],
+    "applications": [
+      {
+        "id": "sample-full-application-001",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-001",
+        "jobId": "sample-full-job-001",
+        "stage": "Sourced",
+        "nextAction": "Review profile fit",
+        "followUp": "2026-10-15",
+        "notes": "Fictional application linking An Nguyễn to Full-stack Engineer. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-1-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-002",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-002",
+        "jobId": "sample-full-job-002",
+        "stage": "Contacted",
+        "nextAction": "Confirm interest",
+        "followUp": "2026-10-17",
+        "notes": "Fictional application linking Bình Trần to Backend Engineer. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-2-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-2-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-003",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-003",
+        "jobId": "sample-full-job-003",
+        "stage": "Screening",
+        "nextAction": "Schedule screening",
+        "followUp": "2026-10-20",
+        "notes": "Fictional application linking Chi Lê to Frontend Engineer. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-3-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-3-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-3-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-004",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-004",
+        "jobId": "sample-full-job-004",
+        "stage": "Hired",
+        "nextAction": "Complete sample onboarding",
+        "followUp": "",
+        "notes": "Fictional application linking Dũng Phạm to Platform Engineer. Process finished; no follow-up scheduled.",
+        "history": [
+          {
+            "id": "sample-full-application-4-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-4-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-4-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-4-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Submitted",
+            "note": "Fictional progression: Submitted."
+          },
+          {
+            "id": "sample-full-application-4-history-005",
+            "date": "2026-10-10T09:00:00.000Z",
+            "stage": "Interview",
+            "note": "Fictional progression: Interview."
+          },
+          {
+            "id": "sample-full-application-4-history-006",
+            "date": "2026-10-12T09:00:00.000Z",
+            "stage": "Offer",
+            "note": "Fictional progression: Offer."
+          },
+          {
+            "id": "sample-full-application-4-history-007",
+            "date": "2026-10-14T09:00:00.000Z",
+            "stage": "Hired",
+            "note": "Fictional progression: Hired."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-005",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-005",
+        "jobId": "sample-full-job-005",
+        "stage": "Interview",
+        "nextAction": "Confirm interview time",
+        "followUp": "2026-10-17",
+        "notes": "Fictional application linking Em Hoàng to Data Engineer. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-5-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-5-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-5-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-5-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Submitted",
+            "note": "Fictional progression: Submitted."
+          },
+          {
+            "id": "sample-full-application-5-history-005",
+            "date": "2026-10-10T09:00:00.000Z",
+            "stage": "Interview",
+            "note": "Fictional progression: Interview."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-006",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-006",
+        "jobId": "sample-full-job-006",
+        "stage": "Offer",
+        "nextAction": "Review sample offer",
+        "followUp": "2026-10-20",
+        "notes": "Fictional application linking Giang Vũ to QA Engineer. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-6-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-6-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-6-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-6-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Submitted",
+            "note": "Fictional progression: Submitted."
+          },
+          {
+            "id": "sample-full-application-6-history-005",
+            "date": "2026-10-10T09:00:00.000Z",
+            "stage": "Interview",
+            "note": "Fictional progression: Interview."
+          },
+          {
+            "id": "sample-full-application-6-history-006",
+            "date": "2026-10-12T09:00:00.000Z",
+            "stage": "Offer",
+            "note": "Fictional progression: Offer."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-007",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-007",
+        "jobId": "sample-full-job-007",
+        "stage": "Hired",
+        "nextAction": "Complete sample onboarding",
+        "followUp": "",
+        "notes": "Fictional application linking Hà Đỗ to Product Designer. Process finished; no follow-up scheduled.",
+        "history": [
+          {
+            "id": "sample-full-application-7-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-7-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-7-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-7-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Submitted",
+            "note": "Fictional progression: Submitted."
+          },
+          {
+            "id": "sample-full-application-7-history-005",
+            "date": "2026-10-10T09:00:00.000Z",
+            "stage": "Interview",
+            "note": "Fictional progression: Interview."
+          },
+          {
+            "id": "sample-full-application-7-history-006",
+            "date": "2026-10-12T09:00:00.000Z",
+            "stage": "Offer",
+            "note": "Fictional progression: Offer."
+          },
+          {
+            "id": "sample-full-application-7-history-007",
+            "date": "2026-10-14T09:00:00.000Z",
+            "stage": "Hired",
+            "note": "Fictional progression: Hired."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-008",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-008",
+        "jobId": "sample-full-job-008",
+        "stage": "Rejected",
+        "nextAction": "Record rejection feedback",
+        "followUp": "",
+        "notes": "Fictional application linking Hải Bùi to Mobile Engineer. Process finished; no follow-up scheduled.",
+        "history": [
+          {
+            "id": "sample-full-application-8-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-8-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-8-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-8-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Rejected",
+            "note": "Fictional progression: Rejected."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-009",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-009",
+        "jobId": "sample-full-job-009",
+        "stage": "Withdrawn",
+        "nextAction": "Close withdrawn application",
+        "followUp": "",
+        "notes": "Fictional application linking Hân Phan to Engineering Manager. Process finished; no follow-up scheduled.",
+        "history": [
+          {
+            "id": "sample-full-application-9-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-9-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-9-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-9-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Withdrawn",
+            "note": "Fictional progression: Withdrawn."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-010",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-010",
+        "jobId": "sample-full-job-010",
+        "stage": "Sourced",
+        "nextAction": "Review profile fit",
+        "followUp": "2026-10-15",
+        "notes": "Fictional application linking Hiếu Võ to Security Engineer. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-10-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-011",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-011",
+        "jobId": "sample-full-job-011",
+        "stage": "Contacted",
+        "nextAction": "Confirm interest",
+        "followUp": "2026-10-17",
+        "notes": "Fictional application linking Hương Lý to Product Analyst. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-11-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-11-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-012",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-012",
+        "jobId": "sample-full-job-012",
+        "stage": "Screening",
+        "nextAction": "Schedule screening",
+        "followUp": "2026-10-20",
+        "notes": "Fictional application linking Khang Đặng to Technical Writer. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-12-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-12-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-12-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-013",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-013",
+        "jobId": "sample-full-job-001",
+        "stage": "Submitted",
+        "nextAction": "Collect client feedback",
+        "followUp": "2026-10-15",
+        "notes": "Fictional application linking Lan Mai to Full-stack Engineer. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-13-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-13-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-13-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-13-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Submitted",
+            "note": "Fictional progression: Submitted."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-014",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-014",
+        "jobId": "sample-full-job-002",
+        "stage": "Interview",
+        "nextAction": "Confirm interview time",
+        "followUp": "2026-10-17",
+        "notes": "Fictional application linking Linh Cao to Backend Engineer. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-14-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-14-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-14-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-14-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Submitted",
+            "note": "Fictional progression: Submitted."
+          },
+          {
+            "id": "sample-full-application-14-history-005",
+            "date": "2026-10-10T09:00:00.000Z",
+            "stage": "Interview",
+            "note": "Fictional progression: Interview."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-015",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-015",
+        "jobId": "sample-full-job-003",
+        "stage": "Offer",
+        "nextAction": "Review sample offer",
+        "followUp": "2026-10-20",
+        "notes": "Fictional application linking Minh Đinh to Frontend Engineer. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-15-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-15-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-15-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-15-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Submitted",
+            "note": "Fictional progression: Submitted."
+          },
+          {
+            "id": "sample-full-application-15-history-005",
+            "date": "2026-10-10T09:00:00.000Z",
+            "stage": "Interview",
+            "note": "Fictional progression: Interview."
+          },
+          {
+            "id": "sample-full-application-15-history-006",
+            "date": "2026-10-12T09:00:00.000Z",
+            "stage": "Offer",
+            "note": "Fictional progression: Offer."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-016",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-016",
+        "jobId": "sample-full-job-004",
+        "stage": "Rejected",
+        "nextAction": "Record rejection feedback",
+        "followUp": "",
+        "notes": "Fictional application linking Nam Hồ to Platform Engineer. Process finished; no follow-up scheduled.",
+        "history": [
+          {
+            "id": "sample-full-application-16-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-16-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-16-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-16-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Rejected",
+            "note": "Fictional progression: Rejected."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-017",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-017",
+        "jobId": "sample-full-job-005",
+        "stage": "Rejected",
+        "nextAction": "Record rejection feedback",
+        "followUp": "",
+        "notes": "Fictional application linking Ngân Tạ to Data Engineer. Process finished; no follow-up scheduled.",
+        "history": [
+          {
+            "id": "sample-full-application-17-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-17-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-17-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-17-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Rejected",
+            "note": "Fictional progression: Rejected."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-018",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-018",
+        "jobId": "sample-full-job-006",
+        "stage": "Withdrawn",
+        "nextAction": "Close withdrawn application",
+        "followUp": "",
+        "notes": "Fictional application linking Nhật Dương to QA Engineer. Process finished; no follow-up scheduled.",
+        "history": [
+          {
+            "id": "sample-full-application-18-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-18-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-18-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-18-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Withdrawn",
+            "note": "Fictional progression: Withdrawn."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-019",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-019",
+        "jobId": "sample-full-job-007",
+        "stage": "Sourced",
+        "nextAction": "Review profile fit",
+        "followUp": "2026-10-15",
+        "notes": "Fictional application linking Phúc Lâm to Product Designer. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-19-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-020",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-020",
+        "jobId": "sample-full-job-008",
+        "stage": "Contacted",
+        "nextAction": "Confirm interest",
+        "followUp": "2026-10-17",
+        "notes": "Fictional application linking Quỳnh Lưu to Mobile Engineer. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-20-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-20-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-021",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-021",
+        "jobId": "sample-full-job-009",
+        "stage": "Screening",
+        "nextAction": "Schedule screening",
+        "followUp": "2026-10-20",
+        "notes": "Fictional application linking Sơn Đào to Engineering Manager. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-21-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-21-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-21-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-022",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-022",
+        "jobId": "sample-full-job-010",
+        "stage": "Sourced",
+        "nextAction": "Review profile fit",
+        "followUp": "2026-10-15",
+        "notes": "Fictional application linking Thảo Nguyễn to Security Engineer. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-22-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-023",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-023",
+        "jobId": "sample-full-job-011",
+        "stage": "Rejected",
+        "nextAction": "Record rejection feedback",
+        "followUp": "",
+        "notes": "Fictional application linking Trang Trần to Product Analyst. Process finished; no follow-up scheduled.",
+        "history": [
+          {
+            "id": "sample-full-application-23-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-23-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-23-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-23-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Rejected",
+            "note": "Fictional progression: Rejected."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-024",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-024",
+        "jobId": "sample-full-job-012",
+        "stage": "Offer",
+        "nextAction": "Review sample offer",
+        "followUp": "2026-10-20",
+        "notes": "Fictional application linking Vân Lê to Technical Writer. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-24-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-24-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-24-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-24-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Submitted",
+            "note": "Fictional progression: Submitted."
+          },
+          {
+            "id": "sample-full-application-24-history-005",
+            "date": "2026-10-10T09:00:00.000Z",
+            "stage": "Interview",
+            "note": "Fictional progression: Interview."
+          },
+          {
+            "id": "sample-full-application-24-history-006",
+            "date": "2026-10-12T09:00:00.000Z",
+            "stage": "Offer",
+            "note": "Fictional progression: Offer."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-025",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-001",
+        "jobId": "sample-full-job-004",
+        "stage": "Withdrawn",
+        "nextAction": "Close withdrawn application",
+        "followUp": "",
+        "notes": "Fictional application linking An Nguyễn to Platform Engineer. Process finished; no follow-up scheduled.",
+        "history": [
+          {
+            "id": "sample-full-application-25-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-25-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-25-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-25-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Withdrawn",
+            "note": "Fictional progression: Withdrawn."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-026",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-002",
+        "jobId": "sample-full-job-005",
+        "stage": "Rejected",
+        "nextAction": "Record rejection feedback",
+        "followUp": "",
+        "notes": "Fictional application linking Bình Trần to Data Engineer. Process finished; no follow-up scheduled.",
+        "history": [
+          {
+            "id": "sample-full-application-26-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-26-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-26-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-26-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Rejected",
+            "note": "Fictional progression: Rejected."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-027",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-003",
+        "jobId": "sample-full-job-006",
+        "stage": "Withdrawn",
+        "nextAction": "Close withdrawn application",
+        "followUp": "",
+        "notes": "Fictional application linking Chi Lê to QA Engineer. Process finished; no follow-up scheduled.",
+        "history": [
+          {
+            "id": "sample-full-application-27-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-27-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-27-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-27-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Withdrawn",
+            "note": "Fictional progression: Withdrawn."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-028",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-004",
+        "jobId": "sample-full-job-007",
+        "stage": "Sourced",
+        "nextAction": "Review profile fit",
+        "followUp": "2026-10-15",
+        "notes": "Fictional application linking Dũng Phạm to Product Designer. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-28-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-029",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-005",
+        "jobId": "sample-full-job-008",
+        "stage": "Contacted",
+        "nextAction": "Confirm interest",
+        "followUp": "2026-10-17",
+        "notes": "Fictional application linking Em Hoàng to Mobile Engineer. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-29-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-29-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-030",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-006",
+        "jobId": "sample-full-job-009",
+        "stage": "Screening",
+        "nextAction": "Schedule screening",
+        "followUp": "2026-10-20",
+        "notes": "Fictional application linking Giang Vũ to Engineering Manager. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-30-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-30-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-30-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-031",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-007",
+        "jobId": "sample-full-job-010",
+        "stage": "Sourced",
+        "nextAction": "Review profile fit",
+        "followUp": "2026-10-15",
+        "notes": "Fictional application linking Hà Đỗ to Security Engineer. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-31-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-032",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-008",
+        "jobId": "sample-full-job-011",
+        "stage": "Interview",
+        "nextAction": "Confirm interview time",
+        "followUp": "2026-10-17",
+        "notes": "Fictional application linking Hải Bùi to Product Analyst. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-32-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-32-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-32-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-32-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Submitted",
+            "note": "Fictional progression: Submitted."
+          },
+          {
+            "id": "sample-full-application-32-history-005",
+            "date": "2026-10-10T09:00:00.000Z",
+            "stage": "Interview",
+            "note": "Fictional progression: Interview."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-033",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-009",
+        "jobId": "sample-full-job-012",
+        "stage": "Offer",
+        "nextAction": "Review sample offer",
+        "followUp": "2026-10-20",
+        "notes": "Fictional application linking Hân Phan to Technical Writer. Use the next action and follow-up fields to plan the next step.",
+        "history": [
+          {
+            "id": "sample-full-application-33-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-33-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-33-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-33-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Submitted",
+            "note": "Fictional progression: Submitted."
+          },
+          {
+            "id": "sample-full-application-33-history-005",
+            "date": "2026-10-10T09:00:00.000Z",
+            "stage": "Interview",
+            "note": "Fictional progression: Interview."
+          },
+          {
+            "id": "sample-full-application-33-history-006",
+            "date": "2026-10-12T09:00:00.000Z",
+            "stage": "Offer",
+            "note": "Fictional progression: Offer."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-034",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-010",
+        "jobId": "sample-full-job-001",
+        "stage": "Hired",
+        "nextAction": "Complete sample onboarding",
+        "followUp": "",
+        "notes": "Fictional application linking Hiếu Võ to Full-stack Engineer. Process finished; no follow-up scheduled.",
+        "history": [
+          {
+            "id": "sample-full-application-34-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-34-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-34-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-34-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Submitted",
+            "note": "Fictional progression: Submitted."
+          },
+          {
+            "id": "sample-full-application-34-history-005",
+            "date": "2026-10-10T09:00:00.000Z",
+            "stage": "Interview",
+            "note": "Fictional progression: Interview."
+          },
+          {
+            "id": "sample-full-application-34-history-006",
+            "date": "2026-10-12T09:00:00.000Z",
+            "stage": "Offer",
+            "note": "Fictional progression: Offer."
+          },
+          {
+            "id": "sample-full-application-34-history-007",
+            "date": "2026-10-14T09:00:00.000Z",
+            "stage": "Hired",
+            "note": "Fictional progression: Hired."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-035",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-011",
+        "jobId": "sample-full-job-002",
+        "stage": "Rejected",
+        "nextAction": "Record rejection feedback",
+        "followUp": "",
+        "notes": "Fictional application linking Hương Lý to Backend Engineer. Process finished; no follow-up scheduled.",
+        "history": [
+          {
+            "id": "sample-full-application-35-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-35-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-35-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-35-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Rejected",
+            "note": "Fictional progression: Rejected."
+          }
+        ]
+      },
+      {
+        "id": "sample-full-application-036",
+        "createdAt": "2026-09-01T08:00:00.000Z",
+        "updatedAt": "2026-10-17T08:00:00.000Z",
+        "revision": 0,
+        "candidateId": "sample-full-candidate-012",
+        "jobId": "sample-full-job-003",
+        "stage": "Withdrawn",
+        "nextAction": "Close withdrawn application",
+        "followUp": "",
+        "notes": "Fictional application linking Khang Đặng to Frontend Engineer. Process finished; no follow-up scheduled.",
+        "history": [
+          {
+            "id": "sample-full-application-36-history-001",
+            "date": "2026-10-02T09:00:00.000Z",
+            "stage": "Sourced",
+            "note": "Fictional progression: Sourced."
+          },
+          {
+            "id": "sample-full-application-36-history-002",
+            "date": "2026-10-04T09:00:00.000Z",
+            "stage": "Contacted",
+            "note": "Fictional progression: Contacted."
+          },
+          {
+            "id": "sample-full-application-36-history-003",
+            "date": "2026-10-06T09:00:00.000Z",
+            "stage": "Screening",
+            "note": "Fictional progression: Screening."
+          },
+          {
+            "id": "sample-full-application-36-history-004",
+            "date": "2026-10-08T09:00:00.000Z",
+            "stage": "Withdrawn",
+            "note": "Fictional progression: Withdrawn."
+          }
+        ]
+      }
+    ],
+    "settings": {
+      "id": "workspace",
+      "theme": "system",
+      "workspaceName": "Sample recruiting workspace",
+      "defaultPage": "candidates",
+      "pageSize": 50,
+      "density": "comfortable",
+      "lastBackup": "",
+      "revision": 0
+    }
+  }
+}
