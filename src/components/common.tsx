@@ -9,10 +9,12 @@ import {
   SlidersHorizontal,
   Users,
   BriefcaseBusiness,
+  X,
+  MoveHorizontal,
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Select } from "./ui/select";
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 export function Badge({ value }: { value: string }) {
   const tone = ["Available", "Open", "Hired"].includes(value)
     ? "green"
@@ -65,18 +67,27 @@ export function SearchBox({
   onChange: (v: string) => void;
   placeholder: string;
 }) {
+  const input = useRef<HTMLInputElement>(null);
   return (
     <div className="search-box">
       <Search size={16} />
       <input
+        ref={input}
         aria-label={placeholder}
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
       {value && (
-        <button aria-label="Clear search" onClick={() => onChange("")}>
-          ×
+        <button
+          type="button"
+          aria-label="Clear search"
+          onClick={() => {
+            onChange("");
+            input.current?.focus();
+          }}
+        >
+          <X size={14} aria-hidden="true" />
         </button>
       )}
     </div>
@@ -187,18 +198,20 @@ export function Section({
   title,
   action,
   children,
+  id,
 }: {
   title: string;
   action?: ReactNode;
   children: ReactNode;
+  id?: string;
 }) {
   return (
-    <section className="detail-section">
+    <section className="detail-section" id={id}>
       <div className="section-heading">
         <h3>{title}</h3>
         {action}
       </div>
-      {children}
+      <div className="section-content">{children}</div>
     </section>
   );
 }
@@ -243,5 +256,61 @@ export function TextInput({
         type={type}
       />
     </Field>
+  );
+}
+
+/** Keep wide records keyboard-scrollable, with a hint only when columns are offscreen. */
+export function TableViewport({
+  children,
+  label,
+}: {
+  children: ReactNode;
+  label: string;
+}) {
+  const viewport = useRef<HTMLDivElement>(null);
+  const [overflow, setOverflow] = useState({ left: false, right: false });
+  useEffect(() => {
+    const element = viewport.current;
+    if (!element) return;
+    const measure = () => {
+      const next = {
+        left: element.scrollLeft > 2,
+        right:
+          element.scrollWidth - element.clientWidth - element.scrollLeft > 2,
+      };
+      setOverflow((old) =>
+        old.left === next.left && old.right === next.right ? old : next,
+      );
+    };
+    const observer = new ResizeObserver(measure);
+    observer.observe(element);
+    if (element.firstElementChild) observer.observe(element.firstElementChild);
+    element.addEventListener("scroll", measure, { passive: true });
+    measure();
+    return () => {
+      observer.disconnect();
+      element.removeEventListener("scroll", measure);
+    };
+  }, []);
+  return (
+    <>
+      <div
+        ref={viewport}
+        className="table-scroll"
+        tabIndex={0}
+        role="region"
+        aria-label={label}
+        data-overflow-left={overflow.left}
+        data-overflow-right={overflow.right}
+      >
+        {children}
+      </div>
+      {(overflow.left || overflow.right) && (
+        <div className="table-scroll-hint">
+          <MoveHorizontal size={13} aria-hidden="true" /> Scroll horizontally
+          for more details
+        </div>
+      )}
+    </>
   );
 }

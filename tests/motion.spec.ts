@@ -78,7 +78,7 @@ test("reduced motion preserves controls and saved feedback without spatial or ro
     await page.evaluate(() => (window as any).__routeAnimations.length),
   ).toBe(0);
   await page.getByRole("button", { name: "Alex Morgan", exact: true }).click();
-  await expect(page.locator(".sheet-content")).toHaveCSS(
+  await expect(page.locator(".detail-modal-content")).toHaveCSS(
     "animation-name",
     "none",
   );

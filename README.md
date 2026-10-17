@@ -14,11 +14,25 @@ npm run preview
 
 Open **http://127.0.0.1:4173**. Dependency installation needs internet access; the built app does not. The preview server binds only to the local loopback address. Keep the terminal open for predictable startup. `PORT=4174 npm run preview` changes the port, but also changes the browser storage origin: your existing records will not appear there. Use the same browser profile, hostname and port every time. Do not open `dist/index.html` as a file.
 
-After the initial local load and successful service worker installation, all production assets are cached for offline use. The app can then reopen without internet; keep the local server available if browser cache has been cleared or the worker has not installed. Browser support and storage policies can affect this behavior. `npm run dev` builds and starts this same strict local server. After source changes, rebuild and close/reopen all app tabs to load the new cached version; development hot reload is deliberately not enabled in this offline build.
+After the initial local load and successful service worker installation, all production assets are cached for offline use. The app can then reopen without internet; keep the local server available if browser cache has been cleared or the worker has not installed. Browser support and storage policies can affect this behavior. After source changes, rebuild and close/reopen all production app tabs to load the new cached version.
+
+## Develop with live updates
+
+```sh
+npm run dev
+```
+
+Open **http://127.0.0.1:5173**. Vite updates CSS immediately and React components through Fast Refresh when you save source files; some changes require a full reload. The port is fixed: if 5173 is occupied, startup fails instead of silently changing your browser storage origin. Stop the other development server or choose an explicit port with `npm run dev -- --port 5174`.
+
+Dev uses a separate browser database from the offline app at 4173 (and any preview at 4175). Use fictional records for development. No data is moved or cleared when switching servers. Keep dev on its own origin; do not reuse an origin already controlled by a production service worker.
+
+Only Vite-served HTML relaxes CSP: inline scripts support React Refresh, and connections are limited to the same origin plus loopback HMR WebSockets on the configured port. External connections remain blocked; dev registers no service worker and sets `worker-src 'none'`. The source HTML and production build retain `script-src 'self'` and `connect-src 'none'`; the production static server and offline worker are unchanged.
+
+`npm run test:hmr` verifies real CSS and React file saves using an isolated temporary source copy and Chrome profile. It checks that the page updates without reloading or losing search state, verifies the dev CSP, and removes its temporary workspace afterward. It needs installed Google Chrome (or Playwright Chromium) and an available loopback port.
 
 ## Local data and privacy
 
-Records live in IndexedDB in this browser profile, scoped to this exact origin. The server serves static files only; it does not receive candidate data. The page's Content Security Policy disables network connections. Its service worker can fetch same-origin static files during installation and serves subsequent requests from its versioned cache. Cross-origin requests are blocked. All fonts and application dependencies are bundled.
+Records live in IndexedDB in this browser profile, scoped to this exact origin. The server serves static files only; it does not receive candidate data. The production page's Content Security Policy disables network connections. Its service worker can fetch same-origin static files during installation and serves subsequent requests from its versioned cache. Cross-origin requests are blocked. All fonts and application dependencies are bundled.
 
 There is no password or application-level encryption. Anyone with access to the OS account/browser profile can access the workspace. Exported JSON backups and imported CSV files are unencrypted. Use an OS login, disk encryption, screen locking and an appropriate protected backup location. Browser private mode, clearing site data, uninstalling a browser, storage pressure or browser policies can remove data. Requesting persistent storage is not a guarantee. This is not a substitute for your organization's access-control or retention requirements.
 
@@ -41,7 +55,8 @@ The app is single-user and browser-local. It does not provide synchronization ac
 ```sh
 npm test
 npm run build
-npm run test:browser  # with the local server running; uses installed Google Chrome
+npm run test:browser  # with the production preview running; uses installed Google Chrome
+npm run test:hmr      # starts and cleans up its own isolated Vite server
 ```
 
 Tests cover domain behavior and the generated offline worker/static server boundaries. Automated checks are not proof of long-term browser storage durability. To verify a release manually: start the production server, create a fictional record, reload, export and restore a backup in a disposable browser profile, allow the worker to activate, then test an offline reload and inspect the browser network panel for external requests.
@@ -74,4 +89,4 @@ See `UI-UX-AUDIT.md` for the full UI/UX and data-reliability review, applied fix
 
 ## Motion and responsive refinement
 
-`POLISH-ROUND-2.md` documents subtle interaction feedback, reduced-motion support, responsive verification and local performance measurements. The current suite contains 44 data tests and 21 browser tests.
+`POLISH-ROUND-2.md` documents subtle interaction feedback, reduced-motion support, responsive verification and local performance measurements. The current suite contains 44 data tests and 26 browser tests. The follow-up in `POLISH-ROUND-2.md` covers the full-workspace typography, tables, filters, Settings and mobile refinement. Use `PLAYWRIGHT_BASE_URL=http://127.0.0.1:4175 npm run test:browser` when verifying a separate local preview; browser storage remains specific to each origin.

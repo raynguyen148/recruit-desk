@@ -10,7 +10,7 @@ import {
   Clock3,
 } from "lucide-react";
 import { toast } from "sonner";
-import { Sheet, Modal } from "./ui/dialog";
+import { DetailModal, Modal } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Select } from "./ui/select";
 import { Confirm } from "./ui/confirm";
@@ -54,14 +54,14 @@ export function Details({
   const { flush, hasAttachedDirty } = useAutosave();
   if (!record)
     return (
-      <Sheet
+      <DetailModal
         open
         onOpenChange={() => onClose()}
         title="Record no longer available"
         description="It may have been deleted in another tab."
       >
         <Button onClick={onClose}>Close</Button>
-      </Sheet>
+      </DetailModal>
     );
   const title =
     kind === "candidates"
@@ -92,7 +92,7 @@ export function Details({
   }
   return (
     <>
-      <Sheet
+      <DetailModal
         open
         onOpenChange={(v) => !v && void close()}
         title={title}
@@ -153,7 +153,7 @@ export function Details({
           Created {displayDate(record.createdAt)} · Updated{" "}
           {displayDate(record.updatedAt)}
         </p>
-      </Sheet>
+      </DetailModal>
       <Confirm
         open={confirm}
         onOpenChange={setConfirm}

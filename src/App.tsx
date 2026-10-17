@@ -11,18 +11,16 @@ import {
   ChevronRight,
   PanelLeftClose,
   PanelLeftOpen,
-  Check,
   Database,
   ArrowDownToLine,
   Sun,
   Moon,
-  Monitor,
   LoaderCircle,
 } from "lucide-react";
 import { getDataset, initializeDB, patchSettings } from "./lib/db";
 import { exportData } from "./lib/transfer";
 import { loadSample } from "./lib/sample";
-import type { Dataset, EntityKind } from "./lib/types";
+import type { EntityKind } from "./lib/types";
 import { usePageMotion } from "./lib/use-page-motion";
 import { Button } from "./components/ui/button";
 import {
@@ -132,6 +130,7 @@ function Workspace() {
   async function navigate(next: Page) {
     if (await flush()) {
       setPage(next);
+      if (next !== page) window.scrollTo({ top: 0, behavior: "instant" });
       history.replaceState(null, "", `#${next}`);
     } else toast.error("Resolve unsaved changes before leaving this page.");
   }
@@ -264,6 +263,7 @@ function Workspace() {
                 onClick={() => void navigate(key)}
                 className={`nav-item ${page === key ? "active" : ""}`}
                 aria-current={page === key ? "page" : undefined}
+                aria-label={collapsed ? `${label} ${count}` : undefined}
                 title={collapsed ? label : undefined}
               >
                 <Icon size={18} />
@@ -277,6 +277,7 @@ function Workspace() {
               className={`nav-item ${page === "settings" ? "active" : ""}`}
               onClick={() => void navigate("settings")}
               aria-current={page === "settings" ? "page" : undefined}
+              aria-label="Settings & data"
               title="Settings & data"
             >
               <Settings2 size={18} />

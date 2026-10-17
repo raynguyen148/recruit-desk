@@ -1,6 +1,6 @@
 /* Generated from the complete local static bundle. */
-const CACHE = 'recruitdesk-ba3484ff50b49c54ba6c917a';
-const ASSETS = ["/assets/index-CyuEYU_b.js","/assets/index-D96d_EGj.css","/assets/inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2","/assets/inter-cyrillic-wght-normal-DqGufNeO.woff2","/assets/inter-greek-ext-wght-normal-DlzME5K_.woff2","/assets/inter-greek-wght-normal-CkhJZR-_.woff2","/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2","/assets/inter-latin-wght-normal-Dx4kXJAl.woff2","/assets/inter-vietnamese-wght-normal-CBcvBZtf.woff2","/icon.svg","/index.html","/manifest.webmanifest"];
+const CACHE = 'recruitdesk-4570778d60462c2b86a13132';
+const ASSETS = ["/assets/index-3ZsyLqVe.js","/assets/index-CKatlyLH.css","/assets/inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2","/assets/inter-cyrillic-wght-normal-DqGufNeO.woff2","/assets/inter-greek-ext-wght-normal-DlzME5K_.woff2","/assets/inter-greek-wght-normal-CkhJZR-_.woff2","/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2","/assets/inter-latin-wght-normal-Dx4kXJAl.woff2","/assets/inter-vietnamese-wght-normal-CBcvBZtf.woff2","/icon.svg","/index.html","/manifest.webmanifest"];
 self.addEventListener('install', event => {
   // No skipWaiting: existing tabs keep the version they opened.
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS.map(path => new Request(path, { cache: 'reload', credentials: 'same-origin' })))));

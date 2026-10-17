@@ -292,7 +292,7 @@ test("full backup restores into another isolated browser context", async ({
   const restoredContext = await browser.newContext();
   try {
     const restored = await restoredContext.newPage();
-    await restored.goto("http://127.0.0.1:4173/");
+    await restored.goto(new URL("/", page.url()).href);
     await expect(
       restored.getByRole("heading", { name: "Build your talent network" }),
     ).toBeVisible();
@@ -329,11 +329,15 @@ test("full backup restores into another isolated browser context", async ({
 test("works offline after initial cache and makes no external requests", async ({
   page,
   context,
+  baseURL,
 }) => {
   const external: string[] = [];
   context.on("request", (request) => {
     const url = request.url();
-    if (/^https?:/.test(url) && new URL(url).origin !== "http://127.0.0.1:4173")
+    if (
+      /^https?:/.test(url) &&
+      new URL(url).origin !== new URL(baseURL!).origin
+    )
       external.push(url);
   });
   await open(page);

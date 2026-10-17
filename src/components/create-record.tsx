@@ -86,7 +86,7 @@ export function CreateRecord({
       description={
         kind === "applications"
           ? "Connect one candidate with one job. Each pairing has its own hiring process."
-          : "Start with the essentials. Add the rest in the detail panel."
+          : "Start with the essentials. Add the rest in the detail view."
       }
     >
       <form onSubmit={submit}>

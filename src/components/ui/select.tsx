@@ -1,5 +1,5 @@
 import * as SelectPrimitive from "@radix-ui/react-select";
-import { Check, ChevronDown } from "lucide-react";
+import { Check, ChevronDown, ChevronUp } from "lucide-react";
 export function Select({
   value,
   onChange,
@@ -33,6 +33,9 @@ export function Select({
           position="popper"
           sideOffset={5}
         >
+          <SelectPrimitive.ScrollUpButton className="select-scroll-button">
+            <ChevronUp size={14} />
+          </SelectPrimitive.ScrollUpButton>
           <SelectPrimitive.Viewport>
             {options
               .map((o) => (typeof o === "string" ? { value: o, label: o } : o))
@@ -49,6 +52,9 @@ export function Select({
                 </SelectPrimitive.Item>
               ))}
           </SelectPrimitive.Viewport>
+          <SelectPrimitive.ScrollDownButton className="select-scroll-button">
+            <ChevronDown size={14} />
+          </SelectPrimitive.ScrollDownButton>
         </SelectPrimitive.Content>
       </SelectPrimitive.Portal>
     </SelectPrimitive.Root>

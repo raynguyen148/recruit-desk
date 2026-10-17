@@ -17,6 +17,7 @@ import {
   Pagination,
   SearchBox,
   SortHeader,
+  TableViewport,
 } from "../components/common";
 import { patchEntity } from "../lib/db";
 import { initials } from "../lib/utils";
@@ -173,6 +174,8 @@ export default function Candidates({
             variant="outline"
             onClick={() => setFilters(!filters)}
             aria-expanded={filters}
+            aria-controls="candidate-filters"
+            className={filters ? "filter-toggle active" : "filter-toggle"}
           >
             <SlidersHorizontal size={14} />
             Filters
@@ -193,7 +196,7 @@ export default function Candidates({
         </div>
       </div>
       {filters && (
-        <div className="filters-row filter-reveal">
+        <div id="candidate-filters" className="filters-row filter-reveal">
           <Select
             label="Candidate status filter"
             value={status}
@@ -221,6 +224,37 @@ export default function Candidates({
           </Button>
         </div>
       )}
+      {!filters &&
+        (location ||
+          skill ||
+          (status &&
+            !["Available", "Open to opportunities"].includes(status))) && (
+          <div className="active-filters" aria-label="Active candidate filters">
+            {[
+              { label: "Status", value: status, clear: () => setStatus("") },
+              {
+                label: "Location",
+                value: location,
+                clear: () => setLocation(""),
+              },
+              { label: "Skill", value: skill, clear: () => setSkill("") },
+            ]
+              .filter((item) => item.value)
+              .map((item) => (
+                <button
+                  key={item.label}
+                  className="filter-chip"
+                  aria-label={`Remove ${item.label.toLowerCase()} filter: ${item.value}`}
+                  onClick={() => void change(item.clear)}
+                >
+                  <span>
+                    {item.label}: {item.value}
+                  </span>
+                  <X size={12} aria-hidden="true" />
+                </button>
+              ))}
+          </div>
+        )}
       {data.candidates.length === 0 ? (
         <EmptyState
           title="Build your talent network"
@@ -250,12 +284,17 @@ export default function Candidates({
         />
       ) : (
         <div className={`data-surface ${data.settings.density}`}>
-          <div className="table-scroll">
+          <TableViewport label="Candidates, scroll for more columns">
             <table className="data-table candidate-table">
+              <caption className="sr-only">
+                Candidate profiles and availability
+              </caption>
               <thead>
                 <tr>
-                  <th className="index-cell">#</th>
-                  <th className="sticky-name">
+                  <th scope="col" className="index-cell">
+                    #
+                  </th>
+                  <th scope="col" className="sticky-name">
                     <SortHeader
                       label="Candidate"
                       field="name"
@@ -263,7 +302,7 @@ export default function Candidates({
                       onSort={changeSort}
                     />
                   </th>
-                  <th>
+                  <th scope="col">
                     <SortHeader
                       label="CPM ID"
                       field="cpmID"
@@ -271,7 +310,7 @@ export default function Candidates({
                       onSort={changeSort}
                     />
                   </th>
-                  <th>
+                  <th scope="col">
                     <SortHeader
                       label="Status"
                       field="status"
@@ -279,7 +318,7 @@ export default function Candidates({
                       onSort={changeSort}
                     />
                   </th>
-                  <th>
+                  <th scope="col">
                     <SortHeader
                       label="Location"
                       field="location"
@@ -287,7 +326,7 @@ export default function Candidates({
                       onSort={changeSort}
                     />
                   </th>
-                  <th>
+                  <th scope="col">
                     <SortHeader
                       label="Experience"
                       field="yearsExperience"
@@ -295,11 +334,11 @@ export default function Candidates({
                       onSort={changeSort}
                     />
                   </th>
-                  <th>Skills</th>
-                  <th>Expected salary</th>
-                  <th>Email</th>
-                  <th>Phone</th>
-                  <th>Jobs</th>
+                  <th scope="col">Skills</th>
+                  <th scope="col">Expected salary</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Phone</th>
+                  <th scope="col">Jobs</th>
                 </tr>
               </thead>
               <tbody>
@@ -322,8 +361,8 @@ export default function Candidates({
                             className="record-link"
                             onClick={() => onOpen(c.id)}
                           >
-                            {c.name}
-                            <ArrowUpRight size={12} />
+                            <span>{c.name}</span>
+                            <ArrowUpRight size={12} aria-hidden="true" />
                           </button>
                           <AutoField
                             compact
@@ -482,7 +521,7 @@ export default function Candidates({
                 ))}
               </tbody>
             </table>
-          </div>
+          </TableViewport>
           <Pagination
             page={page}
             setPage={async (p) => {
@@ -493,11 +532,13 @@ export default function Candidates({
           />
         </div>
       )}
-      <div className="table-tip">
-        <span className="status-dot" />
-        Click a cell to edit. Changes save automatically. Open a name for the
-        full profile.
-      </div>
+      {rows.length > 0 && (
+        <div className="table-tip">
+          <span className="status-dot" />
+          Click a cell to edit. Changes save automatically. Open a name for the
+          full profile.
+        </div>
+      )}
     </>
   );
 }

@@ -51,10 +51,10 @@ colors:
 typography:
   headline:
     fontFamily: "Inter Variable, Inter, sans-serif"
-    fontSize: "27px"
+    fontSize: "28px"
     fontWeight: 620
     lineHeight: 1.3
-    letterSpacing: "-0.85px"
+    letterSpacing: "-0.035em"
   title:
     fontFamily: "Inter Variable, Inter, sans-serif"
     fontSize: "20px"
@@ -71,9 +71,9 @@ typography:
 rounded:
   tag: "4px"
   badge: "5px"
-  control: "6px"
+  control: "7px"
   navigation: "7px"
-  surface: "8px"
+  surface: "10px"
   dialog: "12px"
 spacing:
   compact: "8px"
@@ -146,19 +146,19 @@ Green, blue, amber and red foreground/background pairs accompany textual status 
 
 ## Typography
 
-Local Inter Variable supplies every text role, with Inter and sans-serif fallbacks. Page headings are compact and semibold; section titles are smaller. Body follows the frontmatter role, form text uses 12px and table text 11px. Table headings are 10px; badges are 9px. Small utility text belongs to the dense table presentation, not long-form reading. Counts use tabular figures. Dialog descriptions are limited to 65ch.
+Local Inter Variable supplies every text role, with Inter and sans-serif fallbacks. Page headings are compact and semibold; section titles are smaller. Body follows the frontmatter role. Form text uses 13px; table values and controls use 12px; secondary text, table headings and badges use 11px. Small utility text belongs to the dense table presentation, not long-form reading. Counts use tabular figures. Dialog descriptions are limited to 65ch.
 
 ## Layout
 
-Desktop shell uses a 236px sidebar and flexible main area, with a 65px header. Content padding is 36px 34px 28px. At 1100px and below, navigation narrows to 200px and content padding to 28px 24px. Collapsed desktop navigation is 72px.
+Desktop shell uses a 236px sidebar and flexible main area, with a 60px header. Content padding is 28px 34px 28px. At 1100px and below, navigation narrows to 200px and content padding to 28px 24px. Collapsed desktop navigation is 72px.
 
-At 760px and below, navigation becomes a fixed 61px bottom bar, the header is 53px, content padding is 25px 17px, and two-column forms become one column. Tables retain horizontal scrolling and a pinned identity column. Page headings become 24px. Coarse-pointer controls have at least 44px hit targets; mobile form and quick-edit inputs use 16px text, and the bottom bar respects device safe areas. At 1600px and above, content padding becomes 44px 46px.
+At 760px and below, navigation becomes a fixed 61px bottom bar, the header is 56px, content padding is 24px 16px, and two-column forms become one column. Tables retain horizontal scrolling and a pinned identity column. Page headings become 26px. Coarse-pointer controls have at least 44px hit targets; mobile form, search and quick-edit inputs use 16px text, and the bottom bar respects device safe areas. At 1600px and above, content padding becomes 44px 46px.
 
-Records use 66px standard rows and 46px compact rows. Detail sheets are at most 660px wide, becoming full width on narrow screens. Dialogs are at most 480px, or 740px for wide variants, constrained to the viewport with internal scrolling.
+Records use 66px standard rows and 46px compact rows. Record details use centered modals up to 1080px wide and 860px high, with 32px desktop viewport margins. At 760px and below they retain 12px viewport margins, with a fixed heading and an internally scrolling body. Dialogs are at most 480px, or 740px for wide variants, constrained to the viewport with internal scrolling.
 
 ## Elevation & Depth
 
-Tonal layering and one-pixel borders define ordinary surfaces. Dialogs, sheets and menus use the shared shadow: light `0 16px 64px rgba(20, 39, 65, 0.16)`, dark `0 16px 64px rgba(0, 0, 0, 0.35)`. Active desktop navigation uses `0 2px 5px rgba(0, 0, 0, 0.025)`.
+Tonal layering and one-pixel borders define ordinary surfaces. Dialogs, sheets and menus use the shared shadow: light `0 16px 64px rgba(20, 39, 65, 0.16)`, dark `0 16px 64px rgba(0, 0, 0, 0.35)`. Active desktop navigation uses a tonal surface without a shadow.
 
 **The Protected Focus Rule.** Reserve the large shadow and dimming overlay for elevated editors and selection menus.
 
@@ -169,21 +169,21 @@ Controls use modest rounded corners; tags and badges are tighter, containers sli
 ## Components
 
 ### Buttons
-Primary controls use primary with primary-foreground text; outline controls use surface, border and foreground. Ghost controls remain transparent with muted text. Buttons have a 34px minimum height, 11px semibold text and frontmatter padding. Hover uses primary-hover or surface-hover with 140ms color/border feedback. Keyboard focus uses a 2px accent outline with 3px offset.
+Primary controls use primary with primary-foreground text; outline controls use surface, border and foreground. Ghost controls remain transparent with muted text. Buttons have a 36px minimum height, 12px semibold text and frontmatter padding. Hover uses primary-hover or surface-hover with 140ms color/border feedback. Keyboard focus uses a 2px accent outline with 3px offset.
 
 ### Inputs / Fields
 Bordered inputs use the surface token. Table fields are transparent at rest, reveal a border on hover and use accent on focus. Dirty, saving and error states remain explicit. Detached failed drafts stay in a recovery panel; normalization preserves queued edits. Error text names the failure and offers recovery. Caret, selection highlight and focus colors come from the theme.
 
-Candidate availability uses an inline Radix Select for direct table editing, with a minimum 135px status column and 28px control. Its compact accent treatment distinguishes an editable choice from a static label.
+Candidate availability uses an inline Radix Select for direct table editing, with a minimum 135px status column and 30px control. Its compact accent treatment distinguishes an editable choice from a static label.
 
 ### Navigation
 Desktop navigation uses icon and label with active surface/accent treatment. Mobile uses five equal bottom destinations with visible labels. Preserve active semantics and keyboard focus. The skip link moves focus to the main content.
 
 ### Chips / Containers
-Status badges pair tinted backgrounds with semantic text. Skill tags use a thin border and surface background. Record containers use an 8px radius and border; headers and candidate identity remain sticky while scrolling.
+Status badges pair tinted backgrounds with semantic text. Skill tags use a thin border and surface background. Record containers use a 10px radius and border; headers and candidate identity remain sticky while scrolling.
 
 ### Detail editor
-The sheet protects focused work while retaining record-list context. Dialog closure restores focus to the opener. Profile item deletion uses a confirmation dialog, and long titles wrap without moving the close control offscreen. It enters over 220ms using `cubic-bezier(.16, 1, .3, 1)`, from a 24px horizontal offset at full opacity. Modal/menu entrances are 180ms/140ms, and overlays enter over 160ms. Page navigation uses a bounded 160ms opacity transition without remounting content. Table rows never animate on live edits. Reduced-motion preference disables spatial/keyframe effects and JavaScript navigation animation, while retaining 80ms color feedback and readable status text.
+The wide centered detail modal protects focused work while retaining dimmed record-list context. All four record types share this layout, with two-column forms on desktop and one column on mobile. Nested creation and confirmation overlays sit above the detail modal. Dialog closure restores focus to the opener. Profile item deletion uses a confirmation dialog, and long titles wrap without moving the close control offscreen. It enters over 180ms using `cubic-bezier(.16, 1, .3, 1)`, with a small centered fade/settle and no slide from the screen edge. Modal/menu entrances are 180ms/140ms, and overlays enter over 160ms. Page navigation uses a bounded 160ms opacity transition without remounting content. Table rows never animate on live edits. Reduced-motion preference disables spatial/keyframe effects and JavaScript navigation animation, while retaining 80ms color feedback and readable status text.
 
 ## Do's and Don'ts
 
@@ -197,3 +197,14 @@ The sheet protects focused work while retaining record-list context. Dialog clos
 - Don't introduce remote fonts, images or analytics into the visual layer.
 - Don't replace useful records with decorative metrics or illustration.
 - Don't use color alone to communicate a status or failure.
+
+## Workspace refinement — 17 October 2026
+
+- Keep local Inter and the established light-blue palette. Semantic available status is green in both the list editor and profile summary.
+- Names are the strongest table text. Inline secondary fields sit immediately below; reveal arrows occupy reserved space and never create an extra line. Standard candidate rows are 66px on desktop. Compact density remains available.
+- Every record table has a pinned identity column, a keyboard-focusable scrolling region, and a horizontal-scroll hint only when needed. Scroll listeners update state only when an edge changes; no row motion is introduced.
+- Mobile toolbars put search on its own full-width line. Candidate identity is 170px wide; initials yield to the name on narrow screens. Touch controls keep 44px targets. Names and editable fields use 16px text on mobile; weight distinguishes identity from secondary fields.
+- Collapsed candidate filters expose removable active-filter chips. Clear search returns focus to its input. Menus fit available viewport height and expose scroll controls for long option lists.
+- Settings starts with preferences, followed by backup, import/export, storage and samples. A section index sits beside desktop content and scrolls horizontally on smaller screens. Section links preserve the workspace route. Navigating to a different workspace page resets the document scroll position.
+- Keep the existing bounded 160ms page fade, 180ms centered detail-modal entrance, and 180ms modal entrance. Live edits never replay navigation motion. Dropdown arrows acknowledge open state over 140ms, disabled for reduced motion.
+- CSS refinement is grouped at the end of the existing stylesheet so framework entrypoints and prior responsive/safety rules remain intact. Colors continue to use the existing semantic tokens.

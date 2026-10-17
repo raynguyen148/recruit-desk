@@ -10,6 +10,7 @@ import {
   Pagination,
   SearchBox,
   SortHeader,
+  TableViewport,
 } from "../components/common";
 import { patchEntity } from "../lib/db";
 import { countBy } from "../lib/search";
@@ -84,7 +85,9 @@ function ResultTable({
   );
   return (
     <div className={`data-surface ${data.settings.density}`}>
-      <div className="table-scroll">{children}</div>
+      <TableViewport label="Records, scroll for more columns">
+        {children}
+      </TableViewport>
       <Pagination
         page={page}
         pageSize={pageSize}
@@ -106,16 +109,12 @@ function RecordName({
   onOpen: () => void;
 }) {
   return (
-    <div>
+    <div className="record-identity">
       <button className="record-link" onClick={onOpen}>
-        {name}
+        <span>{name}</span>
         <ArrowUpRight size={12} aria-hidden="true" />
       </button>
-      {subline && (
-        <div className="muted" style={{ fontSize: 12, marginTop: 3 }}>
-          {subline}
-        </div>
-      )}
+      {subline && <div className="record-subtitle">{subline}</div>}
     </div>
   );
 }

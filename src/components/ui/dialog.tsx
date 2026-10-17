@@ -63,7 +63,7 @@ export function Modal({
     </DialogPrimitive.Root>
   );
 }
-export function Sheet({
+export function DetailModal({
   open,
   onOpenChange,
   title,
@@ -80,9 +80,12 @@ export function Sheet({
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="dialog-overlay sheet-overlay" />
-        <DialogPrimitive.Content className="sheet-content" {...returnFocus}>
-          <div className="sheet-heading">
+        <DialogPrimitive.Overlay className="dialog-overlay detail-modal-overlay" />
+        <DialogPrimitive.Content
+          className="detail-modal-content"
+          {...returnFocus}
+        >
+          <div className="detail-modal-heading">
             <div>
               <DialogPrimitive.Title className="dialog-title">
                 {title}
@@ -98,7 +101,7 @@ export function Sheet({
               <X size={20} />
             </DialogPrimitive.Close>
           </div>
-          <div className="sheet-body">{children}</div>
+          <div className="detail-modal-body">{children}</div>
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
     </DialogPrimitive.Root>
