@@ -338,6 +338,11 @@ export function parseVendorCSV(input: string): ParsedImport {
         .filter(Boolean),
       location:
         raw["Custom field (Country/ City)"] ?? raw["Country/ City"] ?? "",
+      linkedinURL: (
+        raw["Custom field (LinkedIn)"] ??
+        raw.LinkedIn ??
+        ""
+      ).trim(),
       vendorData: raw,
       source: "Vendor CSV",
     };
@@ -465,6 +470,7 @@ export async function prepareImport(parsed: ParsedImport): Promise<ImportPlan> {
           Object.hasOwn(row.vendorData, "Country/ City")
             ? { location: row.location }
             : {}),
+          ...(row.linkedinURL ? { linkedinURL: row.linkedinURL } : {}),
         };
         Object.assign(row, match, vendor, optional);
       }

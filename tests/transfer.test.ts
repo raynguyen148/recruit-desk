@@ -39,6 +39,16 @@ describe("import boundaries", () => {
       vendorData: { Extra: "one\ntwo" },
     });
   });
+  it("maps the vendor LinkedIn custom field to linkedinURL", () => {
+    const parsed = parseVendorCSV(
+      "Issue key,Summary,Custom field (LinkedIn)\nCPM-1,Ada, https://linkedin.com/in/ada \nCPM-2,Bob,",
+    );
+    expect(parsed.errors).toEqual([]);
+    expect(parsed.data.candidates!.map((c) => c.linkedinURL)).toEqual([
+      "https://linkedin.com/in/ada",
+      "",
+    ]);
+  });
   it("rejects missing/duplicate headers, malformed and blank rows without writes", async () => {
     for (const input of [
       "Summary\nAda",
