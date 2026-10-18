@@ -176,3 +176,22 @@ test("Delete all data requires typing DELETE", async ({ page }) => {
     page.getByRole("button", { name: "Delete all data" }),
   ).toBeDisabled();
 });
+
+test("a record opened from another record offers a Back button", async ({
+  page,
+}) => {
+  await sample(page);
+  await page.getByRole("button", { name: /^Applications/ }).click();
+  await page.locator("tbody tr .record-link").first().click();
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toContainText("Application");
+  await expect(dialog.locator(".detail-back")).toHaveCount(0);
+  await dialog.locator(".application-pair button").first().click();
+  const back = dialog.locator(".detail-back");
+  await expect(back).toHaveAttribute("aria-label", /^Back to application/);
+  await back.click();
+  await expect(dialog).toContainText("Application");
+  await expect(dialog.locator(".detail-back")).toHaveCount(0);
+  await page.keyboard.press("Escape");
+  await expect(dialog).toHaveCount(0);
+});

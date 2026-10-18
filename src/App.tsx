@@ -111,6 +111,8 @@ function Workspace() {
   const [page, setPage] = useState<Page>("candidates");
   const [navInitialized, setNavInitialized] = useState(false);
   const [selected, setSelected] = useState<Selected>(null);
+  // Records opened one from another, oldest first; drives the Back button.
+  const [trail, setTrail] = useState<NonNullable<Selected>[]>([]);
   const [palette, setPalette] = useState(false);
   const [shortcuts, setShortcuts] = useState(false);
   const goRef = useRef<{ at: number }>({ at: 0 });
@@ -165,6 +167,7 @@ function Workspace() {
       void flush().then((saved) => {
         if (saved) {
           setSelected(target);
+          setTrail(target ? (history.state?.trail ?? []) : []);
           if (next !== pageRef.current) {
             setPage(next);
             window.scrollTo({ top: 0, behavior: "instant" });
@@ -297,6 +300,7 @@ function Workspace() {
   async function navigate(next: Page) {
     if (await flush()) {
       setSelected(null);
+      setTrail([]);
       setPage(next);
       if (next !== page) window.scrollTo({ top: 0, behavior: "instant" });
       if (location.hash !== `#${next}`) history.pushState(null, "", `#${next}`);
@@ -307,16 +311,21 @@ function Workspace() {
       toast.error("Resolve unsaved changes before opening another record.");
       return;
     }
+    const nextTrail = selectedRef.current
+      ? [...trail, selectedRef.current]
+      : [];
+    setTrail(nextTrail);
     setSelected({ kind, id });
     // Each open adds one history entry, so Back closes the record again.
     history.pushState(
-      { depth: (history.state?.depth ?? 0) + 1 },
+      { depth: (history.state?.depth ?? 0) + 1, trail: nextTrail },
       "",
       hashFor({ kind, id }, pageRef.current),
     );
   }
   function closeDetails() {
     setSelected(null);
+    setTrail([]);
     const depth: number = history.state?.depth ?? 0;
     if (depth > 0) history.go(-depth);
     else history.replaceState(null, "", `#${pageRef.current}`);
@@ -631,6 +640,8 @@ function Workspace() {
           {...selected}
           data={data}
           onClose={closeDetails}
+          back={trail.at(-1)}
+          onBack={() => history.back()}
           onNavigate={(kind, id) => void open(kind, id)}
           onLink={(candidateId, jobId) =>
             setCreate({ kind: "applications", candidateId, jobId })

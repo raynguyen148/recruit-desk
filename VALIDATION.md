@@ -8,7 +8,7 @@ Last full run: 17 October 2026, Node 22, installed Google Chrome on macOS. No re
 |---|---|
 | `tsc -b` (type check) | Pass |
 | `npm test` (Vitest) | **71 / 71** — database 13, transfer 18, search 15, workflow 14, salary 5, offline/server 3, sample file 2, scale 1 |
-| `npm run test:browser` (Playwright, production preview) | **34 / 34** — end-to-end 9, workflow 8, autosave audit 5, audit features 4, motion 3, refinement 3, detail modal 2 |
+| `npm run test:browser` (Playwright, production preview) | **35 / 35** — end-to-end 9, workflow 9, autosave audit 5, audit features 4, motion 3, refinement 3, detail modal 2 |
 
 The `dist/` folder committed to the repository is an older prebuilt snapshot; the results above were produced from a fresh `npm run build`. Rebuild before running the preview or launcher.
 
@@ -73,6 +73,6 @@ Tests use isolated browser contexts and synthetic data. The browser suite uses i
 - **Initial release:** 32 data tests and 9 browser tests; light-blue palette and full sample added (palette contrast pairs above 4.5:1, primary button 7.67:1).
 - **Audit round:** 44 data tests and 18 browser tests — see [UI-UX-AUDIT.md](UI-UX-AUDIT.md).
 - **Refinement round 2:** 44 data tests and 26 browser tests — see [POLISH-ROUND-2.md](POLISH-ROUND-2.md).
-- **Productivity round:** keyboard shortcuts, saved views, salary sort/filter, field-by-field import preview, durable draft recovery, combobox cap, copy-to-clipboard controls and grouped toolbar actions — 71 data tests and 34 browser tests.
+- **Productivity round:** keyboard shortcuts, saved views, salary sort/filter, field-by-field import preview, durable draft recovery, combobox cap, copy-to-clipboard controls and grouped toolbar actions — 71 data tests and 35 browser tests.
 
 Earlier counts describe earlier builds and are kept only as history.

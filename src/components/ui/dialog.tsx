@@ -1,5 +1,5 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { X } from "lucide-react";
+import { ChevronLeft, X } from "lucide-react";
 import { useRef, type ReactNode } from "react";
 
 export function useReturnFocus() {
@@ -71,12 +71,14 @@ export function DetailModal({
   onOpenChange,
   title,
   description,
+  back,
   children,
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
   title: string;
   description: string;
+  back?: { label: string; onBack: () => void };
   children: ReactNode;
 }) {
   const returnFocus = useReturnFocus();
@@ -89,7 +91,18 @@ export function DetailModal({
           {...returnFocus}
         >
           <div className="detail-modal-heading">
-            <div>
+            {back && (
+              <button
+                type="button"
+                className="detail-back"
+                onClick={back.onBack}
+                aria-label={`Back to ${back.label}`}
+                data-tip={`Back to ${back.label}`}
+              >
+                <ChevronLeft size={18} aria-hidden="true" />
+              </button>
+            )}
+            <div className="detail-heading-text">
               <DialogPrimitive.Title className="dialog-title">
                 {title}
               </DialogPrimitive.Title>

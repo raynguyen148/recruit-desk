@@ -1,6 +1,6 @@
 # Refinement round 2 — motion, smoothness and responsive UI
 
-> **Dated snapshot.** Test counts below describe the build at the end of this round (44 data / 26 browser). The current suite is 71 data / 34 browser; see [VALIDATION.md](VALIDATION.md). Toolbar layout has since changed: view tools are grouped into one joined control (see DESIGN.md, "Action groups").
+> **Dated snapshot.** Test counts below describe the build at the end of this round (44 data / 26 browser). The current suite is 71 data / 35 browser; see [VALIDATION.md](VALIDATION.md). Toolbar layout has since changed: view tools are grouped into one joined control (see DESIGN.md, "Action groups").
 
 17 October 2026. Main implementation plus independent Astra Medium responsive and performance reviews. Existing recruiting workflows, browser database and backup formats remain intact.
 

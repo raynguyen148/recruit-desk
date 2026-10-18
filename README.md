@@ -147,7 +147,7 @@ Do not clear all site data to update: that also deletes IndexedDB. If you remove
 npm test                # 71 data, search, transfer, offline and scale tests
 npm run build
 npm run preview         # in another terminal
-npm run test:browser    # 34 Chrome end-to-end tests
+npm run test:browser    # 35 Chrome end-to-end tests
 npm run test:hmr
 ```
 

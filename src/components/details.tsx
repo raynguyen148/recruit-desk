@@ -42,6 +42,15 @@ import {
   type CustomField,
 } from "../lib/types";
 import { avatarStyle, displayDate, initials, linkedinHref } from "../lib/utils";
+function recordLabel(kind: EntityKind, record: unknown, data: Dataset) {
+  if (kind === "candidates") return (record as Candidate).name;
+  if (kind === "jobs") return (record as Job).title;
+  if (kind === "companies") return (record as Company).name;
+  const name = data.candidates.find(
+    (c) => c.id === (record as Application).candidateId,
+  )?.name;
+  return name ? `application · ${name}` : "application";
+}
 export function Details({
   kind,
   id,
@@ -49,12 +58,17 @@ export function Details({
   onClose,
   onNavigate,
   onLink,
+  back,
+  onBack,
 }: {
   kind: EntityKind;
   id: string;
   data: Dataset;
   onClose: () => void;
   onNavigate: (kind: EntityKind, id: string) => void;
+  /** The record this one was opened from, if any. */
+  back?: { kind: EntityKind; id: string };
+  onBack?: () => void;
   onLink: (candidateId?: string, jobId?: string) => void;
 }) {
   const record = data[kind].find((r) => r.id === id);
@@ -82,6 +96,15 @@ export function Details({
           : data.candidates.find(
               (c) => c.id === (record as Application).candidateId,
             )?.name || "Application";
+  const backTarget = back
+    ? data[back.kind].find((r) => r.id === back.id)
+    : null;
+  const backLabel =
+    back && backTarget ? recordLabel(back.kind, backTarget, data) : null;
+  const goBack = async () => {
+    if ((await flush()) || !hasAttachedDirty()) onBack?.();
+    else toast.error("Resolve the unsaved changes before going back.");
+  };
   const close = async () => {
     if ((await flush()) || !hasAttachedDirty()) onClose();
     else toast.error("Resolve the unsaved changes before closing.");
@@ -105,6 +128,11 @@ export function Details({
         open
         onOpenChange={(v) => !v && void close()}
         title={title}
+        back={
+          backLabel && onBack
+            ? { label: backLabel, onBack: () => void goBack() }
+            : undefined
+        }
         description={
           kind === "candidates"
             ? `Candidate profile · ${(record as Candidate).cpmID}`
