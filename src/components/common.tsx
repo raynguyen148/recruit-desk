@@ -23,7 +23,9 @@ export const toneOf = (value: string) =>
       ? "blue"
       : ["On hold", "Not open", "CV update", "Contacted"].includes(value)
         ? "amber"
-        : ["Rejected", "Not suitable", "Failed"].includes(value)
+        : ["Rejected", "Not suitable", "Failed", "Offer cancelled"].includes(
+              value,
+            )
           ? "red"
           : "neutral";
 export function Badge({ value }: { value: string }) {

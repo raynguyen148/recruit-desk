@@ -21,6 +21,7 @@ import { Button } from "./ui/button";
 import { Select } from "./ui/select";
 import { Confirm } from "./ui/confirm";
 import { RemoveItem } from "./remove-item";
+import { FlagToggle } from "./flag-toggle";
 import { AutoField, safeAction, useAutosave, SaveIndicator } from "./autosave";
 import { Badge, DetailTabs, Field, Section, TextInput } from "./common";
 import { createEntity, patchEntity, removeEntity } from "../lib/db";
@@ -381,6 +382,28 @@ function CandidateDetail({
                   }
                 />
               </Field>
+              {(["screened", "potential"] as const).map((flag) => (
+                <Field
+                  key={flag}
+                  label={flag === "screened" ? "Screened" : "Potential"}
+                >
+                  <FlagToggle
+                    icon={flag === "screened" ? "check" : "star"}
+                    label={flag === "screened" ? "Screened" : "Potential"}
+                    value={c[flag]}
+                    onChange={(v) =>
+                      void safeAction(() =>
+                        patchEntity(
+                          "candidates",
+                          c.id,
+                          { [flag]: v },
+                          { [flag]: c[flag] },
+                        ),
+                      )
+                    }
+                  />
+                </Field>
+              ))}
               {text("email", "Email")}
               {text("phone", "Phone")}
               {text("linkedinURL", "LinkedIn URL")}

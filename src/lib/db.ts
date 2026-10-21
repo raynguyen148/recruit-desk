@@ -64,6 +64,8 @@ const schemas = {
       expectation: text,
       notes: text,
       status: z.preprocess(migrateCandidateStatus, z.enum(candidateStatuses)),
+      screened: z.boolean().default(false),
+      potential: z.boolean().default(false),
       skills: z.array(short).max(500),
       entries: z
         .array(
@@ -199,6 +201,17 @@ class RecruitdeskDB extends Dexie {
           .toCollection()
           .modify((c) => {
             c.linkedinURL ??= "";
+          }),
+      );
+    this.version(4)
+      .stores({})
+      .upgrade((tx) =>
+        tx
+          .table("candidates")
+          .toCollection()
+          .modify((c) => {
+            c.screened ??= false;
+            c.potential ??= false;
           }),
       );
   }

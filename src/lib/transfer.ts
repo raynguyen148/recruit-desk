@@ -107,6 +107,8 @@ const candidate = z
     yearsExperience: short,
     skills: z.array(short).max(500),
     status: z.preprocess(migrateCandidateStatus, z.enum(candidateStatuses)),
+    screened: z.boolean().default(false),
+    potential: z.boolean().default(false),
     salary: short,
     expectation: text,
     notes: text,

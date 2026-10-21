@@ -3,7 +3,9 @@ export const candidateStatuses = [
   "CV update",
   "Test",
   "Interview",
+  "Withdrawn",
   "Offer",
+  "Offer cancelled",
   "Placed",
   "Not open",
   "Not suitable",
@@ -11,6 +13,8 @@ export const candidateStatuses = [
 ] as const;
 export type CandidateStatus = (typeof candidateStatuses)[number];
 export const closedCandidateStatuses: readonly CandidateStatus[] = [
+  "Withdrawn",
+  "Offer cancelled",
   "Placed",
   "Not open",
   "Not suitable",
@@ -118,6 +122,9 @@ export interface Candidate extends BaseRecord {
   yearsExperience: string;
   skills: string[];
   status: string;
+  /** Quick triage flags toggled from the list. */
+  screened: boolean;
+  potential: boolean;
   salary: string;
   expectation: string;
   notes: string;
@@ -222,6 +229,8 @@ export function newCandidate(): Candidate {
     yearsExperience: "",
     skills: [],
     status: "Pre-qualification",
+    screened: false,
+    potential: false,
     salary: "",
     expectation: "",
     notes: "",

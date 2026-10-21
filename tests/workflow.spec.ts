@@ -64,7 +64,7 @@ test("bulk selection sets status with undo and can remove sample records", async
   await page.getByLabel("Select Avery Kim").check();
   const bar = page.getByRole("region", { name: "Bulk actions" });
   await expect(bar).toContainText("2 candidates selected");
-  await bar.getByRole("combobox").click();
+  await bar.getByRole("combobox", { name: "Set status for selected" }).click();
   await page.getByRole("option", { name: "Not open" }).click();
   await expect(
     page.locator("tr", { hasText: "Alex Morgan" }).getByRole("combobox"),
@@ -81,6 +81,42 @@ test("bulk selection sets status with undo and can remove sample records", async
   await expect(
     page.getByRole("button", { name: "Remove sample records" }),
   ).toHaveCount(0);
+});
+
+test("Screened and Potential toggle per row and in bulk", async ({ page }) => {
+  await sample(page);
+  const screened = page.getByRole("switch", { name: "Screened: Alex Morgan" });
+  await expect(screened).toHaveAttribute("aria-checked", "false");
+  await screened.click();
+  await expect(screened).toHaveAttribute("aria-checked", "true");
+  await expect(screened).toHaveText("Yes");
+  await screened.click();
+  await expect(screened).toHaveAttribute("aria-checked", "false");
+
+  await page.getByLabel("Select Alex Morgan").check();
+  await page.getByLabel("Select Avery Kim").check();
+  const bar = page.getByRole("region", { name: "Bulk actions" });
+  await bar.getByRole("combobox", { name: "Mark selected as" }).click();
+  await page.getByRole("option", { name: "Potential", exact: true }).click();
+  for (const name of ["Alex Morgan", "Avery Kim"])
+    await expect(
+      page.getByRole("switch", { name: `Potential: ${name}` }),
+    ).toHaveAttribute("aria-checked", "true");
+  await expect(
+    page.getByRole("switch", { name: "Potential: Riley Park" }),
+  ).toHaveAttribute("aria-checked", "false");
+  await page.getByRole("button", { name: "Undo" }).click();
+  await expect(
+    page.getByRole("switch", { name: "Potential: Alex Morgan" }),
+  ).toHaveAttribute("aria-checked", "false");
+
+  const added = page
+    .locator("table.candidate-table")
+    .getByRole("columnheader", { name: /Added/ });
+  await added.getByRole("button").click();
+  await expect(added.getByRole("button")).toHaveAccessibleName(
+    /sorted descending/,
+  );
 });
 
 test("applications board moves a card with the keyboard", async ({ page }) => {

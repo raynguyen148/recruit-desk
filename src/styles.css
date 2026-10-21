@@ -1624,7 +1624,8 @@ main {
   border-color: var(--border);
 }
 
-.status-cell[data-status="Pre-qualification"] .select-trigger {
+.status-cell[data-status="Pre-qualification"] .select-trigger,
+.status-cell[data-status="Withdrawn"] .select-trigger {
   background: var(--surface-hover);
   color: var(--muted);
 }
@@ -1638,6 +1639,7 @@ main {
   color: var(--green);
 }
 .status-cell[data-status="Not suitable"] .select-trigger,
+.status-cell[data-status="Offer cancelled"] .select-trigger,
 .status-cell[data-status="Failed"] .select-trigger {
   background: var(--red-bg);
   color: var(--red);
@@ -3602,7 +3604,7 @@ h3 {
   white-space: nowrap;
 }
 
-/* Nine statuses can exceed the page width: scroll the tab row instead of clipping it. */
+/* Eleven statuses can exceed the page width: scroll the tab row instead of clipping it. */
 .list-tabs {
   gap: 22px;
   overflow-x: auto;
@@ -4382,4 +4384,65 @@ th:last-child {
   > :is(.field, .auto-field, .form-grid)
   + :is(.field, .auto-field, .form-grid) {
   margin-top: 16px;
+}
+
+/* Screened / Potential: a Yes/No pill, visually distinct from row checkboxes. */
+.flag-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 24px;
+  padding: 2px 9px 2px 7px;
+  border: 1px dashed var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition-property: color, background-color, border-color;
+  transition-duration: var(--motion-fast);
+  transition-timing-function: var(--ease-interface);
+}
+.flag-toggle svg {
+  opacity: 0.5;
+}
+.flag-toggle:hover {
+  border-style: solid;
+  background: var(--surface-hover);
+  color: var(--foreground);
+}
+.flag-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.flag-toggle[aria-checked="true"] {
+  border: 1px solid transparent;
+  background: var(--green-bg);
+  color: var(--green);
+}
+.flag-toggle[data-icon="star"][aria-checked="true"] {
+  background: var(--amber-bg);
+  color: var(--amber);
+}
+.flag-toggle[aria-checked="true"] svg {
+  opacity: 1;
+}
+.flag-toggle[data-icon="star"][aria-checked="true"] svg {
+  fill: currentColor;
+}
+.flag-toggle[aria-checked="true"]:hover {
+  border-color: currentColor;
+}
+@media (pointer: coarse) {
+  .flag-toggle {
+    min-height: 44px;
+    padding-inline: 14px;
+    font-size: 14px;
+  }
+}
+.field > .flag-toggle {
+  min-height: 32px;
+  font-size: 12px;
 }

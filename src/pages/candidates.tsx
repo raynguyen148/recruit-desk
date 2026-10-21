@@ -41,6 +41,7 @@ import {
   linkedinHref,
 } from "../lib/utils";
 import { ContactDot } from "../components/contact-dot";
+import { FlagToggle } from "../components/flag-toggle";
 import { CopyContact } from "../components/copy-contact";
 import {
   candidateSearchText,
@@ -68,6 +69,25 @@ function distinct(values: string[]): Choice[] {
 }
 const labelOf = (choices: Choice[], value: string) =>
   choices.find((c) => c.value === value)?.label ?? value;
+type Flag = "screened" | "potential";
+const flagActions: (Choice & { flag: Flag; on: boolean })[] = [
+  { value: "screened", label: "Screened", flag: "screened", on: true },
+  { value: "unscreened", label: "Not screened", flag: "screened", on: false },
+  { value: "potential", label: "Potential", flag: "potential", on: true },
+  {
+    value: "unpotential",
+    label: "Not potential",
+    flag: "potential",
+    on: false,
+  },
+];
+// Sorting these columns starts with the newest or flagged rows first.
+const descendingFirst = new Set([
+  "updatedAt",
+  "createdAt",
+  "screened",
+  "potential",
+]);
 
 export default function Candidates({
   data,
@@ -176,7 +196,7 @@ export default function Candidates({
     if (await flush())
       setSort({
         key,
-        desc: sort.key === key ? !sort.desc : key === "updatedAt",
+        desc: sort.key === key ? !sort.desc : descendingFirst.has(key),
       });
   };
   const visible = rows.slice(
@@ -189,13 +209,13 @@ export default function Candidates({
   const pageIds = visible.map((c) => c.id);
   const chosen = () =>
     data.candidates.filter((c) => selection.selected.has(c.id));
-  async function setStatusForSelected(next: string) {
-    if (!next || bulkBusy || !(await flush())) return;
+  async function updateSelected(patch: Partial<Candidate>, label: string) {
+    if (bulkBusy || !(await flush())) return;
     setBulkBusy(true);
     try {
       const records = chosen();
-      const undo = await bulkPatch("candidates", records, { status: next });
-      toast.success(`${records.length} marked ${next}`, {
+      const undo = await bulkPatch("candidates", records, patch);
+      toast.success(`${records.length} marked ${label}`, {
         action: {
           label: "Undo",
           onClick: () => void undo().catch((e) => toast.error(e.message)),
@@ -207,6 +227,21 @@ export default function Candidates({
       setBulkBusy(false);
     }
   }
+  function markSelected(value: string) {
+    const action = flagActions.find((a) => a.value === value);
+    if (action) void updateSelected({ [action.flag]: action.on }, action.label);
+  }
+  function setFlag(c: Candidate, flag: Flag, value: boolean) {
+    void safeAction(async () => {
+      if (await flush())
+        await patchEntity(
+          "candidates",
+          c.id,
+          { [flag]: value },
+          { [flag]: c[flag] },
+        );
+    });
+  }
   function exportSelected() {
     const records = chosen();
     downloadText(
@@ -216,6 +251,8 @@ export default function Candidates({
           Name: c.name,
           Headline: c.headline,
           Status: c.status,
+          Screened: c.screened ? "Yes" : "No",
+          Potential: c.potential ? "Yes" : "No",
           Location: c.location,
           "Years of experience": c.yearsExperience,
           Skills: c.skills.join("; "),
@@ -224,6 +261,7 @@ export default function Candidates({
           Phone: c.phone,
           "LinkedIn URL": c.linkedinURL,
           Source: c.source,
+          Added: c.createdAt.slice(0, 10),
         })),
       ),
       `recruitdesk-candidates-${new Date().toISOString().slice(0, 10)}.csv`,
@@ -434,7 +472,14 @@ export default function Candidates({
                 { value: "", label: "Set status…" },
                 ...candidateStatuses,
               ]}
-              onChange={(v) => void setStatusForSelected(v)}
+              onChange={(v) => v && void updateSelected({ status: v }, v)}
+            />
+            <Select
+              label="Mark selected as"
+              value=""
+              disabled={bulkBusy}
+              options={[{ value: "", label: "Mark as…" }, ...flagActions]}
+              onChange={markSelected}
             />
             <Button
               variant="outline"
@@ -488,6 +533,22 @@ export default function Candidates({
                   </th>
                   <th scope="col">
                     <SortHeader
+                      label="Screened"
+                      field="screened"
+                      sort={sort}
+                      onSort={changeSort}
+                    />
+                  </th>
+                  <th scope="col">
+                    <SortHeader
+                      label="Potential"
+                      field="potential"
+                      sort={sort}
+                      onSort={changeSort}
+                    />
+                  </th>
+                  <th scope="col">
+                    <SortHeader
                       label="Location"
                       field="location"
                       sort={sort}
@@ -512,6 +573,14 @@ export default function Candidates({
                     />
                   </th>
                   <th scope="col">Jobs</th>
+                  <th scope="col">
+                    <SortHeader
+                      label="Added"
+                      field="createdAt"
+                      sort={sort}
+                      onSort={changeSort}
+                    />
+                  </th>
                   <th scope="col">
                     <SortHeader
                       label="Updated"
@@ -625,6 +694,22 @@ export default function Candidates({
                         />
                       </div>
                     </td>
+                    <td data-label="Screened">
+                      <FlagToggle
+                        icon="check"
+                        label={`Screened: ${c.name}`}
+                        value={c.screened}
+                        onChange={(v) => setFlag(c, "screened", v)}
+                      />
+                    </td>
+                    <td data-label="Potential">
+                      <FlagToggle
+                        icon="star"
+                        label={`Potential: ${c.name}`}
+                        value={c.potential}
+                        onChange={(v) => setFlag(c, "potential", v)}
+                      />
+                    </td>
                     <td data-label="Location">
                       <AutoField
                         compact
@@ -693,6 +778,14 @@ export default function Candidates({
                       >
                         {applicationCounts.get(c.id) ?? 0}
                       </button>
+                    </td>
+                    <td className="updated-cell" data-label="Added">
+                      <time
+                        dateTime={c.createdAt}
+                        title={new Date(c.createdAt).toLocaleString()}
+                      >
+                        {displayDate(c.createdAt)}
+                      </time>
                     </td>
                     <td className="updated-cell" data-label="Updated">
                       <time

@@ -7,6 +7,7 @@ import {
   initializeDB,
   createEntity,
   getDataset,
+  patchEntity,
 } from "../src/lib/db";
 import { bulkLink, bulkPatch, bulkRemove } from "../src/lib/bulk";
 import { toCSV } from "../src/lib/csv";
@@ -15,6 +16,8 @@ import { loadSample, removeSample } from "../src/lib/sample";
 import { parseImport } from "../src/lib/transfer";
 import { linkedinHref } from "../src/lib/utils";
 import {
+  advancedCandidateStatus,
+  candidateStatuses,
   migrateCandidateStatus,
   newApplication,
   newCandidate,
@@ -82,6 +85,27 @@ describe("bulk actions", () => {
         (c) => c.status === people[0].status,
       ),
     ).toBe(true);
+  });
+  it("flags many candidates as screened or potential and can undo", async () => {
+    const { people } = await seed();
+    const undo = await bulkPatch("candidates", people.slice(0, 2), {
+      potential: true,
+    });
+    const flags = async () =>
+      (await getDataset()).candidates
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map((c) => [c.screened, c.potential]);
+    expect(await flags()).toEqual([
+      [false, true],
+      [false, true],
+      [false, false],
+    ]);
+    await undo();
+    expect(await flags()).toEqual([
+      [false, false],
+      [false, false],
+      [false, false],
+    ]);
   });
   it("links candidates to a job once and skips existing pairs", async () => {
     const { job, people } = await seed();
@@ -182,6 +206,71 @@ describe("candidate status pipeline", () => {
       .sort((a, b) => a.id.localeCompare(b.id))
       .map((c) => c.status);
     expect(statuses).toEqual(legacy.map(([, next]) => next));
+  });
+  it("orders Withdrawn and Offer cancelled inside the pipeline", () => {
+    const order = candidateStatuses as readonly string[];
+    expect(order.indexOf("Withdrawn")).toBe(order.indexOf("Interview") + 1);
+    expect(order.indexOf("Offer")).toBe(order.indexOf("Withdrawn") + 1);
+    expect(order.indexOf("Offer cancelled")).toBe(order.indexOf("Offer") + 1);
+    expect(order.indexOf("Placed")).toBe(order.indexOf("Offer cancelled") + 1);
+    // Neither status is auto-advanced by an application moving forward.
+    expect(advancedCandidateStatus("Withdrawn", "Offer")).toBeNull();
+    expect(advancedCandidateStatus("Offer cancelled", "Hired")).toBe("Placed");
+  });
+  it("adds Screened and Potential as false to candidates from an older database", async () => {
+    await db.delete();
+    const old = new Dexie("recruitdesk");
+    old.version(3).stores({
+      candidates: "id,&cpmKey,name,updatedAt",
+      jobs: "id,companyId,title,updatedAt",
+      companies: "id,name",
+      applications: "id,&[candidateId+jobId],candidateId,jobId,stage,followUp",
+      settings: "id",
+    });
+    const { screened: _s, potential: _p, ...legacyCandidate } = newCandidate();
+    await old.table("candidates").put({
+      ...legacyCandidate,
+      cpmKey: "cpm-1",
+      cpmID: "CPM-1",
+      name: "Ada",
+    });
+    old.close();
+    await initializeDB();
+    const [stored] = (await getDataset()).candidates;
+    expect(stored).toMatchObject({ screened: false, potential: false });
+    await patchEntity(
+      "candidates",
+      stored.id,
+      { screened: true },
+      { screened: false },
+    );
+    expect((await getDataset()).candidates[0].screened).toBe(true);
+  });
+  it("defaults Screened and Potential to false in older backups", () => {
+    const {
+      screened: _s,
+      potential: _p,
+      ...c
+    } = {
+      ...newCandidate(),
+      cpmID: "CPM-1",
+      name: "Ada",
+    };
+    const parsed = parseImport(
+      JSON.stringify({
+        format: "recruitdesk",
+        version: 1,
+        kind: "candidates",
+        exportedAt: new Date().toISOString(),
+        data: { candidates: [c] },
+      }),
+      "candidates",
+    );
+    expect(parsed.errors).toEqual([]);
+    expect(parsed.data.candidates![0]).toMatchObject({
+      screened: false,
+      potential: false,
+    });
   });
   it("accepts legacy names in imported backups", () => {
     const c = { ...newCandidate(), cpmID: "CPM-1", name: "Ada" };
